@@ -1,3 +1,8 @@
+/* Se debe cambiar u756063299_ en el nombre de la base de datos de acuerdo al host */
+CREATE DATABASE u756063299_avm_unieeuu DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
 DROP TABLE IF EXISTS tbl_asistente_virtual_comprobantes_pago;
 
 CREATE TABLE tbl_asistente_virtual_comprobantes_pago (

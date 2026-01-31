@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const asistenteFullscreen = document.getElementById("asistente-fullscreen");
     const seccionFormulario = document.getElementById("seccion-formulario");
     const seccionChat = document.getElementById("seccion-chat");
-    const btnContinuar = document.getElementById("btn-continuar-formulario");
     const entradaChat = document.getElementById("entrada-chat");
     const btnEnviar = document.getElementById("btn-enviar-chat");
     const chatMensajes = document.getElementById("chat-mensajes");
@@ -102,41 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         seccionFormulario.classList.remove("activa");
         seccionChat.classList.add("activa");
     };
-
-    // Evento: Continuar desde formulario a chat
-    btnContinuar.addEventListener("click", () => {
-        const acudienteNombre = document.getElementById("acudiente-nombre").value.trim();
-        const acudienteCorreo = document.getElementById("acudiente-correo").value.trim();
-        const acudienteTelefono = document.getElementById("acudiente-telefono").value.trim();
-        const tipoEstudiante = document.querySelector('input[name="tipo-estudiante"]:checked')?.value;
-        const estudianteNombres = document.getElementById("estudiante-nombres").value.trim();
-        const estudianteApellidos = document.getElementById("estudiante-apellidos").value.trim();
-        const estudianteDocumento = document.getElementById("estudiante-documento").value.trim();
-
-        // Validación básica
-        if (!acudienteNombre || !acudienteCorreo || !acudienteTelefono ||
-            !tipoEstudiante || !estudianteNombres || !estudianteApellidos || !estudianteDocumento) {
-            alert("Por favor, completa todos los campos.");
-            return;
-        }
-
-        // Guardar datos (opcional)
-        guardarDatosIniciales({
-            acudiente: { acudienteNombre, acudienteCorreo, acudienteTelefono },
-            estudiante: { tipoEstudiante, estudianteNombres, estudianteApellidos, estudianteDocumento }
-        });
-
-        // Mostrar mensaje de bienvenida en chat
-        //agregarMensaje("Unibot", "¡Hola! Soy tu asistente de admisiones. ¿En qué puedo ayudarte?");
-        agregarMensaje("Unibot", {
-            respuesta: "¡Hola! Soy tu asistente de admisiones. ¿En qué puedo ayudarte?",
-            botones: null // No hay botones aquí
-        });
-
-        // Cambiar a sección de chat
-        seccionFormulario.classList.remove("activa");
-        seccionChat.classList.add("activa");
-    });
 
     // Evento: Enviar mensaje en chat
     btnEnviar.addEventListener("click", enviarMensaje);

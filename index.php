@@ -63,50 +63,10 @@
 
             <!-- Contenedor del chatbot full-screen (oculto al inicio) -->
             <div id="asistente-fullscreen" class="asistente-fullscreen">
-                <!-- Sección 1: Formulario inicial -->
-                <div id="seccion-formulario" class="seccion activa" style="display: none;">
-                    <h3>Ingresa los siguientes datos para comenzar</h3>
-                    
-                    <h4>Datos del acudiente</h4>
-                    <div class="form-group">
-                        <label for="acudiente-nombre">Nombre completo</label>
-                        <input type="text" id="acudiente-nombre" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="acudiente-correo">Correo electrónico</label>
-                        <input type="email" id="acudiente-correo" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="acudiente-telefono">Teléfono</label>
-                        <input type="tel" id="acudiente-telefono" class="form-control" />
-                    </div>
+                <!-- Sección 1: Nombre estudiante y documento -->
+                <div class="col-12" id="div-nombre"><span id="s-nombre"></span></div>
 
-                    <h4>Datos del estudiante</h4>
-                    <div class="form-group">
-                        <label>Tipo de estudiante</label>
-                        <div>
-                            <label><input type="radio" name="tipo-estudiante" value="antiguo"> Antiguo</label>
-                            <label style="margin-left: 15px;"><input type="radio" name="tipo-estudiante" value="nuevo"> Nuevo</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="estudiante-nombres">Nombres</label>
-                        <input type="text" id="estudiante-nombres" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="estudiante-apellidos">Apellidos</label>
-                        <input type="text" id="estudiante-apellidos" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="estudiante-documento">Número de documento</label>
-                        <input type="text" id="estudiante-documento" class="form-control" />
-                    </div>
-
-                    <button id="btn-continuar-formulario" class="btn-primary">Continuar con la admisión</button>
-                </div>
-                <div class="col-12" id="div-nombre"><span id="s-nombre"></span></div>                    
-
-                <!-- Sección 2: Chatbot -->
+                <!-- Sección 1: Chatbot -->
                 <div id="seccion-chat" class="row seccion">
                     <div class="col-lg-2 col-md-3 col-sm-3 col-3">
                         <div id="div-pasos" style="margin-left: 10px;"></div>
@@ -133,8 +93,8 @@
     ?>
 
     <!-- CARGA DE SCRIPTS -->
-    <script src="chatbot/base-intenciones.js?v=1.0.2"></script>
-    <script src="chatbot/chatbot.js?v=1.0.7"></script>
+    <script src="chatbot/base-intenciones.js?v=1.0.1"></script>
+    <script src="chatbot/chatbot.js?v=1.0.1"></script>
 
 </body>
 </html>
