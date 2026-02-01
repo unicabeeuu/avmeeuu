@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const asistenteFullscreen = document.getElementById("asistente-fullscreen");
-    const seccionFormulario = document.getElementById("seccion-formulario");
     const seccionChat = document.getElementById("seccion-chat");
     const entradaChat = document.getElementById("entrada-chat");
     const btnEnviar = document.getElementById("btn-enviar-chat");
@@ -98,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
         header2.style.display = "flex";
 
         // Cambiar a sección de chat
-        seccionFormulario.classList.remove("activa");
         seccionChat.classList.add("activa");
     };
 
@@ -318,7 +316,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ documento: documento })
                     })
-                    .then(r => r.json()) // ← Texto → Objeto
+                    //.then(r => r.json()) // ← Texto → Objeto
+                    .then(async r => {
+                        const text = await r.text(); // lee la respuesta como texto crudo
+                        //console.log(text); // aquí verás lo que realmente devolvió el servidor
+                        try {
+                            const data = JSON.parse(text); // intenta parsear a JSON
+                            return data;
+                        } catch (e) {
+                            //console.log("⚠️ La respuesta no es JSON válido:");
+                            throw e; // lanza el error para que caiga en el catch
+                        }
+                    })
                     .then(data => {
                         console.log(data);                        
                         if (data.status == "success") {
@@ -8521,32 +8530,6 @@ document.addEventListener("DOMContentLoaded", () => {
             boton.style.cursor = habilitar ? "pointer" : "not-allowed";
         }        
     }
-
-    /*function sonTodosValidos() {
-        const inputs = document.querySelectorAll("input, select, textarea");
-        for (let input of inputs) {
-            if (input.hasAttribute("data-validar")) {
-                const id = input.id;
-                const tipo = input.getAttribute("data-validar");
-                let valido = true;
-
-                if (tipo === "texto") {
-                    valido = validar_texto(id, input.previousElementSibling.textContent);
-                } else if (tipo === "numero") {
-                    valido = validar_numero(id, input.previousElementSibling.textContent);
-                } else if (tipo === "email") {
-                    valido = validar_email(id, input.previousElementSibling.textContent);
-                } else if (tipo === "fecha") {
-                    valido = validar_fecha(id, input.previousElementSibling.textContent);
-                } else if (input.tagName === "SELECT") {
-                    valido = input.value !== "0"; // ← Valida que no esté en "Seleccione..."
-                }
-
-                if (!valido) return false;
-            }
-        }
-        return true;
-    }*/
 
     function sonTodosValidos() {
         const campos = document.querySelectorAll("[data-validar]");
