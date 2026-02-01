@@ -92,6 +92,8 @@
 	}
 	$datos->maxid = $maxid;
 	
+	$datos->nombres = "Hola";
+	$datos->apellidos = "";
 	$datos->acudiente = "";
 	$datos->emailA = "";
 	$datos->telA = "";
@@ -115,8 +117,7 @@
 		$datos->rh = "NA";
 		
 		//Se buscan datos iniciales... ¡si existen!
-		$query1 = "SELECT e.acudiente_1, e.email_acudiente_1, e.ciudad, e.telefono_acudiente_1 
-	    FROM ".$tablae." e 
+		$query1 = "SELECT e.* FROM ".$tablae." e 
 	    WHERE e.n_documento = '$documento'";
 	    //echo $query1;
         $resultado1 = $mysqli1->query($query1);
@@ -125,6 +126,9 @@
     	    $datos->emailA = $row1['email_acudiente_1'];
     	    $datos->telA = $row1['telefono_acudiente_1'];
     	    $datos->ciudadA = $row1['ciudad'];
+
+			$datos->nombres = $row1['nombres'];
+			$datos->apellidos = $row1['apellidos'];
     	}
 	}
 	else {
@@ -309,6 +313,7 @@
 	    
 	}
 	
+	$id = 0;
 	//Se consulta el código de entrevista para estudiatnes que no sean nuevos
 	$sqlcodigo = "SELECT *, ifnull(id, 0) id1 FROM tbl_entrevistas WHERE documento_est = '$documento'";
 	//echo $sqlcodigo;
@@ -472,7 +477,7 @@
 	//Se valida si el documento no presenta entrevista ni evalución
 	$sin_entrevista = '0';
 	$sin_evaluacion = '0';
-	$sql_exento = "SELECT * FROM tbl_estudiantes_sin_ee WHERE n_documento = '$documento'";
+	/*$sql_exento = "SELECT * FROM tbl_estudiantes_sin_ee WHERE n_documento = '$documento'";
 	$exe_exento = $mysqli1->query($sql_exento);
 	while($row_exento = $exe_exento->fetch_assoc()) {
         $sin_entrevista = $row_exento['sin_entrevista'];
@@ -483,7 +488,7 @@
 	}
 	if ($sin_evaluacion == "1") {
 		$datos->evaluacionPresaberes = "SI";
-	}
+	}*/
 	
 	if ($datos->gradoSolicitado == 2 || $datos->gradoSolicitado >= 13) {
 		$datos->evaluacionPresaberes = "SI";
@@ -646,7 +651,7 @@
 	$datos->grado_matricular = $grado;
 	
 	//Se consulta el grado, en caso de que no se haya hecho todavía el nuevo registro en matrícula --- consulta anterior
-	$sql_grado = "SELECT * FROM grados WHERE id = ".$datos->id_grado_matricular;
+	$sql_grado = "SELECT * FROM tbl_grados WHERE id = ".$datos->id_grado_matricular;
 	$res_grado = $mysqli1->query($sql_grado);
 	while ($row_grado = $res_grado->fetch_assoc()) {
 		$datos->grado_matricular = $row_grado['grado'];
@@ -738,7 +743,7 @@
 	$keys = ['id_parentesco','parentesco'];
 	$i = 0;
 	$parentescos = array();
-	$sql_parentescos = "SELECT * FROM tbl_parentesos";
+	$sql_parentescos = "SELECT * FROM tbl_parentescos";
 	$res_parentescos = $mysqli1->query($sql_parentescos);
 	while ($row_parentescos = $res_parentescos->fetch_assoc()) {
 		$valores = [$row_parentescos['id'],$row_parentescos['parentesco']];
