@@ -8,10 +8,10 @@ DROP TABLE IF EXISTS tbl_asistente_virtual_comprobantes_pago;
 
 CREATE TABLE tbl_asistente_virtual_comprobantes_pago (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   a int(11) UNSIGNED NOT NULL,
-  tipo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'deuda, matrícula',
-  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  tipo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL COMMENT 'deuda, matrícula',
+  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   valor int(11) NOT NULL DEFAULT 0,
   validado int(2) UNSIGNED NOT NULL,
   correo int(2) NOT NULL DEFAULT 0,
@@ -27,10 +27,10 @@ DROP TABLE IF EXISTS tbl_asistente_virtual_pasos;
 
 CREATE TABLE tbl_asistente_virtual_pasos (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  paso varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  paso varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   descripcion varchar(100) NOT NULL,
   paso_numero int(11) UNSIGNED NOT NULL,
-  etiqueta_intencion varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  etiqueta_intencion varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_asistente_virtual_pasos (id, paso, descripcion, paso_numero, etiqueta_intencion) VALUES
@@ -98,10 +98,10 @@ DROP TABLE IF EXISTS tbl_asistente_virtual;
 
 CREATE TABLE tbl_asistente_virtual (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  documento_estudiante varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  documento_estudiante varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   a int(4) UNSIGNED NOT NULL,
   proceso_iniciado int(2) UNSIGNED NOT NULL DEFAULT 1,
-  paso varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  paso varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT '1',
   antiguo int(2) UNSIGNED NOT NULL DEFAULT 0,
   control_antiguos int(2) UNSIGNED NOT NULL DEFAULT 0,
   nuevo int(2) UNSIGNED NOT NULL DEFAULT 0,
@@ -118,32 +118,32 @@ DROP TABLE IF EXISTS tbl_estudiantes;
 
 CREATE TABLE tbl_estudiantes (
   id int(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  apellidos varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  nombres varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  genero varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  tipo_documento varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  apellidos varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  nombres varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  genero varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  tipo_documento varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   fecha_nacimiento date DEFAULT NULL,
-  expedicion varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  ciudad varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  direccion varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  direccion_estudiante varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  telefono_estudiante varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  email_institucional varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'NA',
-  actividad_extra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'No Registra',
-  email_acudiente_1 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  email_acudiente_2 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  acudiente_1 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  acudiente_2 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  telefono_acudiente_1 varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  telefono_acudiente_2 varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  expedicion varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  ciudad varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  direccion varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  direccion_estudiante varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  telefono_estudiante varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  email_institucional varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT 'NA',
+  actividad_extra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT 'No Registra',
+  email_acudiente_1 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  email_acudiente_2 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  acudiente_1 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  acudiente_2 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  telefono_acudiente_1 varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  telefono_acudiente_2 varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   parentesco_acudiente_1 varchar(10) DEFAULT 'NA',
   parentesco_acudiente_2 varchar(10) DEFAULT 'NA',
-  rh varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '--',
-  password varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  mensaje varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  rh varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT '--',
+  password varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  mensaje varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   fecha_datos date NOT NULL,
-  documento_responsable varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  documento_responsable varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   situacion_se varchar(2000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -180,13 +180,13 @@ DROP TABLE IF EXISTS tbl_matriculas;
 
 CREATE TABLE tbl_matriculas (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  n_matricula varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  n_matricula varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   fecha_ingreso date DEFAULT NULL,
-  estado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pre_solicitud',
+  estado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT 'pre_solicitud',
   id_estudiante int(11) NOT NULL,
   id_grado int(2) NOT NULL,
-  estado_grado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  grupo varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  estado_grado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grupo varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) VALUES
@@ -205,7 +205,7 @@ DROP TABLE IF EXISTS tbl_tipos_documento;
 
 CREATE TABLE tbl_tipos_documento (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  tipo_documento varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  tipo_documento varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_tipos_documento (tipo_documento) VALUES
@@ -223,7 +223,7 @@ DROP TABLE IF EXISTS tbl_grados;
 
 CREATE TABLE tbl_grados (
   id int(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  grado varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  grado varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_grados (grado) VALUES
@@ -254,22 +254,22 @@ DROP TABLE IF EXISTS tbl_pre_matriculas;
 CREATE TABLE tbl_pre_matriculas (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_grado int(11) DEFAULT NULL,
-  documento_est varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  nombres_est varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  apellidos_est varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  documento_est varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres_est varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  apellidos_est varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   fecha date NOT NULL,
-  actividad_extra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  nombre_a varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  celular_a varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  email_a varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  ciudad_a varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  observaciones varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  entrevista varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  observaciones_ent varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  actividad_extra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  nombre_a varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  celular_a varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  email_a varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ciudad_a varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  observaciones varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  entrevista varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  observaciones_ent varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   admitido int(2) NOT NULL DEFAULT 0,
   eval int(2) NOT NULL DEFAULT 0,
   id_medio int(11) DEFAULT NULL,
-  interesado varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  interesado varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
   año int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -288,10 +288,10 @@ CREATE TABLE tbl_entrevistas (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_psicologo int(11) NOT NULL,
   fecha date NOT NULL,
-  hora varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  documento_est varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  nombre_est varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  generar_contrato varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  hora varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  documento_est varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombre_est varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  generar_contrato varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 /*######################################################################################################*/
@@ -322,7 +322,7 @@ DROP TABLE IF EXISTS tbl_estudiantes_bloqueados;
 CREATE TABLE tbl_estudiantes_bloqueados (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 /*######################################################################################################*/
 
@@ -345,10 +345,10 @@ DROP TABLE IF EXISTS tbl_informacion_financiera;
 
 CREATE TABLE tbl_informacion_financiera (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  documento_estudiante varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  documento_estudiante varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   periodo_ingreso int(11) NOT NULL DEFAULT 0,
   a int(11) NOT NULL DEFAULT 0,
-  documento_acudiente varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  documento_acudiente varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   deuda_anterior int(11) NOT NULL DEFAULT 0,
   matricula_ocp int(11) NOT NULL DEFAULT 0,
   valor_pension_mes int(11) NOT NULL DEFAULT 0,
@@ -358,9 +358,9 @@ CREATE TABLE tbl_informacion_financiera (
   icfes int(11) NOT NULL DEFAULT 0,
   total_pagar_anual int(11) NOT NULL DEFAULT 0,
   pago_deuda int(11) NOT NULL DEFAULT 0,
-  pago_matricula varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  pago_icfes varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  pago_derechos_grado varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  pago_matricula varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  pago_icfes varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  pago_derechos_grado varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   valor_recargo int(11) NOT NULL DEFAULT 0,
   diciembre int(11) NOT NULL DEFAULT 0,
   enero int(11) NOT NULL DEFAULT 0,
@@ -392,10 +392,10 @@ DROP TABLE IF EXISTS tbl_documentos_matriculas;
 
 CREATE TABLE tbl_documentos_matriculas (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   a int(11) UNSIGNED NOT NULL,
-  tipo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  ruta varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  tipo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   validado int(2) UNSIGNED NOT NULL,
   correo int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -445,7 +445,7 @@ DROP TABLE IF EXISTS tbl_medios_llegada;
 
 CREATE TABLE tbl_medios_llegada (
   id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  medio varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  medio varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_medios_llegada (medio) VALUES
