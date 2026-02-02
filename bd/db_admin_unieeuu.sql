@@ -1,6 +1,2123 @@
-DROP DATABASE IF EXISTS admin_unieeuu;
+/*DROP DATABASE IF EXISTS admin_unieeuu;
 
-CREATE DATABASE admin_unieeuu DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
+CREATE DATABASE admin_unieeuu DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;*/
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_carga_profesor;
+
+CREATE TABLE tbl_carga_profesor (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_profesor int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_empleado int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_certificados;
+
+CREATE TABLE tbl_certificados (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  fecha_expedicion date NOT NULL,
+  numero varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  tipo_certificado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_estudiante int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  numero1 int(11) DEFAULT NULL,
+  identificacion varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  ruta1 varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  a int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_equivalence_idest;
+
+CREATE TABLE tbl_equivalence_idest (
+  id_moodle int(11) NOT NULL,
+  id_registro int(11) NOT NULL,
+  PRIMARY KEY (id_moodle, id_registro)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_equivalence_idest_temp1;
+
+CREATE TABLE tbl_equivalence_idest_temp1 (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_moodle int(11) NOT NULL,
+  nom_moodle varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_registro int(11) NOT NULL,
+  nom_registro varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  actualizar int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_equivalence_idgra;
+
+CREATE TABLE tbl_equivalence_idgra (
+  id_category int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado_ra int(4) NOT NULL,
+  grado_ra varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_equivalence_idmat;
+
+CREATE TABLE tbl_equivalence_idmat (
+  id_course int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  shortname varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_materia_ra int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_equivalence_per;
+
+CREATE TABLE tbl_equivalence_per (
+  idnumber varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  periodo int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_eval_admision;
+
+CREATE TABLE tbl_estudiantes_eval_admision (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  id_grado int(11) DEFAULT 0,
+  email varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  observaciones varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
+  origen varchar(30) DEFAULT NULL,
+  año int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_grados_materias;
+
+CREATE TABLE tbl_grados_materias (
+  id int(15) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(15) NOT NULL,
+  id_materia int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_grados_materias (id, id_grado, id_materia) VALUES
+(1, 2, 1),
+(4, 2, 4),
+(5, 2, 5),
+(6, 2, 6),
+(7, 2, 7),
+(9, 2, 9),
+(10, 3, 1),
+(13, 3, 4),
+(14, 3, 5),
+(15, 3, 6),
+(16, 3, 7),
+(18, 3, 9),
+(19, 4, 1),
+(22, 4, 4),
+(23, 4, 5),
+(24, 4, 6),
+(25, 4, 7),
+(27, 4, 9),
+(28, 5, 1),
+(31, 5, 4),
+(32, 5, 5),
+(33, 5, 6),
+(34, 5, 7),
+(36, 5, 9),
+(37, 6, 1),
+(40, 6, 4),
+(41, 6, 5),
+(42, 6, 6),
+(43, 6, 7),
+(45, 6, 9),
+(46, 7, 1),
+(49, 7, 4),
+(50, 7, 5),
+(51, 7, 6),
+(52, 7, 7),
+(54, 7, 9),
+(55, 8, 1),
+(58, 8, 4),
+(59, 8, 5),
+(60, 8, 6),
+(61, 8, 7),
+(63, 8, 9),
+(64, 9, 1),
+(67, 9, 4),
+(68, 9, 5),
+(69, 9, 6),
+(70, 9, 7),
+(72, 9, 9),
+(73, 10, 1),
+(76, 10, 4),
+(77, 10, 5),
+(78, 10, 6),
+(79, 10, 7),
+(81, 10, 9),
+(82, 11, 10),
+(85, 11, 7),
+(86, 11, 15),
+(89, 11, 5),
+(90, 11, 11),
+(91, 11, 12),
+(92, 11, 9),
+(93, 12, 10),
+(96, 12, 7),
+(97, 12, 15),
+(100, 12, 5),
+(101, 12, 11),
+(102, 12, 12),
+(103, 12, 9),
+(104, 15, 5),
+(105, 15, 6),
+(106, 15, 7),
+(107, 15, 4),
+(108, 15, 9),
+(109, 15, 1),
+(116, 16, 5),
+(117, 16, 6),
+(118, 16, 7),
+(119, 16, 4),
+(120, 16, 9),
+(121, 16, 1),
+(122, 17, 5),
+(123, 17, 11),
+(124, 17, 7),
+(125, 17, 15),
+(126, 17, 12),
+(128, 17, 9),
+(129, 17, 10),
+(130, 18, 5),
+(131, 18, 11),
+(132, 18, 7),
+(133, 18, 15),
+(134, 18, 12),
+(136, 18, 9),
+(137, 18, 10),
+(138, 13, 1),
+(139, 13, 4),
+(140, 13, 5),
+(141, 13, 6),
+(142, 13, 7),
+(143, 14, 1),
+(144, 14, 4),
+(145, 14, 5),
+(146, 14, 6),
+(147, 14, 7);
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_materias;
+
+CREATE TABLE tbl_materias (
+  Id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  materia varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materiaIngles varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  pensamiento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  pensamientoingles varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_materias (Id, materia, materiaIngles, pensamiento, pensamientoingles) VALUES
+(1, 'CIENCIAS NATURALES ', 'SCIENCE ', 'BIOÉTICO', 'BIOETHICS'),
+(2, 'EDUCACIÓN ÉTICA Y EN VALORES', 'ETHICS AND VALUES', 'BIOÉTICO', 'BIOETHICS'),
+(3, 'EDUCACIÓN FÍSICA', 'PHYSICAL EDUCATION', 'BIOÉTICO', 'BIOETHICS'),
+(4, 'CIENCIAS SOCIALES', 'SOCIAL SCIENCE ', 'SOCIAL', 'SOCIAL'),
+(5, 'MATEMÁTICAS', 'MATHS', 'NUMÉRICO', 'NUMERIC'),
+(6, 'HUMANIDADES – LENGUA CASTELLANA', 'SPANISH', 'HUMANÍSTICO E', 'HUMANISTIC'),
+(7, 'HUMANIDADES- INGLÉS', 'ENGLISH', 'HUMANÍSTICO I', 'HUMANISTIC'),
+(8, 'ARTISTICA', 'ARTS', 'HUMANÍSTICO', 'HUMANISTIC'),
+(9, 'TECNOLOGÍA E INFORMÁTICA', 'INFORMATION TECHNOLOGY', 'TECNOLÓGICO', 'TECHNOLOGIC '),
+(10, 'QUÍMICA', 'CHEMISTRY', 'BIOÉTICO', 'BIOETHICS'),
+(11, 'FÍSICA', 'PHYSICS', 'BIOÉTICO F', 'BIOETHICS'),
+(12, 'CIENCIAS POLÍTICAS', 'POLITICS SCIENCE', 'SOCIAL', 'SOCIAL'),
+(13, 'FILOSOFÍA', 'PHILOSOPHY', 'HUMANÍSTICO', 'HUMANISTIC'),
+(15, 'HUMANIDADES - ESPAÑOL', 'SPANISH', 'HUMANÍSTICO E', 'HUMANISTIC'),
+(16, 'ÉNFASIS EN EDUCACIÓN FÍSICA', 'EMPHASIS ON PHYSICAL EDUCATION', 'BIOÉTICO', 'BIOETHICS');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas;
+
+CREATE TABLE tbl_notas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nota float NOT NULL DEFAULT 0,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_estudiante int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_mood_temp;
+
+CREATE TABLE tbl_notas_mood_temp (
+  id_est int(11) NOT NULL PRIMARY KEY,
+  lastname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  firstname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  shortname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id int(11) NOT NULL,
+  name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado int(11) NOT NULL,
+  periodo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  periodo_ra int(11) NOT NULL,
+  calificacion float NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_mood_temp_est;
+
+CREATE TABLE tbl_notas_mood_temp_est (
+  id_est int(11) NOT NULL PRIMARY KEY,
+  lastname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  firstname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  shortname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_mat_mood int(11) NOT NULL,
+  name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado int(11) NOT NULL,
+  idnumber varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  calificacion float NOT NULL DEFAULT 0,
+  email_inst varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp;
+
+CREATE TABLE tbl_notas_temp (
+  nota float NOT NULL DEFAULT 0,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_estudiante int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_ins;
+
+CREATE TABLE tbl_notas_temp_ins (
+  id_estudiante int(11) NOT NULL PRIMARY KEY,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_ins_ghf;
+
+CREATE TABLE tbl_notas_temp_ins_ghf (
+  id_estudiante int(11) NOT NULL PRIMARY KEY,
+  apellidos varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  nombres varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  grado varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual decimal(10,1) NOT NULL DEFAULT 0.0,
+  nota_nueva float NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_manual;
+
+CREATE TABLE tbl_notas_temp_manual (
+  id int(11) NOT NULL DEFAULT 0,
+  nota float NOT NULL DEFAULT 0,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_estudiante int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_no_ra;
+
+CREATE TABLE tbl_notas_temp_no_ra (
+  id_estudiante int(11) NOT NULL PRIMARY KEY,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_upd;
+
+CREATE TABLE tbl_notas_temp_upd (
+  id_estudiante int(11) NOT NULL PRIMARY KEY,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_periodos;
+
+CREATE TABLE tbl_periodos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  periodo int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_periodos (periodo) VALUES
+(1),
+(2),
+(3),
+(4);
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_querys_ra;
+
+CREATE TABLE tbl_querys_ra (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  pensamiento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grados varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  campos1 varchar(1300) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  campos2 varchar(800) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  campos3 varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  tablas varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicion1 varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicion2 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicion3 varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicion4 varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicion5 varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  orden varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  actualizado varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  seleccionados int(11) NOT NULL,
+  insertados_tem int(11) NOT NULL,
+  actualizados int(11) NOT NULL,
+  nuevos int(11) NOT NULL,
+  procesar int(11) NOT NULL,
+  est_nue_no_reg int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_querys_ra (pensamiento, grados, campos1, campos2, campos3, tablas, condicion1, condicion2, condicion3, condicion4, condicion5, orden, actualizado, seleccionados, insertados_tem, actualizados, nuevos, procesar, est_nue_no_reg) VALUES
+('Hum_Esp', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '44, 50, 54, 96, 98, 100', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1859', 904, 904, 7, 2, 0, 0),
+('Hum_Esp', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '90, 92, 94', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1902', 1064, 1064, 0, 0, 0, 0),
+('Hum_Esp', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '80, 82, 84, 86, 88', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1904', 951, 951, 3, 0, 0, 0),
+('Hum_Ing', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '95, 97, 99', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1906', 911, 911, 8, 0, 0, 0),
+('Hum_Ing', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '89, 91, 93', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1907', 1059, 1059, 6, 0, 0, 0),
+('Hum_Ing', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '79, 81, 83, 85, 87', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1911', 924, 924, 7, 1, 0, 0),
+('Hum_Ing', 'ciclos', '', '', '', '', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '', ') AND c.id IN (', '', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', '', '20191017', 0, 0, 0, 0, 0, NULL),
+('Bio', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '42, 47, 52', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1921', 893, 893, 12, 3, 0, 0),
+('Bio', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '27, 36, 41', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100922_1038', 1111, 1111, 0, 0, 0, 0),
+('Bio', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '3, 7, 17, 18, 25', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1924', 969, 969, 8, 0, 0, 0),
+('Bio', 'ciclos', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '19, 20, 22, 23, 28, 30', ') AND c.id IN (', '63, 64, 73, 76, 110, 115', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1925', 36, 36, 0, 0, 0, 0),
+('Num', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZTep/kmpVl+JKfY8QZyaN5L+dbME3FrCcxwMBaVuQ/4HtSbjVsfJw9Cu6oyDHSe7fywb5Kd0AQUD8dw3+7gOcqbcnAx9Q8MJ3pALnmxkiMDvg3MlX6hFnot7GURaQ/QKDHj/u9i1LBRErO7vRzEJF1xyhWWqeyb1ZZdaNKjqI6rwVVaWkxOgKhogzGDVPrLLoaZrHr2Rdrky3mrK/kcZK3+zTHHhYYrhTyA1STeOozNaunAx1m/iVYlEUw248jljlb9Y3LxehHAN7WkMw/cpdaZpWzDnM0O8rXivaFwuZLEzZdhDjSU9SRjrNWmtL2eefl/PyGYJUXZmNsDpNwIzkYRtXx0hLVI2FFI4a6IMdgf42SH/t+vurKzkVuEwAvzxZXzp6d8LBLc0jgs5VClCItAFwnrGrGIvGT3P/AJjMbesRCzIn46n3eYz6Sdri9Zcs2xa2FaDUwOsIFZhfNoUalyMtGqEhpncQV9cMpHq0TwufRCU0bGHc9GRjOtk5UAGdqC9FZFqGSJB1jSvQmoygbJ', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '46, 51, 55', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1928', 1386, 1386, 481, 0, 0, 0),
+('Num', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '31, 35, 40', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1930', 1106, 1106, 12, 2, 0, 0),
+('Num', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '8, 13, 16, 19, 26', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Num', 'ciclos', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZRgaLLaMxIdoNOrE2LR80JzQBdjtLNFeTCD+oOsj9Iwq5qfYRLCpPqiY8A8kq88TTDelyQILlcQsHPxIa36/SKOoCrPD9RScbW5gGtKmBTGKJ0dwT7z5s0x/rtk5Iab5ohKF1kXdjDG8OW7mSKEOazWMGvU6UUlLBmSfFaDmOYM87xtWYs/gVt84sWRrFcaHZyzORcgOWLdlxFTcWxuHibGtqFBW1sN8r0OOt/OtJOMRADLZ+Ov3NArVApbauAzNpPawcbPQqEEyZNgGA8Eht38IpCz23ddoZbm39Cx86FgYBGE+qeiXDvzWnXrnwbJA5edZOjKa/GmJwfH+35w4dJI7MSdBZHSkoFfmdsAK7IA202KMXp/GxQAHPDpQmp3YGkSk72bv7VXsD+6aF3xTYHxqRdBsnV/6mAUoy3Ymv66D8WLP0cOq6p/k3NhG1sK25KlOJZqwVaJavSE9DY7tCSQz/4TkzBWkJICi54wO3Wd3g==', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '19, 20, 22, 23, 28, 30', ') AND c.id IN (', '59, 67, 71, 75, 106, 117', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Tec', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '43, 48, 56', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1931', 814, 814, 4, 0, 0, 0),
+('Tec', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '28, 32, 38', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1933', 1016, 1016, 7, 1, 0, 0),
+('Tec', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '2, 4, 5, 6, 22', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Tec', 'cicloIII', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '19', ') AND c.id IN (', '62', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Tec', 'ciclos', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '19, 20, 22, 23, 28, 30', ') AND c.id IN (', '62, 68, 69, 78, 109, 114', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Social', '9, 10, 11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15, 16, 17', ') AND c.id IN (', '45, 49, 53', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1935', 817, 817, 22, 0, 0, 0),
+('Social', '6, 7, 8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12, 13, 14', ') AND c.id IN (', '30, 34, 37', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '202100916_1936', 977, 977, 0, 0, 0, 0),
+('Social', 'primaria', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4, 5, 6, 8, 9', ') AND c.id IN (', '10, 11, 15, 20, 24', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20211026_1449', 1008, 1008, 0, 0, 0, 0),
+('Social', 'ciclos', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '19, 20, 22, 23, 28, 30', ') AND c.id IN (', '60, 65, 72, 74, 111, 116', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20191017', 0, 0, 0, 0, 0, NULL),
+('Hum_Esp', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '44, 96', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1600', 268, 268, 19, 0, 0, 0),
+('Hum_Esp', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '50, 98', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1606', 328, 332, 25, 0, 0, 0),
+('Hum_Esp', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '54, 100', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1610', 440, 440, 38, 0, 0, 0),
+('Hum_Esp', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '90', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1549', 128, 128, 1, 0, 0, 0),
+('Hum_Esp', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '92', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1554', 224, 224, 4, 0, 0, 0),
+('Hum_Esp', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '94', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1557', 328, 328, 8, 0, 0, 0),
+('Hum_Ing', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '95', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1604', 268, 201, 0, 0, 0, 0),
+('Hum_Ing', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '97', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251124_1751', 328, 332, 8, 29, 0, 0),
+('Hum_Ing', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '99', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251124_1756', 440, 440, 14, 36, 0, 0),
+('Hum_Ing', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '89', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1550', 128, 128, 1, 0, 0, 0),
+('Hum_Ing', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '91', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1555', 224, 224, 0, 0, 0, 0),
+('Hum_Ing', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '93', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1557', 328, 328, 0, 0, 0, 0),
+('Bio', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '42', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1559', 268, 268, 14, 0, 0, 0);
+INSERT INTO tbl_querys_ra (pensamiento, grados, campos1, campos2, campos3, tablas, condicion1, condicion2, condicion3, condicion4, condicion5, orden, actualizado, seleccionados, insertados_tem, actualizados, nuevos, procesar, est_nue_no_reg) VALUES
+('Bio', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4oKpXs06a6eF3IarUjg2o7Dm5Q40glxsQm5nvO+g2Z8leTqLCthom/c/j5J7ndsbWB8+6EdlHjYtHPQw0izJIFHX8I5f+QjhbSfkQAhy0+6YvR47cH+uZaP3npjDiClKBIBudinhpOUiEFERONktgVx2avfkgCCxcD6VPiE/DdmbdwWnH+QqrghRMbtnPFy+WPOaLYb8T1WZa/olkRr7EqEAqpQW9gmU14ktJs+InDDJcs0x6axjJwalTc6IxzbdzttGZobihb5Oem3wXw85DCQ7B5G9hSCd3cer4t2A7GRQAY8qIhfE6RPoAAT5GMcB7ZxlSWn2sB3SGCfmuy/i8d6FQDxbdM3CGLP1e4gRXPOXHjprw93y5Wt6WVcp2dpaGty9pGX2bNn2k/otrCcF3mOQnhnOJ/AjsFgB9vlg5XKOrMkUpyaPbJyTotXVPw7C+IP9nuE/fgWCUhw9RFe2JY3i7coPqBLjIchaUq0ULT1sbHBvB5Xcl3D+fljXSj86N7dolalzulQzcVN0wnc2RjnUXYWnibysFJjeYUZ/Yi9yTAjgxLjK5jbZtZkwoFcL1dFQPlN1vE1Q8pZU+KexkMwWbjuO9RKsch6czlVMmvlrVhJD2p4VIwrEOH+p85QGiUBw+i5ZCZxMgB8RSN57wxiyYfeqWAViRUx82y7w1UlD', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '135', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1606', 328, 332, 5, 0, 0, 0),
+('Bio', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4oKpXs06a6eF3IarUjg2o7Dm5Q40glxsQm5nvO+g2Z8l9dIpcpA95gcm5gr4kWA64La9kW/xIzmqF9XN2cbISnvyULDCt3qWs/rdznLXaQtZ3q+vhbPib0wzVKMCl5JHqCIPCDAHF6SxOv8Xw62vxEhRbF1wSV2PfqHNA1sqkv1spenRJMWU/E7CaSUTeAYWFKgUcixIfbCmf8RA29J9ijhKa6MQlO3R6L/LCvZN8kPz0/J7Wj17OFLr9sOujhY3k3CQTTav04mI/dGdGk6LV3uCwZO4K8fvgva7bIALTmd1bkzAdW/kGyUoQcg7NXF89vWJzv3Mu8Tap4hKy2f6+8upMIAuWDQ365kMCMMIpEvyxupS/9HTmd5gJEa+JIaL1PCWvUMzM7ZMKmOh99ZXwJTHePwp377j5TER0XwR7X88MkqSqbAgXLM+9WUt83TVurunjfnamce/tptrYPQNyGcPxLHPvbNLhv4bq0HRrOMJtVqLm1dmvfkH3f5fiHmO4wiMRr0e4/R7yvbdR5vStPw9yReMdtmRL7P/R2On/XpD76K782nsGXkcug7GcxB7b/L9gXZl7ZjZyBHwDZK28rgIjFwoJ1wrKe7+1BChbNW4Dk432eTiQpCKwhQ0x1fkpHRS4OZr1cL+0RuHXQEiWzC0gYEk45SpBUZ9J1nplNtg', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '139', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1609', 440, 440, 0, 0, 0, 0),
+('Bio', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '27', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1549', 128, 128, 3, 0, 0, 0),
+('Bio', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '36', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1553', 224, 224, 1, 0, 0, 0),
+('Bio', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '41', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1557', 328, 328, 5, 0, 0, 0),
+('Num', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZTep/kmpVl+JKfY8QZyaN5L+dbME3FrCcxwMBaVuQ/4HtSbjVsfJw9Cu6oyDHSe7fywb5Kd0AQUD8dw3+7gOcqbcnAx9Q8MJ3pALnmxkiMDvg3MlX6hFnot7GURaQ/QKDHj/u9i1LBRErO7vRzEJF1xyhWWqeyb1ZZdaNKjqI6rwVVaWkxOgKhogzGDVPrLLoaZrHr2Rdrky3mrK/kcZK3+zTHHhYYrhTyA1STeOozNaunAx1m/iVYlEUw248jljlb9Y3LxehHAN7WkMw/cpdaZpWzDnM0O8rXivaFwuZLEzZdhDjSU9SRjrNWmtL2eefl/PyGYJUXZmNsDpNwIzkYRtXx0hLVI2FFI4a6IMdgf42SH/t+vurKzkVuEwAvzxZXzp6d8LBLc0jgs5VClCItAFwnrGrGIvGT3P/AJjMbesRCzIn46n3eYz6Sdri9Zcs2xa2FaDUwOsIFZhfNoUalyMtGqEhpncQV9cMpHq0TwufRCU0bGHc9GRjOtk5UAGdqC9FZFqGSJB1jSvQmoygbJ', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '46', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1605', 268, 268, 18, 0, 0, 0),
+('Num', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '51', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_1110', 328, 332, 0, 0, 0, 0),
+('Num', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '55', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1610', 440, 440, 10, 0, 0, 0),
+('Num', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '31', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1550', 128, 128, 4, 0, 0, 0),
+('Num', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '35', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1555', 224, 224, 8, 0, 0, 0),
+('Num', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '40', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1558', 328, 328, 0, 0, 0, 0),
+('Tec', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '43', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1606', 268, 268, 0, 0, 0, 0),
+('Tec', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '48', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1608', 328, 332, 4, 4, 0, 0),
+('Tec', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '56', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1612', 440, 440, 0, 0, 0, 0),
+('Tec', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '28', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1553', 128, 128, 3, 0, 0, 0),
+('Tec', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '32', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1556', 224, 224, 9, 0, 0, 0),
+('Tec', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '38', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1559', 328, 328, 19, 0, 0, 0),
+('Social', '9', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '15', ') AND c.id IN (', '45', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1605', 268, 268, 28, 0, 0, 0),
+('Social', '10', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '16', ') AND c.id IN (', '49', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1608', 328, 332, 24, 0, 0, 0),
+('Social', '11', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '17', ') AND c.id IN (', '53', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1611', 440, 440, 29, 0, 0, 0),
+('Social', '6', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '12', ') AND c.id IN (', '30', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1553', 128, 128, 6, 0, 0, 0),
+('Social', '7', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '13', ') AND c.id IN (', '34', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1556', 224, 224, 4, 0, 0, 0),
+('Social', '8', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '14', ') AND c.id IN (', '37', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1558', 328, 328, 6, 0, 0, 0),
+('Hum_Esp', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '80', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1538', 16, 16, 0, 0, 0, 0),
+('Hum_Esp', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '82', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1540', 36, 36, 0, 0, 0, 0),
+('Hum_Esp', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '84', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1542', 80, 80, 0, 0, 0, 0),
+('Hum_Esp', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '86', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1544', 64, 64, 0, 0, 0, 0),
+('Hum_Esp', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '88', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1547', 140, 140, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '157', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0945', 1, 0, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '163', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0947', 2, 0, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '168', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0948', 2, 0, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '174', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0950', 0, 0, 0, 0, 0, 0),
+('Hum_Ing', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '79', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1538', 16, 16, 0, 0, 0, 0),
+('Hum_Ing', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '81', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1540', 36, 36, 0, 0, 0, 0),
+('Hum_Ing', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '83', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1542', 80, 80, 0, 0, 0, 0),
+('Hum_Ing', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '85', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1544', 64, 64, 0, 0, 0, 0);
+INSERT INTO tbl_querys_ra (pensamiento, grados, campos1, campos2, campos3, tablas, condicion1, condicion2, condicion3, condicion4, condicion5, orden, actualizado, seleccionados, insertados_tem, actualizados, nuevos, procesar, est_nue_no_reg) VALUES
+('Hum_Ing', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '87', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1547', 140, 140, 0, 0, 0, 0),
+('Bio', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '3', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1537', 16, 16, 0, 0, 0, 0),
+('Bio', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '7', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1540', 36, 36, 0, 0, 0, 0),
+('Bio', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '17', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1541', 80, 80, 0, 0, 0, 0),
+('Bio', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '18', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1544', 64, 64, 0, 0, 0, 0),
+('Bio', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '25', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1547', 140, 140, 0, 0, 0, 0),
+('Bio', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '159', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0944', 1, 0, 0, 0, 0, 0),
+('Bio', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '161', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0946', 16, 0, 0, 0, 0, 0),
+('Bio', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4oKpXs06a6eF3IarUjg2o7Dm5Q40glxsQm5nvO+g2Z8l9IpQ0VTcj+x3ZIIR2PzxkEBX/hdffThNPBQ5tnQp4HM0X3rfE95cO93xzK0WUZ0PBTF8fHuYjxA1Ey8Y+ZtkJrE0HeJXH/jXG1JshGc2rcXfVyQ79oJawYTlji4GlxPycjhYzn7HZYL2FJiDfKu5dtpS6lY6NW9JuYNl0RP/pKqHXdaS2hsz7B7VEC3cwNRXiKIpuauxKvRnGrA5auJG5iZ6snpGwMMbXmn22hdcSQDGNVeWGcP4E9RwcdZOTWQT7xGGyQTkc2LiSmbjDS4du8LlBE3A9FyECsmMXor5lK+mZsSyhmGFiUd/rOh633VSVACMCRpC6Lo3cj2oK+rEi7mohAlaACRC/aMTXRFz7BIf/d5mz4Ici/vPR74ZI2FjbwM3YOwZMo7lkOVLS1vzz4X4W8wtm5HrRV4NH54EOfnCagwDoHfYNYiu64ZrNENVK09diGof8tAbQnIlQigago8DiroI0g4n45rrRJ7qqzqykJ9GLeWglkHccIRHN/P3cdvn43hKPC9XIA4e3Y6kI0KJqNCNF6d0BzQMtFo5ZrJpfA6Y1ZX/adEZjc65QPgHcXtGEnagl0f0wUf2hw+J+S58HTDyEGZII+SSGPmgVns=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '171', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0948', 3, 0, 0, 0, 0, 0),
+('Bio', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4oKpXs06a6eF3IarUjg2o7Dm5Q40glxsQm5nvO+g2Z8l9IpQ0VTcj+x3ZIIR2PzxkEBX/hdffThNPBQ5tnQp4HM0X3rfE95cO93xzK0WUZ0PBTF8fHuYjxA1Ey8Y+ZtkJrE0HeJXH/jXG1JshGc2rcXfVyQ79oJawYTlji4GlxPycjhYzn7HZYL2FJiDfKu5dtpS6lY6NW9JuYNl0RP/pKqHXdaS2hsz7B7VEC3cwNRXiKIpuauxKvRnGrA5auJG5iZ6snpGwMMbXmn22hdcSQDGNVeWGcP4E9RwcdZOTWQT7xGGyQTkc2LiSmbjDS4du8LlBE3A9FyECsmMXor5lK+mZsSyhmGFiUd/rOh633VSVACMCRpC6Lo3cj2oK+rEi7mohAlaACRC/aMTXRFz7BIf/d5mz4Ici/vPR74ZI2FjbwM3YOwZMo7lkOVLS1vzz4X4W8wtm5HrRV4NH54EOfnCagwDoHfYNYiu64ZrNENVK09diGof8tAbQnIlQigago8DiroI0g4n45rrRJ7qqzqykJ9GLeWglkHccIRHN/P3cdvn43hKPC9XIA4e3Y6kI0KJqNCNF6d0BzQMtFo5ZrJpfA6Y1ZX/adEZjc65QPgHcXtGEnagl0f0wUf2hw+J+S58HTDyEGZII+SSGPmgVns=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '177', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0950', 1, 0, 0, 0, 0, 0),
+('Num', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '8', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1538', 16, 16, 0, 0, 0, 0),
+('Num', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '13', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1540', 36, 36, 0, 0, 0, 0),
+('Num', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '16', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1543', 80, 80, 0, 0, 0, 0),
+('Num', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '19', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1546', 64, 64, 0, 0, 0, 0),
+('Num', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '26', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0938', 141, 140, 0, 0, 0, 1),
+('Num', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZRgaLLaMxIdoNOrE2LR80JzQBdjtLNFeTCD+oOsj9Iwq5qfYRLCpPqiY8A8kq88TTDelyQILlcQsHPxIa36/SKOoCrPD9RScbW5gGtKmBTGKJ0dwT7z5s0x/rtk5Iab5ohKF1kXdjDG8OW7mSKEOazWMGvU6UUlLBmSfFaDmOYM87xtWYs/gVt84sWRrFcaHZyzORcgOWLdlxFTcWxuHibGtqFBW1sN8r0OOt/OtJOMRADLZ+Ov3NArVApbauAzNpPawcbPQqEEyZNgGA8Eht38IpCz23ddoZbm39Cx86FgYBGE+qeiXDvzWnXrnwbJA5edZOjKa/GmJwfH+35w4dJI7MSdBZHSkoFfmdsAK7IA202KMXp/GxQAHPDpQmp3YGkSk72bv7VXsD+6aF3xTYHxqRdBsnV/6mAUoy3Ymv66D8WLP0cOq6p/k3NhG1sK25KlOJZqwVaJavSE9DY7tCSQz/4TkzBWkJICi54wO3Wd3g==', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '155', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0945', 0, 0, 0, 0, 0, 0),
+('Num', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZRgaLLaMxIdoNOrE2LR80JzQBdjtLNFeTCD+oOsj9Iwq5qfYRLCpPqiY8A8kq88TTDelyQILlcQsHPxIa36/SKOoCrPD9RScbW5gGtKmBTGKJ0dwT7z5s0x/rtk5Iab5ohKF1kXdjDG8OW7mSKEOazWMGvU6UUlLBmSfFaDmOYM87xtWYs/gVt84sWRrFcaHZyzORcgOWLdlxFTcWxuHibGtqFBW1sN8r0OOt/OtJOMRADLZ+Ov3NArVApbauAzNpPawcbPQqEEyZNgGA8Eht38IpCz23ddoZbm39Cx86FgYBGE+qeiXDvzWnXrnwbJA5edZOjKa/GmJwfH+35w4dJI7MSdBZHSkoFfmdsAK7IA202KMXp/GxQAHPDpQmp3YGkSk72bv7VXsD+6aF3xTYHxqRdBsnV/6mAUoy3Ymv66D8WLP0cOq6p/k3NhG1sK25KlOJZqwVaJavSE9DY7tCSQz/4TkzBWkJICi54wO3Wd3g==', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '166', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0947', 0, 0, 0, 0, 0, 0),
+('Num', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '172', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0949', 6, 0, 0, 0, 0, 0),
+('Num', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '178', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0950', 0, 0, 0, 0, 0, 0),
+('Tec', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '2', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1539', 16, 16, 0, 0, 0, 0),
+('Tec', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '4', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1541', 36, 36, 0, 0, 0, 0),
+('Tec', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '5', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1543', 80, 80, 0, 0, 0, 0),
+('Tec', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '6', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1546', 64, 64, 0, 0, 0, 0),
+('Tec', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '22', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1548', 140, 140, 0, 0, 0, 0),
+('Tec', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '158', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0946', 1, 0, 0, 0, 0, 0),
+('Tec', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '165', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0948', 1, 0, 0, 0, 0, 0),
+('Tec', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '170', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0949', 1, 0, 0, 0, 0, 0),
+('Tec', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '176', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0951', 1, 0, 0, 0, 0, 0),
+('Social', '1', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '4', ') AND c.id IN (', '10', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1539', 16, 16, 0, 0, 0, 0),
+('Social', '2', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '5', ') AND c.id IN (', '11', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1541', 36, 36, 0, 0, 0, 0),
+('Social', '3', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '6', ') AND c.id IN (', '15', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1543', 80, 80, 0, 0, 0, 0),
+('Social', '4', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '8', ') AND c.id IN (', '20', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1546', 64, 64, 0, 0, 0, 0),
+('Social', '5', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '9', ') AND c.id IN (', '24', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251119_1548', 140, 140, 0, 0, 0, 0),
+('Social', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '160', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0946', 1, 0, 0, 0, 0, 0),
+('Social', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '164', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0947', 1, 0, 0, 0, 0, 0),
+('Social', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '169', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0949', 2, 0, 0, 0, 0, 0);
+INSERT INTO tbl_querys_ra (pensamiento, grados, campos1, campos2, campos3, tablas, condicion1, condicion2, condicion3, condicion4, condicion5, orden, actualizado, seleccionados, insertados_tem, actualizados, nuevos, procesar, est_nue_no_reg) VALUES
+('Social', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '175', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0951', 0, 0, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZQW5Scd6qo/PK+UlGec4bujeqAXLGeMRhFkmo505lHQ65NTMJpfdRuOFYopGxaBN9HYfXXSsiqPHlIc07EPj7696ycnd2Mnsx0CAh84UCMVNvHe6K1DGByHUBAPZCMKg3hiLh5grAEumknWMzvqVAofu1F3RB0WQIk3Eszpcmq6v/QRRvQ+Ag9C1I70jN1h4MS2urfwzHzLh+MSzPCS1kqlRoIK8Lw+8UGz2CgXGzo+cJytiX8qoZouKoxmlT3kR4+a2g3/dC/nwV4knBmRIfqvYQUCUFqt4lsLrkz7ezmP6B3iXQgxbW+ntK1MEwaTBczxhHp5GCLeuNEom7Ay9Q/Q/sM+h5dFMQ6GBXyJDDgO2oKCGxuqNF5f8mfmKqoDNuBWJLc59voiyQHhmOUrZZkkO2JTTGwCWZC6cuTlqHrsFTVAQn5IaLn/o2MpUbBPKorhesxvNUz1Q2qZJQsbJRwLoNV1avQUIyy7p2Zfx5LwPOyxKvtffr0oLwZtr4WhnKbDLez1iqbzPgKPrH1EhdZyQeus5g0ZOse4WTp6NWM7RIPe6eMx2aWWwllq6uRYCI1u0iQLZdU+87OrL0Jh+dEw', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '143', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0939', 0, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZQW5Scd6qo/PK+UlGec4bujeqAXLGeMRhFkmo505lHQ65NTMJpfdRuOFYopGxaBN9HYfXXSsiqPHlIc07EPj7696ycnd2Mnsx0CAh84UCMVNvHe6K1DGByHUBAPZCMKg3hiLh5grAEumknWMzvqVAofu1F3RB0WQIk3Eszpcmq6v/QRRvQ+Ag9C1I70jN1h4MS2urfwzHzLh+MSzPCS1kqlRoIK8Lw+8UGz2CgXGzo+cJytiX8qoZouKoxmlT3kR4+a2g3/dC/nwV4knBmRIfqvYQUCUFqt4lsLrkz7ezmP6B3iXQgxbW+ntK1MEwaTBczxhHp5GCLeuNEom7Ay9Q/Q/sM+h5dFMQ6GBXyJDDgO2oKCGxuqNF5f8mfmKqoDNuBWJLc59voiyQHhmOUrZZkkO2JTTGwCWZC6cuTlqHrsFTVAQn5IaLn/o2MpUbBPKorhesxvNUz1Q2qZJQsbJRwLoNV1avQUIyy7p2Zfx5LwPOyxKvtffr0oLwZtr4WhnKbDLez1iqbzPgKPrH1EhdZyQeus5g0ZOse4WTp6NWM7RIPe6eMx2aWWwllq6uRYCI1u0iQLZdU+87OrL0Jh+dEw', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '144', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0940', 0, 0, 0, 0, 0, 0),
+('Hum_Esp', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZQW5Scd6qo/PK+UlGec4bujeqAXLGeMRhFkmo505lHQ65NTMJpfdRuOFYopGxaBN9HYfXXSsiqPHlIc07EPj7696ycnd2Mnsx0CAh84UCMVNvHe6K1DGByHUBAPZCMKg3hiLh5grAEumknWMzvqVAofu1F3RB0WQIk3Eszpcmq6v/QRRvQ+Ag9C1I70jN1h4MS2urfwzHzLh+MSzPCS1kqlRoIK8Lw+8UGz2CgXGzo+cJytiX8qoZouKoxmlT3kR4+a2g3/dC/nwV4knBmRIfqvYQUCUFqt4lsLrkz7ezmP6B3iXQgxbW+ntK1MEwaTBczxhHp5GCLeuNEom7Ay9Q/Q/sM+h5dFMQ6GBXyJDDgO2oKCGxuqNF5f8mfmKqoDNuBWJLc59voiyQHhmOUrZZkkO2JTTGwCWZC6cuTlqHrsFTVAQn5IaLn/o2MpUbBPKorhesxvNUz1Q2qZJQsbJRwLoNV1avQUIyy7p2Zfx5LwPOyxKvtffr0oLwZtr4WhnKbDLez1iqbzPgKPrH1EhdZyQeus5g0ZOse4WTp6NWM7RIPe6eMx2aWWwllq6uRYCI1u0iQLZdU+87OrL0Jh+dEw', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '154', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0941', 1, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZQW5Scd6qo/PK+UlGec4bujeqAXLGeMRhFkmo505lHQ65NTMJpfdRuOFYopGxaBN9HYfXXSsiqPHlIc07EPj7696ycnd2Mnsx0CAh84UCMVNvHe6K1DGByHUBAPZCMKg3hiLh5grAEumknWMzvqVAofu1F3RB0WQIk3Eszpcmq6v/QRRvQ+Ag9C1I70jN1h4MS2urfwzHzLh+MSzPCS1kqlRoIK8Lw+8UGz2CgXGzo+cJytiX8qoZouKoxmlT3kR4+a2g3/dC/nwV4knBmRIfqvYQUCUFqt4lsLrkz7ezmP6B3iXQgxbW+ntK1MEwaTBczxhHp5GCLeuNEom7Ay9Q/Q/sM+h5dFMQ6GBXyJDDgO2oKCGxuqNF5f8mfmKqoDNuBWJLc59voiyQHhmOUrZZkkO2JTTGwCWZC6cuTlqHrsFTVAQn5IaLn/o2MpUbBPKorhesxvNUz1Q2qZJQsbJRwLoNV1avQUIyy7p2Zfx5LwPOyxKvtffr0oLwZtr4WhnKbDLez1iqbzPgKPrH1EhdZyQeus5g0ZOse4WTp6NWM7RIPe6eMx2aWWwllq6uRYCI1u0iQLZdU+87OrL0Jh+dEw', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '153', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0941', 0, 0, 0, 0, 0, 0),
+('Bio', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '147', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0939', 0, 0, 0, 0, 0, 0),
+('Bio', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '152', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0941', 4, 0, 0, 0, 0, 0),
+('Num', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZRgaLLaMxIdoNOrE2LR80JzQBdjtLNFeTCD+oOsj9Iwq5qfYRLCpPqiY8A8kq88TTDelyQILlcQsHPxIa36/SKOoCrPD9RScbW5gGtKmBTGKJ0dwT7z5s0x/rtk5Iab5ohKF1kXdjDG8OW7mSKEOazWMGvU6UUlLBmSfFaDmOYM87xtWYs/gVt84sWRrFcaHZyzORcgOWLdlxFTcWxuHibGtqFBW1sN8r0OOt/OtJOMRADLZ+Ov3NArVApbauAzNpPawcbPQqEEyZNgGA8Eht38IpCz23ddoZbm39Cx86FgYBGE+qeiXDvzWnXrnwbJA5edZOjKa/GmJwfH+35w4dJI7MSdBZHSkoFfmdsAK7IA202KMXp/GxQAHPDpQmp3YGkSk72bv7VXsD+6aF3xTYHxqRdBsnV/6mAUoy3Ymv66D8WLP0cOq6p/k3NhG1sK25KlOJZqwVaJavSE9DY7tCSQz/4TkzBWkJICi54wO3Wd3g==', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '148', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0940', 0, 0, 0, 0, 0, 0),
+('Num', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mTqQxBRxn2G7EHUl3iTEZRgaLLaMxIdoNOrE2LR80JzQBdjtLNFeTCD+oOsj9Iwq5qfYRLCpPqiY8A8kq88TTDelyQILlcQsHPxIa36/SKOoCrPD9RScbW5gGtKmBTGKJ0dwT7z5s0x/rtk5Iab5ohKF1kXdjDG8OW7mSKEOazWMGvU6UUlLBmSfFaDmOYM87xtWYs/gVt84sWRrFcaHZyzORcgOWLdlxFTcWxuHibGtqFBW1sN8r0OOt/OtJOMRADLZ+Ov3NArVApbauAzNpPawcbPQqEEyZNgGA8Eht38IpCz23ddoZbm39Cx86FgYBGE+qeiXDvzWnXrnwbJA5edZOjKa/GmJwfH+35w4dJI7MSdBZHSkoFfmdsAK7IA202KMXp/GxQAHPDpQmp3YGkSk72bv7VXsD+6aF3xTYHxqRdBsnV/6mAUoy3Ymv66D8WLP0cOq6p/k3NhG1sK25KlOJZqwVaJavSE9DY7tCSQz/4TkzBWkJICi54wO3Wd3g==', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '149', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0943', 0, 0, 0, 0, 0, 0),
+('Tec', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '145', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0940', 0, 0, 0, 0, 0, 0),
+('Tec', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '150', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0944', 0, 0, 0, 0, 0, 0),
+('Social', 'Ciclo I', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '36', ') AND c.id IN (', '146', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0940', 0, 0, 0, 0, 0, 0),
+('Social', 'Ciclo II', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4M+4tThbvajDFHz+N+6PDwEdSjc4jlsvR912QnjmXt29jelNstDZFHL4TOLygqRGNKwGcdrjXrJ85S8Yq/DCkVHGC2k1jfoZBO0BSkih5VdLN9K+b12RWlH2zT/K8rBiRpsTmEvE0bP81vIbzvLEvk', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '37', ') AND c.id IN (', '151', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7GWnsFrH7URyLruhUojkRse/oVokkgGh++dv/LJbOa+Aj/YFetlNyRSbKutOEHBHhA==', '20251120_0944', 1, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo III', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '38', ') AND c.id IN (', '156', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0945', 0, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo IV', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '39', ') AND c.id IN (', '162', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0947', 0, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo V', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '40', ') AND c.id IN (', '167', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0948', 0, 0, 0, 0, 0, 0),
+('Hum_Ing', 'Ciclo VI', 'WV/8nnlUkHpylASPyRsq0mnGr90fD7T3+oj6T8v1igHqDgAJrL7ztpYGh/BSR9Fe7CMWTGs1B+uILls2GFdE4mUjWPoXaQuYwL8kkihJ1NS7sqtlkQTtPPT6QRmJdZazs3TNJiY1X+B5RU4Ne5VcC4UnCWTUipKXJRFY08o5lXwmY4nIImRb+hsT9cpBRWh8BEA/+AXJXuDnIyeqOj2fJtuOa6zQasLjJvJ6t3ysTqNoW/I7e9d3650sD/WsBu8LzQLqpb0HcEnjeCmJxGrXQSRPH+lZXf7Nw8UDQnil9F4/8PM5dnuqffW72CfepKlCc3MPQWBcFitxKNAwD3NYJWkxutHYh7AO2l4iZO+DroYp2sJ09xA1uomOJDE5SH2kHGf/A3BV88iJQUivqN8tNPrOjuxZr/lsRnxSfXRYweREhwTy+dk9djoOT7tAgJEk7KUtaidNs8gBEciTS51RRL5+FQ7wgr9niTYhksX4mekgS+EWxSrFIstCeB23mEdGyeYgZjHiFMOjaPRu/UawV+B3xa6wpzZ4lSJJwNeYkjo=', '', '', 'tusBBtALtludCvQ9r9WrYq3eFS8At+k1hw/8bVAe0usTNKwVVfleqeupeUNF36YKlPKzLzxwaivSQjXuY0J6LJO1woOoXU4fy9YBV3pUHfQvWhnx8KG70FPzqlfPA8GzzhIZ9tXxKGiZf92hyYBIFZDGjY131TU19/EN4680Wy5XG0MR7q6YWRVa+T2xbun1Esvkuaq7glniQXRquBLhRw==', 'WHERE u.id = ra.userid AND ra.contextid = ct.id AND ra.roleid = r.id AND ct.instanceid = c.id AND c.category = cc.id AND gi.courseid = c.id AND gi.id = gg.itemid AND gg.userid = u.id AND ct.contextlevel = 50 AND ra.roleid = 5 AND cc.id IN (', '41', ') AND c.id IN (', '173', 'UXFOzGfHKtZ0AiHOEHGKYgieVUnlyshLSPxaFyR/VMejnSRN186QAWOYaWyrEKgIABnLcSr9wluLX6M2paqOLXA3t5tAyJ/lF/GCcjaJW+mZe2WYdHoSSDXQ7sZoUnuUHvd/ViiPd2hWu7rqhZz9fwB8IpcifYs64wjYglKnfaTsS2vWqbiY4r48YYqur79yCNBL1VZX84wJWkU67X41Lw==', 'DDSv1vxs0yqVg6+v1IjN7B+fFoIlt/SkjbPOjm5RYz7N30MXzJzwunG1jb31OvdHsHS0APdc8472qE3tXvi6QQ==', '20251120_0950', 0, 0, 0, 0, 0, 0);
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_solicitudes_matricula;
+
+CREATE TABLE tbl_solicitudes_matricula (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_est int(11) DEFAULT NULL,
+  msg varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  sentencia varchar(1200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_asistencias;
+
+CREATE TABLE tbl_asistencias (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombre varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado int(2) NOT NULL,
+  nombre_a varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  celular_a varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_cargos;
+
+CREATE TABLE tbl_cargos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  cargo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_cargos (cargo) VALUES
+('RECTOR'),
+('RECTORA'),
+('COORDINADOR ACADEMICO'),
+('COORDINADORA ACADEMICA'),
+('SECRETARIO ACADEMICO'),
+('SECRETARIA ACADEMICA'),
+('PSICOLOGO'),
+('PSICOLOGA'),
+('PSICOLOGO ADMINISTRATIVO'),
+('PSICOLOGA ADMINISTRATIVA'),
+('CONTADOR'),
+('CONTADORA'),
+('AUXILIAR CONTABLE'),
+('AUXILIAR DE ARCHIVO'),
+('TUTOR MEDIADOR'),
+('TUTORA MEDIADORA'),
+('PRUEBA1.'),
+('ASISTENTE DE ADMISIONES'),
+('AUXILIAR ADMINISTRATIVA'),
+('SOPORTE TECNICO'),
+('ASISTENTE ADMINISTRATIVO'),
+('TUTOR'),
+('DESARROLLADOR WEB'),
+('DESARROLLADOR PHP MYSQL');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_carnets;
+
+CREATE TABLE tbl_carnets (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_emp_est int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  tipo varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta_codqr varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  a varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  msg_correo varchar(200) NOT NULL DEFAULT 'NA'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_categorias_blog;
+
+CREATE TABLE tbl_categorias_blog (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  categoria varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_categorias_blog (categoria) VALUES
+('CONDECORACIONES'),
+('EXPERIENCIAS EXITOSAS'),
+('INVESTIGACIÓN GIU'),
+('RESULTADOS ESTUDIANTES'),
+('MAESTRO INVESTIGADOR');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_cod_pre_matricula;
+
+CREATE TABLE tbl_cod_pre_matricula (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  identificacion varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  periodo_lectivo int(11) NOT NULL,
+  codigo varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  email_pre_mat varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_contratos;
+
+CREATE TABLE tbl_contratos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  n_contrato varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta_acudiente varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  año int(4) NOT NULL,
+  fecha_modificacion date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_control_upd;
+
+CREATE TABLE tbl_control_upd (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  archivo varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  paso varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  resultado varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_ct_preguntas;
+
+CREATE TABLE tbl_ct_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_materia int(11) NOT NULL,
+  ct_temas int(11) NOT NULL,
+  ct_preguntas int(11) NOT NULL,
+  incluir varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_ct_preguntas (id_materia, ct_temas, ct_preguntas, incluir) VALUES
+(1, 2, 2, 'SI'),
+(4, 2, 2, 'SI'),
+(5, 10, 2, 'SI'),
+(6, 3, 2, 'SI'),
+(7, 5, 2, 'SI'),
+(9, 5, 2, 'SI'),
+(11, 10, 2, 'SI');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_ct_preguntas_f;
+
+CREATE TABLE tbl_ct_preguntas_f (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  ct_temas int(11) NOT NULL,
+  ct_preguntas int(11) NOT NULL,
+  incluir varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_ct_preguntas_f (id_grado, id_materia, ct_temas, ct_preguntas, incluir) VALUES
+(2, 1, 5, 2, 'SI'),
+(2, 4, 5, 2, 'SI'),
+(2, 5, 7, 2, 'SI'),
+(2, 6, 5, 2, 'SI'),
+(2, 7, 0, 0, 'SI'),
+(2, 9, 0, 0, 'SI'),
+(3, 1, 5, 2, 'SI'),
+(3, 4, 5, 2, 'SI'),
+(3, 5, 8, 2, 'SI'),
+(3, 6, 5, 2, 'SI'),
+(3, 7, 0, 0, 'SI'),
+(3, 9, 0, 0, 'SI'),
+(4, 1, 5, 2, 'SI'),
+(4, 4, 5, 2, 'SI'),
+(4, 5, 5, 2, 'SI'),
+(4, 6, 5, 2, 'SI'),
+(4, 7, 0, 0, 'SI'),
+(4, 9, 5, 2, 'SI'),
+(5, 1, 5, 2, 'SI'),
+(5, 4, 5, 2, 'SI'),
+(5, 5, 5, 2, 'SI'),
+(5, 6, 5, 2, 'SI'),
+(5, 7, 0, 0, 'SI'),
+(5, 9, 5, 2, 'SI'),
+(6, 1, 5, 2, 'SI'),
+(6, 4, 5, 2, 'SI'),
+(6, 5, 5, 2, 'SI'),
+(6, 6, 5, 2, 'SI'),
+(6, 7, 0, 0, 'SI'),
+(6, 9, 5, 2, 'SI'),
+(7, 1, 5, 2, 'SI'),
+(7, 4, 5, 2, 'SI'),
+(7, 5, 5, 2, 'SI'),
+(7, 6, 5, 2, 'SI'),
+(7, 7, 6, 2, 'SI'),
+(7, 9, 5, 2, 'SI'),
+(8, 1, 5, 2, 'SI'),
+(8, 4, 5, 2, 'SI'),
+(8, 5, 10, 2, 'SI'),
+(8, 6, 5, 2, 'SI'),
+(8, 7, 5, 2, 'SI'),
+(8, 9, 5, 2, 'SI'),
+(9, 1, 5, 2, 'SI'),
+(9, 4, 5, 2, 'SI'),
+(9, 5, 11, 2, 'SI'),
+(9, 6, 5, 2, 'SI'),
+(9, 7, 7, 2, 'SI'),
+(9, 9, 5, 2, 'SI'),
+(10, 1, 5, 2, 'SI'),
+(10, 4, 5, 2, 'SI'),
+(10, 5, 12, 2, 'SI'),
+(10, 6, 5, 2, 'SI'),
+(10, 7, 5, 2, 'SI'),
+(10, 9, 5, 2, 'SI'),
+(11, 1, 5, 2, 'SI'),
+(11, 4, 5, 2, 'SI'),
+(11, 5, 5, 2, 'SI'),
+(11, 6, 5, 2, 'SI'),
+(11, 7, 5, 2, 'SI'),
+(11, 9, 5, 2, 'SI'),
+(11, 11, 5, 2, 'SI'),
+(12, 1, 5, 2, 'SI'),
+(12, 4, 5, 2, 'SI'),
+(12, 5, 5, 2, 'SI'),
+(12, 6, 5, 2, 'SI'),
+(12, 7, 5, 2, 'SI'),
+(12, 9, 5, 2, 'SI'),
+(12, 11, 5, 2, 'SI'),
+(13, 1, 5, 2, 'SI'),
+(13, 4, 5, 2, 'SI'),
+(13, 5, 5, 2, 'SI'),
+(13, 6, 5, 2, 'SI'),
+(13, 7, 5, 2, 'SI'),
+(13, 9, 5, 2, 'SI'),
+(14, 1, 5, 2, 'SI'),
+(14, 4, 5, 2, 'SI'),
+(14, 5, 5, 2, 'SI'),
+(14, 6, 5, 2, 'SI'),
+(14, 7, 5, 2, 'SI'),
+(14, 9, 5, 2, 'SI'),
+(15, 1, 5, 2, 'SI'),
+(15, 4, 5, 2, 'SI'),
+(15, 5, 5, 2, 'SI'),
+(15, 6, 5, 2, 'SI'),
+(15, 7, 5, 2, 'SI'),
+(15, 9, 5, 2, 'SI'),
+(16, 1, 5, 2, 'SI'),
+(16, 4, 5, 2, 'SI'),
+(16, 5, 5, 2, 'SI'),
+(16, 6, 5, 2, 'SI'),
+(16, 7, 5, 2, 'SI'),
+(16, 9, 5, 2, 'SI'),
+(17, 1, 5, 2, 'SI'),
+(17, 4, 5, 2, 'SI'),
+(17, 5, 5, 2, 'SI'),
+(17, 6, 5, 2, 'SI'),
+(17, 7, 5, 2, 'SI'),
+(17, 9, 5, 2, 'SI'),
+(17, 11, 5, 2, 'SI'),
+(18, 1, 5, 2, 'SI'),
+(18, 4, 5, 2, 'SI'),
+(18, 5, 5, 2, 'SI'),
+(18, 6, 5, 2, 'SI'),
+(18, 7, 5, 2, 'SI'),
+(18, 9, 5, 2, 'SI'),
+(18, 11, 5, 2, 'SI');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_dependencias;
+
+CREATE TABLE tbl_dependencias (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  dependencia varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_dependencias (dependencia) VALUES
+('ADMINISTRATIVA'),
+('ADMISIONES'),
+('PENSAMIENTO BIOETICO'),
+('PENSAMIENTO HUMANISTICO ESPAÑOL'),
+('PENSAMIENTO HUMANISTICO INGLES'),
+('PENSAMIENTO NUMERICO'),
+('PENSAMIENTO SOCIAL'),
+('PENSAMIENTO TECNOLOGICO'),
+('RECTORIA'),
+('COORDINACION ACADEMICA'),
+('FINANCIERA'),
+('SOPORTE TECNICO'),
+('SISTEMAS');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_deptos;
+
+CREATE TABLE tbl_deptos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_deptos (nombre) VALUES
+(' SELECCIONE');
+
+UPDATE tbl_deptos SET id = -1 WHERE nombre = ' SELECCIONE';
+
+ALTER TABLE tbl_deptos
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+INSERT INTO tbl_deptos (nombre) VALUES
+('AMAZONAS'),
+('ANTIOQUIA'),
+('ARAUCA'),
+('ATLANTICO'),
+('BOGOTA'),
+('BOLIVAR'),
+('BOYACA'),
+('CALDAS'),
+('CAQUETA'),
+('CASANARE'),
+('CAUCA'),
+('CESAR'),
+('CHOCO'),
+('CORDOBA'),
+('CUNDINAMARCA'),
+('GUAINIA'),
+('GUAVIARE'),
+('HUILA'),
+('LA GUAJIRA'),
+('MAGDALENA'),
+('META'),
+('NARINO'),
+('NORTE DE SANTANDER'),
+('PUTUMAYO'),
+('QUINDIO'),
+('RISARALDA'),
+('SAN ANDRES Y PROVIDENCIA'),
+('SANTANDER'),
+('SUCRE'),
+('TOLIMA'),
+('VALLE DEL CAUCA'),
+('VAUPES'),
+('VICHADA');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_desemp_pres;
+
+CREATE TABLE tbl_desemp_pres (
+  identificacion varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  DSA varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  DA varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  DM varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  DB varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  año int(11) NOT NULL,
+  id_grado int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_deudas_anteriores;
+
+CREATE TABLE tbl_deudas_anteriores (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  a int(11) UNSIGNED NOT NULL,
+  deuda int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_diplomas_virtuales;
+
+CREATE TABLE tbl_diplomas_virtuales (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado int(2) NOT NULL,
+  ruta varchar(500)CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_direcciones_grado;
+
+CREATE TABLE tbl_direcciones_grado (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_empleado int(11) NOT NULL,
+  direcciones_grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_direccion_grado;
+
+CREATE TABLE tbl_direccion_grado (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_empleado int(11) NOT NULL,
+  grupo varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_dir_b;
+
+CREATE TABLE tbl_dir_b (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_empleado int(11) NOT NULL,
+  grupo varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_dir_c;
+
+CREATE TABLE tbl_dir_c (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_empleado int(11) NOT NULL,
+  grupo varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_dir_d;
+
+CREATE TABLE tbl_dir_d (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_empleado int(11) NOT NULL,
+  grupo varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_emails_bloqueados_blog;
+
+CREATE TABLE tbl_emails_bloqueados_blog (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_encuestas;
+
+CREATE TABLE tbl_encuestas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_encuestas_preguntas;
+
+CREATE TABLE tbl_encuestas_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_encuesta int(11) NOT NULL,
+  tipo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  pregunta varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  a varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  b varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  c varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  d varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  e varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  respuesta_texto varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_encuestas_resultados;
+
+CREATE TABLE tbl_encuestas_resultados (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_encuesta int(11) NOT NULL,
+  id_pregunta int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  resultado varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  año int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_mood;
+
+CREATE TABLE tbl_estudiantes_mood (
+  id int(11) NOT NULL PRIMARY KEY,
+  grado varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  apellidos varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  nombres varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  ciudad varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  email_inst varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  usuario varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  a_modif int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_mood_temp;
+
+CREATE TABLE tbl_estudiantes_mood_temp (
+  id int(11) NOT NULL PRIMARY KEY,
+  grado varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  apellidos varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  nombres varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  ciudad varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  email_inst varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  usuario varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  a_modif int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_observ_tut;
+
+CREATE TABLE tbl_estudiantes_observ_tut (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  observacion varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  tutor varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_param;
+
+CREATE TABLE tbl_estudiantes_param (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_estudiante int(11) NOT NULL,
+  observacion varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_estudiantes_sin_ee;
+
+CREATE TABLE tbl_estudiantes_sin_ee (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  sin_entrevista varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  sin_evaluacion varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_eval_cargos;
+
+CREATE TABLE tbl_eval_cargos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  cargo varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha_programacion date NOT NULL,
+  email varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombre_completo varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  resultado varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  año int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_formas_pago;
+
+CREATE TABLE tbl_formas_pago (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  forma_pago varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  activar varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_formas_pago (forma_pago, activar) VALUES
+('TC', '0'),
+('PSE', '1'),
+('BAL', '1'),
+('EFE', '1'),
+('PUNR', '1'),
+('REDS', '1'),
+('GANA', '1');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_grupos;
+
+CREATE TABLE tbl_grupos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  grupo varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_grupos (grupo) VALUES
+('Administrativo'),
+('Creativo'),
+('Investigación'),
+('Mediadores'),
+('Psicología'),
+('Soporte técnico');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_grupos_emp;
+
+CREATE TABLE tbl_grupos_emp (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grupo int(11) NOT NULL,
+  id_empleado int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_lista_documentos;
+
+CREATE TABLE tbl_lista_documentos (
+  n_documento varchar(15) NOT NULL PRIMARY KEY
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_metodo_domain;
+
+CREATE TABLE tbl_metodo_domain (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  palabra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  imagen varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL,
+  estado int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_metodo_domain_i;
+
+CREATE TABLE tbl_metodo_domain_i (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  palabra varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  imagen varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL,
+  estado int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_historia;
+
+CREATE TABLE tbl_notas_historia (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_est int(11) NOT NULL,
+  a int(4) NOT NULL,
+  n_matricula varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  json varchar(1200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_mood_temp;
+
+CREATE TABLE tbl_notas_mood_temp (
+  id_est int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  lastname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  firstname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  shortname varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id int(11) NOT NULL,
+  name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado int(11) NOT NULL,
+  periodo varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  periodo_ra int(11) NOT NULL,
+  calificacion float NOT NULL DEFAULT 0,
+  id_tutor int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_prueba;
+
+CREATE TABLE tbl_notas_prueba (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nota float NOT NULL DEFAULT 0,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_estudiante int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp;
+
+CREATE TABLE tbl_notas_temp (
+  nota float NOT NULL DEFAULT 0,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  id_estudiante int(11) NOT NULL,
+  id_tutor int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_ins;
+
+CREATE TABLE tbl_notas_temp_ins (
+  id_estudiante int(11) NOT NULL,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL,
+  id_tutor int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_no_ra;
+
+CREATE TABLE tbl_notas_temp_no_ra (
+  id_estudiante int(11) NOT NULL,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL,
+  id_tutor int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_notas_temp_upd;
+
+CREATE TABLE tbl_notas_temp_upd (
+  id_estudiante int(11) NOT NULL,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  grado varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  materia varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_periodo int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  nota_actual float NOT NULL,
+  nota_nueva float NOT NULL,
+  id_tutor int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_pazysalvos;
+
+CREATE TABLE tbl_pazysalvos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  fecha_expedicion date NOT NULL,
+  id_estudiante int(11) NOT NULL,
+  id_grado int(11) NOT NULL,
+  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  identificacion varchar(20) NOT NULL,
+  a varchar(4) NOT NULL,
+  firma varchar(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_plataformas;
+
+CREATE TABLE tbl_plataformas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  plataforma varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_plataformas (plataforma) VALUES
+('CORREO CORPORATIVO'),
+('MATRICULACION WEB'),
+('MOODLE'),
+('PAGINA WEB'),
+('REGISTRO ACADEMICO');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_polizas;
+
+CREATE TABLE tbl_polizas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_grado int(11) NOT NULL,
+  a varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ruta varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_preguntas;
+
+CREATE TABLE tbl_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  id_tipo_pregunta int(11) NOT NULL,
+  id_tema int(11) NOT NULL,
+  pregunta varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r1ok varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r2ok varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r3ok varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r1no varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r2no varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r3no varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  r4no varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  retroalimentacion varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  imagen varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_profesiones;
+
+CREATE TABLE tbl_profesiones (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  profesion varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_profesiones (profesion) VALUES
+('ADMINISTRADORA COMERCIAL Y FINANCIERA'),
+('AUXILIAR CONTABLE'),
+('AUXILIAR DE ARCHIVO'),
+('CONTADORA'),
+('ESP EN ARCHIVISTICA'),
+('ESP EN GERENCIA DE TALENTO HUMANO'),
+('ESP EN NECESIDADES DE APRENDIZAJE EN LECTURA, ESCRITURA Y MATEMÁTICAS'),
+('INGENIERA AMBIENTAL Y SANITARIA'),
+('INGENIERA DE ALIMENTOS'),
+('INGENIERA DE MINAS'),
+('INGENIERA INDUSTRIAL'),
+('INGENIERO INDUSTRIAL'),
+('LICENCIADA EN EDUCACIÓN BASICA'),
+('LICENCIADA EN IDIOMAS MODERNOS'),
+('LICENCIADA EN LENGUAS EXTRANJERAS INGLÉS - FRANCÉS'),
+('LICENCIADO EN INFORMÁTICA Y TECNOLOGÍA'),
+('MG EN ADMINISTRACIÓN Y PLANIFICACIÓN EDUCATIVA'),
+('MG EN AMBIENTES EDUCATIVOS MEDIADOS POR TIC'),
+('MG EN DERECHOS HUMANOS'),
+('MG EN EDUCACIÓN'),
+('MG EN GESTIÓN DE LA TECNOLOGÍA DUCATIVA'),
+('MG EN LINGÜÍSTICA'),
+('MG EN TECNOLOGÍA EDUCATIVA Y COMPETENCIAS DIGITALES'),
+('PSICÓLOGA'),
+('PSICÓLOGO CLINICO'),
+('PRUEBA'),
+('ADMINISTRADORA DE EMPRESAS'),
+('ADMINISTRADOR DE EMPRESAS'),
+('LICENCIADA EN MATEMATICAS Y ESTADISTICA'),
+('NA'),
+('AUXILIAR ADMINISTRATIVA'),
+('ADMINISTRADORA EN SALUD'),
+('PRACTICANTE UNIVERSITARIO');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_seg_psi_cierre;
+
+CREATE TABLE tbl_seg_psi_cierre (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_valoracion int(11) NOT NULL,
+  id_psicologo int(11) NOT NULL,
+  id_agendamiento int(11) NOT NULL DEFAULT 0,
+  observaciones varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  motivo varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  recomendaciones varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  remitido varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  motivo_remision varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_seg_psi_val;
+
+CREATE TABLE tbl_seg_psi_val (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  n_documento varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_psicologo int(11) NOT NULL,
+  id_solicita int(11) NOT NULL,
+  id_empleado int(11) NOT NULL,
+  id_agendamiento int(11) NOT NULL DEFAULT 0,
+  piar varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  motivo varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_biologico varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_intelectual varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_motor varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  autonomia varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_lenguaje varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_social varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  personalidad varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  nivel_escolar varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  contexto_socio_fam varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  observaciones varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha date NOT NULL,
+  fecha_primer_seg date NOT NULL,
+  hora varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_sentencias_procesos;
+
+CREATE TABLE tbl_sentencias_procesos (
+  id int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  utilizaJoin varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  campos varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  tablas varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  joinTablas varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condiciones varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  agrupaciones varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ordenamientos varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  modificaciones varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  condicionesAgrupaciones varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  inserciones varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_sentencias_procesos (nombre, utilizaJoin, campos, tablas, joinTablas, condiciones, agrupaciones, ordenamientos, modificaciones, condicionesAgrupaciones, inserciones) VALUES
+('máximo registro en matricula', 'NO', 'SELECT IFNULL(max(m.idmatricula), 0) maxid ', 'FROM tbl_estudiantes e, tbl_matriculas m ', '', 'WHERE e.id = m.id_estudiante AND e.n_documento = |_documento*| ', '', '', '', '', ''),
+('grados', 'NO', 'SELECT * ', 'FROM tbl_grados ', '', 'WHERE id > 1 ', '', '', '', '', ''),
+('buscar datos iniciales', 'NO', 'SELECT e.acudiente_1, e.email_acudiente_1, e.ciudad, e.telefono_acudiente_1 ', 'FROM tbl_estudiantes e ', '', 'WHERE e.n_documento = |_documento*| ', '', '', '', '', ''),
+('se valida que sea antiguo', 'NO', 'SELECT *, (YEAR(NOW()) - YEAR(fecha_ingreso)) diferencia, YEAR(now()) actual ', 'FROM tbl_matriculas ', '', 'WHERE id = _maxid* ', '', '', '', '', ''),
+('grado', 'NO', 'SELECT * ', 'FROM tbl_grados ', '', 'WHERE id = _idGrado* ', '', '', '', '', ''),
+('datos estudiante0', 'NO', 'SELECT m.estado, m.id_grado, e.nombres, e.apellidos, e.telefono_estudiante, e.email_institucional, e.estado rh, e.acudiente_1, e.email_acudiente_1, e.direccion, e.telefono_acudiente_1, e.documento_responsable, td.id, td.tipo_documento, e.ciudad, e.actividad_extra, e.genero, e.documento_responsable, e.parentesco_acudiente_1 ', 'FROM tbl_estudiantes e, tbl_matriculas m, tbl_tipos_documento td  ', '', 'WHERE e.id = m.id_estudiante AND e.tipo_documento = td.id AND e.n_documento = |_documento*| AND m.id = _maxid* ', '', '', '', '', ''),
+('datos entrevista', 'NO', 'SELECT *, ifnull(id, 0) id1 ', 'FROM tbl_entrevistas ', '', 'WHERE documento = |_documento*| ', '', '', '', '', ''),
+('datos tbl_pre_matricula', 'NO', 'SELECT *, ifnull(id, 0) id1 ', 'FROM tbl_pre_matriculas ', '', 'WHERE documento_est = |_documento*| AND año < _fanio* ', '', '', '', '', ''),
+('datos tbl_pre_matricula1', 'NO', 'SELECT *, ifnull(id, 0) id1 ', 'FROM tbl_pre_matriculas ', '', 'WHERE documento_est = |_documento*| AND año = _fanio* ', '', '', '', '', ''),
+('datos tbl_entrevistas', 'NO', 'SELECT * ', 'FROM tbl_entrevistas ', '', 'WHERE documento_est = |_documento*| AND fecha >= |2024-10-07| ', '', '', '', '', ''),
+('validar codigo pre tbl_matriculas documento', 'NO', 'SELECT COUNT(1) ct, email_pre_mat ', 'FROM tbl_cod_pre_tbl_matriculas ', '', 'WHERE identificacion = |_documento*| AND codigo = |_codigo*| ', 'GROUP BY email_pre_mat ', '', '', '', ''),
+('evaluacion de validacion', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_validaciones ', '', 'WHERE documento_est = |_documento*| AND año = _fanio* ', '', '', '', '', ''),
+('grado maximo a validar', 'NO', 'SELECT g.id, g.grado ', 'FROM (SELECT MAX(id_grado) id_grado FROM tbl_validaciones WHERE documento_est = |_documento*| AND fecha_programacion like |%_fanio*%|) v, tbl_grados g ', '', 'WHERE v.id_grado = g.id ', '', '', '', '', ''),
+('grado maximo aprobado', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_validaciones ', '', 'WHERE documento_est = |_documento*| AND resultado = |APROBADO| AND id_grado = _max_idgrado* ', '', '', '', '', ''),
+('evaluacion presaberes finalizada', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas ', '', 'WHERE identificacion = |_documento*| AND a = _fanio1* AND estado = |FINALIZADA| ', '', '', '', '', ''),
+('valida no entrevista no evaluacion', 'NO', 'SELECT * ', 'FROM tbl_estudiantes_sin_ee ', '', 'WHERE n_documento = |_documento*| ', '', '', '', '', ''),
+('rango tbl_matriculas ordinaria', 'NO', 'SELECT f1, f2 ', 'FROM tbl_parametros ', '', 'WHERE parametro = |mat_ordinarias| ', '', '', '', '', ''),
+('rango tbl_matriculas extra ordinaria', 'NO', 'SELECT f1, f2 ', 'FROM tbl_parametros ', '', 'WHERE parametro = |mat_extraordinarias| ', '', '', '', '', ''),
+('valida estudiante bloqueado', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_estudiantes_bloqueados ', '', 'WHERE n_documento = |_documento*| ', '', '', '', '', ''),
+('tipos documento', 'NO', 'SELECT * ', 'FROM tbl_tipos_documento ', '', '', '', '', '', '', ''),
+('medios llegada', 'NO', 'SELECT * ', 'FROM tbl_medios_llegada ', '', '', '', '', '', '', ''),
+('update tbl_pre_matricula', 'NO', '', 'UPDATE tbl_pre_matriculas ', '', 'WHERE documento_est = |_documento*| AND año = _añoMatricula* ', '', '', 'SET id_grado = _idGrado*, nombres_est = |_nombres*|, apellidos_est = |_apellidos*|, fecha = |_fecha2*|, actividad_extra = |_extra*|,  nombre_a = |_nombreA*|, celular_a = |_celA*|, email_a = |_emailA*|, ciudad_a = |_ciudadA*|, id_medio = _medio* ', '', ''),
+('insert tbl_pre_matricula', 'NO', '', 'INSERT INTO tbl_pre_matriculas ', '', '', '', '', '', '', '(id_empleado, id_grado, documento_est, nombres_est, apellidos_est, fecha, actividad_extra, nombre_a, celular_a, email_a, ciudad_a, entrevista, eval, id_medio, año) VALUES (18, _idGrado*, |_documento*|, |_nombres*|, |_apellidos*|, |_fecha2*|, |_extra*|, |_nombreA*|, |_celA*|, |_emailA*|, |_ciudadA*|, |NO|, 0, _medio*, _añoMatricula*) '),
+('existe registro en tbl_pre_matricula', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_pre_matriculas ', '', 'WHERE documento_est = |_documento*| AND año = _añoMatricula* ', '', '', '', '', ''),
+('existe registro en estudiantes', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_estudiantes ', '', 'WHERE n_documento = |_documento*| ', '', '', '', '', ''),
+('UPDATE tbl_estudiantes', 'NO', '', 'UPDATE tbl_estudiantes ', '', 'WHERE n_documento = |_documento*| ', '', '', 'SET apellidos = |_apellidos*|, nombres = |_nombres*|, genero = |_genero*|, tipo_documento = _tdoc*, telefono_estudiante = |_telefonoE*|, actividad_extra = |_extra*|, email_acudiente_1 = |_emailA*|, acudiente_1 = |_nombreA*|, telefono_acudiente_1 = |_celA*|, parentesco_acudiente_1 = |_parentesco1*|, fecha_datos = |_fecha2*|, documento_responsable = |_documentoA*|, ciudad = |_ciudadA*|, a_tbl_matriculas = _añoMatricula* ', '', ''),
+('insert estudiantes', 'NO', '', 'INSERT INTO tbl_estudiantes ', '', '', '', '', '', '', '(apellidos, nombres, genero, tipo_documento, n_documento, ciudad, telefono_estudiante, actividad_extra, email_acudiente_1, acudiente_1, telefono_acudiente_1, parentesco_acudiente_1, fecha_datos, documento_responsable, a_matricula) VALUES (|_apellidos*|, |_nombres*|, |_genero*|, _tdoc*, |_documento*|, |_ciudadA*|, |_telefonoE*|, |_extra*|, |_emailA*|, |_nombreA*|, |_celA*|, |_parentesco1*|, |_fecha2*|, |_documentoA*|, _añoMatricula*) '),
+('consulta directorio', 'NO', 'SELECT e.id, e.nombres, e.apellidos, e.dependencia, e.email, e.celular, e.cargo, IFNULL(e.infografia, \'\') infografia, \r\nCASE e.perfil WHEN \'TU\' THEN \'SI\' WHEN \'SU\' THEN \'SI\' WHEN \'TU_AW\' THEN \'SI\' WHEN \'ST_PU\' THEN \'SI\' \r\nWHEN \'AR\' THEN \'SI\' WHEN \'FI\' THEN \'SI\' WHEN \'PS\' THEN \'SI\' ELSE \'NO\' END perfil ', 'FROM tbl_empleados e ', '', 'WHERE e.estado = |_activo*| AND e.id != 18 ', '', 'ORDER BY e.id ASC ', '', '', ''),
+('grado estudiante', 'NO', 'SELECT id_grado ', 'FROM tbl_matriculas ', '', 'WHERE id = (SELECT MAX(idMatricula) idmax FROM tbl_matriculas WHERE id_estudiante = (SELECT id FROM tbl_estudiantes WHERE n_documento = |_ndoc*|))', '', '', '', '', ''),
+('incrementos convenio pago', 'NO', 'SELECT * ', 'FROM tbl_cp ', '', 'WHERE convenio = |_convenio*| ', '', '', '', '', ''),
+('valor pago icfes', 'NO', 'SELECT * ', 'FROM _tabla* ', '', 'WHERE id_grado = 0 AND a = _a* ', '', '', '', '', ''),
+('valor pago', 'NO', 'SELECT * ', 'FROM _tabla* ', '', 'WHERE id_grado = _idgrado* AND a = _a* ', '', '', '', '', ''),
+('incrementos pse', 'NO', 'SELECT * ', 'FROM tbl_incrementos ', '', 'WHERE tipo = |_PSE*| ', '', '', '', '', ''),
+('incrementos', 'NO', 'SELECT * ', 'FROM tbl_incrementos ', '', 'WHERE tipo = |_tipo*| ', '', '', '', '', ''),
+('valor gateway', 'NO', 'SELECT ifnull(val_fijo_gateway, 0) val_gateway, ct_actual ', 'FROM tbl_gateway ', '', 'WHERE estado = |_estado*| AND id_convenio = (SELECT id FROM tbl_cp WHERE convenio = |_convenio*|) ', '', '', '', '', ''),
+('validacion presaberes', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas ', '', 'WHERE identificacion = |_documento*| AND respuesta = |_NA*| AND a = _fanio* ', '', '', '', '', ''),
+('valida ct preguntas abiertas', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas ', '', 'WHERE identificacion = |_documento*| AND a = _fanio* AND estado = |_estado*| ', '', '', '', '', ''),
+('valida ct preguntas cargadas', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas ', '', 'WHERE identificacion = |_documento*| AND a = _fanio* ', '', '', '', '', ''),
+('valida preguntas grado sm', 'NO', 'SELECT g.id, g.grado, e.origen ', 'FROM tbl_estudiantes_eval_admision e, tbl_grados g ', '', 'WHERE e.id_grado = g.id AND e.n_documento = |_documento*| ', '', '', '', '', ''),
+('valida ct preguntas grado', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_preguntas ', '', 'WHERE id_grado = _idgra* ', '', '', '', '', ''),
+('consulta pregunta', 'NO', 'SELECT * ', 'FROM tbl_preguntas ', '', 'WHERE id = _idpreg* ', '', '', '', '', ''),
+('nombre y grado presaberes', 'NO', 'SELECT e.*, g.grado ', 'FROM tbl_estudiantes_eval_admision e, tbl_grados g ', '', 'WHERE e.id_grado = g.id AND e.n_documento = |_documento*| ', '', '', '', '', ''),
+('temas pensamiento bio', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema bio', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema bio', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento soc', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema soc', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema soc', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento num', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema num', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema num', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento esp', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema esp', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema esp', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento ing', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema ing', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema ing', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento tec', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema tec', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema tec', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('temas pensamiento fis', 'NO', 'SELECT DISTINCT tp.id, tp.tema ', 'FROM tbl_preguntas p, tbl_temas_preguntas tp ', '', 'WHERE p.id_tema = tp.id AND p.id_grado = _idgrado* AND p.id_materia = _idmateria* ', '', '', '', '', ''),
+('preguntas por tema fis', 'NO', 'SELECT id ', 'FROM tbl_preguntas ', '', 'WHERE id_tema = _idtema* AND id_grado = _idgrado* AND id_materia = _idmateria* ', '', '', '', '', ''),
+('ct preguntas por tema fis', 'NO', 'SELECT ct_preguntas ', 'FROM tbl_temas_preguntas ', '', 'WHERE id_grado = _idgrado* AND id_materia = _idmateria* AND id = _id* ', '', '', '', '', ''),
+('conteos ok', 'NO', 'SELECT COUNT(1) ct_ok, identificacion ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion ', '', '', '', ''),
+('conteos no', 'NO', 'SELECT COUNT(1) ct_no, identificacion ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion ', '', '', '', ''),
+('conteos na', 'NO', 'SELECT COUNT(1) ct_na, identificacion ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion ', '', '', '', ''),
+('valida si hay registros en tbl_respuestas', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas ', '', 'WHERE identificacion = |_documento*| AND a = _a* ', '', '', '', '', ''),
+('consulta pensamiento', 'NO', 'SELECT id_materia ', 'FROM tbl_preguntas ', '', 'WHERE id = _id* ', '', '', '', '', ''),
+('insert tbl_respuestas', 'NO', '', 'INSERT INTO tbl_respuestas ', '', '', '', '', '', '', '(id_grado, id_materia, id_pregunta, a, identificacion, respuesta, resultado, estado) VALUES (_idgrado*, _idpen*, _idpregunta*, _a*, |_documento*|, |_respuesta*|, |_resultado*|, |_estado*|)'),
+('valida respuestas na', 'NO', 'SELECT * ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', '', '', '', '', ''),
+('actualizar respuesta presaberes', 'NO', '', 'UPDATE tbl_respuestas ', '', 'WHERE id_pregunta = _idpreg* AND identificacion = |_documento*| AND a = _a* ', '', '', 'SET respuesta = |_respuesta*|, resultado = |_resultado*| ', '', ''),
+('nombre estudiante', 'NO', 'SELECT e.id, e.nombres, e.apellidos ', 'FROM tbl_estudiantes e ', '', 'WHERE e.n_documento = |_documento*| ', '', '', '', '', ''),
+('conteos no num', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 5 ', '', '', '', '', ''),
+('conteos no bio', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 1 ', '', '', '', '', ''),
+('conteos no soc', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 4 ', '', '', '', '', ''),
+('conteos no esp', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 6 ', '', '', '', '', ''),
+('conteos no ing', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 7 ', '', '', '', '', ''),
+('conteos no tec', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 9 ', '', '', '', '', ''),
+('conteos no fis', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = 11 ', '', '', '', '', ''),
+('retroalimentacion no num', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no bio', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no soc', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no esp', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no ing', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no tec', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('retroalimentacion no fis', 'NO', 'SELECT DISTINCT p.retroalimentacion ', 'FROM tbl_respuestas r, tbl_preguntas p ', '', 'WHERE r.id_pregunta = p.id AND r.resultado = |_resultado*| AND r.identificacion = |_documento*| AND r.a = _a* AND r.id_materia = _idmateria* ', '', '', '', '', ''),
+('conteos ok por pensamiento', 'NO', 'SELECT COUNT(1) ct_ok, identificacion, id_materia ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion, id_materia ', '', '', '', ''),
+('conteos no por pensamiento', 'NO', 'SELECT COUNT(1) ct_no, identificacion, id_materia ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion, id_materia ', '', '', '', ''),
+('conteos na por pensamiento', 'NO', 'SELECT COUNT(1) ct_na, identificacion, id_materia ', 'FROM tbl_respuestas ', '', 'WHERE resultado = |_resultado*| AND identificacion = |_documento*| AND a = _a* ', 'GROUP BY identificacion, id_materia ', '', '', '', ''),
+('resultado preguntas', 'NO', 'SELECT m.materia, m.pensamiento, p.pregunta, r.respuesta, r.resultado, case r.resultado when |_resultado*| then |_muyBien*| else p.retroalimentacion end comentarios, substring(p.imagen, 7) ruta ', 'FROM tbl_respuestas r, tbl_preguntas p, materias m ', '', 'WHERE r.id_pregunta = p.id AND r.id_materia = m.id AND r.a = _a* AND r.identificacion = |_documento*| ', '', '', '', '', ''),
+('valida preguntas grado', 'NO', 'SELECT g.id, g.grado ', 'FROM tbl_estudiantes e, tbl_matriculas m, tbl_grados g ', '', 'WHERE e.id = m.id_estudiante AND m.id_grado = g.id AND e.n_documento = |_documento*| AND m.n_tbl_matriculas like _a* AND m.estado IN (|_estado*|, |_estado1*|) ', '', '', '', '', ''),
+('estudiantes activos', 'NO', 'SELECT COUNT(1) ct ', 'FROM tbl_matriculas ', '', 'WHERE n_tbl_matriculas like _a* and estado = |_estado*| ', '', '', '', '', ''),
+('autorizados para estados financieros', 'NO', 'SELECT * ', 'FROM tbl_empleados ', '', 'WHERE email = |_usuario*| AND n_documento = |_pass*| AND estado = |_estado*| ', '', '', '', '', ''),
+('grado documento', 'NO', 'SELECT e.id, e.nombres, e.apellidos, m.id_grado, g.grado ', 'FROM tbl_estudiantes e, tbl_matriculas m, tbl_grados g ', '', 'WHERE e.id = m.id_estudiante AND m.id_grado = g.id AND e.n_documento = |_documento*| AND m.estado IN (|_estado*|, |_estado1*|) AND m.n_tbl_matriculas like _a* ', '', '', '', '', '');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_solicitud_seguimientos;
+
+CREATE TABLE tbl_solicitud_seguimientos (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  solicitud_por varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_stickers_virtuales;
+
+CREATE TABLE tbl_stickers_virtuales (
+  id int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  documento varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  a int(11) UNSIGNED NOT NULL,
+  grado int(2) UNSIGNED NOT NULL,
+  nombres varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  apellidos varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ciudad varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  departamento varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  direccion varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  celular varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_temas_preguntas;
+
+CREATE TABLE tbl_temas_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  tema varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ct_preguntas int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_temas_preguntas (id_grado, id_materia, tema, ct_preguntas) VALUES
+(-1, -1, '  SELECCIONE TEMA', -1),
+(0, 0, ' OTRO', 0);
+
+UPDATE tbl_temas_preguntas SET id = -1 WHERE id = 1;
+UPDATE tbl_temas_preguntas SET id = 0 WHERE id = 2;
+
+ALTER TABLE tbl_temas_preguntas
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+INSERT INTO tbl_temas_preguntas (id_grado, id_materia, tema, ct_preguntas) VALUES
+(8, 5, 'OPERACIONES CON FRACCIONES', 2),
+(9, 5, 'SERIES Y SUCESIONES', 2),
+(9, 5, 'REGLA DE TRES SIMPLE', 2),
+(8, 5, 'RECONOCE LAS FRACCIONES', 2),
+(10, 5, 'DESCOMPOSICIÓN EN FACTORES PRIMOS', 1),
+(10, 5, 'MCM Y MCD', 2),
+(8, 5, 'OPERACIONES CON NÚMEROS RACIONALES', 2),
+(10, 5, 'SOLUCION ECUACIONES 1ER GRADO', 2),
+(9, 5, 'POTENCIACIÓN RADICACIÓN Y LOGARITMACIÓN', 2),
+(8, 5, 'ÁREAS Y PERÍMETROS', 2),
+(8, 5, 'RAZONAMIENTO LÓGICO', 2),
+(10, 59, 'RAZONAMIENTO ALGEBRAICO', 2),
+(10, 5, 'PRODUCTOS Y COCIENTES NOTABLES', 2),
+(9, 5, 'REGLA DE TRES COMPUESTA', 2),
+(10, 5, 'FACTORIZACIÓN', 2),
+(10, 5, 'ÁREAS Y VOLÚMENES', 2),
+(8, 5, 'CONVERSIÓN DE UNIDADES', 2),
+(9, 5, 'REPRESENTACIÓN DE PUNTOS EN LA RECTA', 2),
+(10, 5, 'TEOREMA DE PITÁGORAS', 2),
+(10, 5, 'MEDIDAS ESTADÍSTICAS', 2),
+(8, 5, 'PORCENTAJES', 2),
+(8, 5, 'RAZONES Y PROPORCIONES', 2),
+(8, 5, 'ANÁLISIS ESTADÍSTICO', 2),
+(8, 5, 'PROBABILIDAD', 2),
+(9, 5, 'ÁREAS Y PERÍMETROS', 2),
+(9, 5, 'RAZONAMIENTO LÓGICO', 2),
+(9, 5, 'RECONOCE LAS FRACCIONES', 2),
+(9, 5, 'ANÁLISIS ESTADÍSTICO Y PROBABILIDAD', 2),
+(91, 5, 'TRASLACIÓN Y ROTACIÓN', 2),
+(9, 5, 'SOLUCIÓN DE ECUACIONES LINEALES', 2),
+(101, 5, 'ÁREAS Y PERÍMETROS', 2),
+(101, 5, 'SERIES Y SUCESIONES', 2),
+(10, 5, 'RAZONAMIENTO LÓGICO', 2),
+(2, 5, 'COLORES', 2),
+(2, 5, 'NOCIÓN ESPACIAL', 5),
+(2, 5, 'CONTEO', 2),
+(2, 5, 'SUMA', 2),
+(2, 5, 'FIGURAS GEOMÉTRICAS', 2),
+(2, 5, 'NÚMEROS', 5),
+(2, 5, 'PENSAMIENTO LÓGICO', 2),
+(3, 5, 'COLORES', 2),
+(3, 5, 'NOCIÓN ESPACIAL', 2),
+(3, 5, 'CONTEO', 2),
+(3, 5, 'SUMA', 2),
+(3, 5, 'FIGURAS GEOMÉTRICAS', 2),
+(3, 5, 'NÚMEROS DE 100 EN 100 HASTA 1000', 2),
+(3, 5, 'RESTAS', 2),
+(3, 5, 'PENSAMIENTO LÓGICO', 2),
+(4, 5, 'NÚMEROS NATURALES', 1),
+(4, 5, 'OPERACIONES CON NÚMEROS NATURALES', 5),
+(4, 5, 'FIGURAS PLANAS', 2),
+(4, 5, 'UNIDADES DE MEDIDA', 2),
+(4, 5, 'ESTADÍSTICA', 2),
+(5, 5, 'TIEMPO', 2),
+(5, 5, 'NÚMEROS NATURALES', 2),
+(5, 5, 'OPERACIONES CON NÚMEROS NATURALES', 4),
+(5, 5, 'SOLUCIÓN DE PROBLEMAS', 3),
+(6, 5, 'TIEMPO', 2),
+(6, 5, 'NÚMEROS NATURALES', 2),
+(6, 5, 'OPERACIONES CON NÚMEROS NATURALES', 4),
+(6, 5, 'SOLUCIÓN DE PROBLEMAS', 3),
+(7, 7, 'ACTIVIDADES COTIDIANAS Y PASATIEMPOS', 2),
+(7, 7, 'PREGUNTAS DE INFORMACIÓN BÁSICA', 3),
+(7, 7, 'LA HORA Y NUMEROS', 2),
+(7, 7, 'ADJETIVOS: SINÓNIMOS Y ANTÓNIMOS', 3),
+(7, 7, 'EXPRESIONES PARA HABLAR DE ACCIONES PASADAS', 3),
+(7, 7, 'VOCABULARIO RELACIONADO CON LUGARES Y CLIMA', 2),
+(6, 5, 'PROBABILIDAD', 2),
+(5, 5, 'PROBABILIDAD', 2),
+(8, 7, 'EXPRESIONES RELACIONADAS CON RUTINAS DIARIAS', 3),
+(8, 7, 'PAÍSES Y NACIONALIDADES', 2),
+(8, 7, 'CARACTERÍSTICAS BÁSICAS DE PERSONAS, COSAS Y LUGARES', 4),
+(8, 7, 'EXPRESIONES PARA SALUDAR', 3),
+(8, 7, 'EXPRESIONES PARA PREGUNTAR', 3),
+(9, 7, 'COMPARACIONES Y CONTRASTES', 4),
+(9, 7, 'EXPRESIONES RELACIONADAS CON LA CONSERVACIÓN DEL MEDIO AMBIENTE', 3),
+(9, 7, 'ESTADOS DE ÁNIMO', 2),
+(9, 7, 'SUGERENCIAS Y RECOMENDACIONES', 4),
+(9, 7, 'DESCRIPCIÓN DE EXPERIENCIAS PASADAS', 4),
+(9, 7, 'DESCRIPCIÓN DE SITUACIONES Y EVENTOS', 4),
+(10, 7, 'EXPRESIONES PARA OPINAR Y DAR RAZONES', 3),
+(10, 7, 'FORMULAR Y RESPONDER PREGUNTAS SOBRE UN TEMA', 4),
+(10, 7, 'EXPRESIONES PARA PROPONER O MOSTRAR UNA SOLUCIÓN', 2),
+(10, 7, 'EXPRESAR SUEÑOS O PLANES FUTUROS', 3),
+(10, 7, 'VOCABULARIO RELACIONADO CON FENÓMENOS SOCIALES', 4),
+(10, 7, 'EXPRESIONES IDIOMÁTICAS', 4),
+(11, 7, 'EXPRESIONES PARA OPINAR SOBRE TEMAS SOCIALES', 3),
+(11, 7, 'EXPRESIONES DE VENTAJAS Y DESVENTAJAS', 3),
+(11, 7, 'EXPRESIONES PARA CITAR', 3),
+(11, 7, 'DAR Y SOLICITAR INFORMACIÓN SOBRE TEMAS DE INTERÉS GENERAL', 4),
+(11, 7, 'DAR RECOMENDACIONES SOBRE TEMAS DE INTERÉS GENERAL', 4),
+(11, 7, 'EXPRESIONES DE CONTRASTE Y ADICIÓN', 3),
+(12, 7, 'EXPRESIONES CON ACUERDOS Y DESACUERDOS', 3),
+(12, 7, 'EXPRESIONES PARA INICIAR, MANTENER Y TERMINAR UNA CONVERSACIÓN', 4),
+(12, 7, 'EXPRESIONES PARA SOLICITAR ACLARACIÓN', 3),
+(12, 7, 'EXPRESIONES DE CAUSA Y EFECTO', 3),
+(12, 7, 'EXPRESIONES PARA HABLAR SOBRE COSTUMBRES', 3),
+(12, 7, 'EXPRESIONES PARA HABLAR SOBRE CONSECUENCIAS', 3),
+(8, 9, 'CORRIENTE ELÉCTRICA', 4),
+(8, 9, 'MAGNITUDES ELÉCTRICAS', 3),
+(8, 9, 'COMPONENTES ELECTRÓNICOS', 5),
+(10, 9, 'SISTEMAS DE NUMERACIÓN', 2),
+(10, 9, 'OPERADORES LÓGICOS', 4),
+(10, 9, 'HOJAS DE CÁLCULO', 2),
+(11, 9, 'PROGRAMACIÓN', 5),
+(4, 9, 'HISTORIA Y EVOLUCIÓN DE LA TECNOLOGÍA', 2),
+(4, 9, 'INVENTOS E INNOVACIONES TECNOLÓGICAS', 2),
+(4, 9, 'SISTEMAS TECNOLÓGICOS', 2),
+(4, 9, 'HERRAMIENTAS OFIMÁTICAS', 3),
+(5, 9, 'FUENTES DE ENREGÍA', 2),
+(5, 9, 'MATERIAS PRIMAS', 2),
+(5, 9, 'HERRAMIENTAS INFORMÁTICAS', 2),
+(5, 9, 'SEÑALES PREVENTIVAS REGLAMENTARIAS E INFORMATIVAS', 2),
+(5, 9, 'POWERPOINT Y EXCEL', 3),
+(6, 9, 'MICROSOFT (EXCEL, POWERPOINT, WORD)', 3),
+(6, 9, 'OFIMÁTICA', 2),
+(6, 9, 'SISTEMAS TECNOLÓGICOS', 2),
+(6, 9, 'HERRAMIENTAS TECNOLÓGICAS', 2),
+(6, 9, 'TIPOS DE ENERGÍA', 2),
+(6, 9, 'FUENTES DE ENERGÍA RENOVABLES Y NO RENOVABLES', 2),
+(6, 9, 'HARDWARE Y SOFTWARE', 2),
+(7, 6, 'INTERPRETACIÓN TEXTUAL', 5),
+(7, 6, 'EXPRESIÓN GRAMATICAL', 5),
+(7, 6, 'PRODUCCIÓN TEXTUAL', 2),
+(8, 6, 'INTERPRETACIÓN TEXTUAL', 5),
+(8, 6, 'EXPRESIÓN GRAMATICAL', 5),
+(8, 6, 'PRODUCCIÓN TEXTUAL', 2),
+(9, 6, 'INTERPRETACIÓN TEXTUAL', 5),
+(9, 6, 'EXPRESIÓN GRAMATICAL', 5),
+(9, 6, 'PRODUCCIÓN TEXTUAL', 2),
+(10, 6, 'INTERPRETACIÓN TEXTUAL', 5),
+(10, 6, 'EXPRESIÓN GRAMATICAL', 5),
+(10, 6, 'PRODUCCIÓN TEXTUAL', 3),
+(11, 15, 'INTERPRETACIÓN TEXTUAL', 5),
+(11, 15, 'EXPRESIÓN GRAMATICAL', 4),
+(11, 15, 'PRODUCCIÓN TEXTUAL', 3),
+(12, 15, 'LECTURA CRÍTICA', 6),
+(12, 15, 'EXPRESIÓN GRAMATICAL', 5),
+(12, 15, 'PRODUCCIÓN TEXTUAL', 3),
+(2, 6, 'VOCALES', 2),
+(2, 6, 'CONSONANTE (MAYÚSCULAS Y MINÚSCULAS)', 2),
+(2, 6, 'PRECEPCIÓN VISUAL Y AUDITIVA (SILABAS)', 2),
+(2, 6, 'RELACIÓN PALABRA DIBUJO', 3),
+(2, 6, 'COMPRESIÓN LECTORA', 5),
+(2, 6, 'ORACIONES', 2),
+(2, 6, 'FORMANDO PALABRAS', 4),
+(2, 6, 'ESCRITURA Y ORTOGRAFÍA', 2),
+(3, 6, 'PRODUCCIÓN TEXTUAL', 2),
+(3, 6, 'EXPRESIÓN GRAMATICAL', 5),
+(3, 6, 'INTERPRETACIÓN TEXTUAL', 4),
+(4, 6, 'INTERPRETACIÓN TEXTUAL', 3),
+(4, 6, 'EXPRESIÓN GRAMATICAL', 6),
+(4, 6, 'PRODUCCIÓN TEXTUAL', 1),
+(5, 6, 'INTERPRETACIÓN TEXTUAL', 4),
+(5, 6, 'PRODUCCIÓN TEXTUAL', 3),
+(5, 6, 'EXPRESIÓN GRAMATICAL', 3),
+(6, 6, 'INTERPRETACIÓN TEXTUAL', 4),
+(6, 6, 'EXPRESIÓN GRAMATICAL', 4),
+(6, 6, 'PRODUCCIÓN TEXTUAL', 2),
+(7, 5, 'VOLÚMENES Y CUERPOS GEOMÉTRICOS', 2),
+(7, 5, 'ANÁLISIS DE SITUACIONES PROBLEMÁTICAS', 2),
+(7, 5, 'PROCESOS PROBABILÍSTICOS DE PRIMER ORDDEN SITUACIONAL', 2),
+(7, 5, 'MEDIDAS Y PARÁMETROS, APLICANDO LA SITUACIÓN PROBLEMÁTICA', 2),
+(7, 5, 'OPERACIONES UNIVERSALES', 2),
+(11, 5, 'FUNCIÓN LINEAL Y AFIN', 2),
+(11, 5, 'PENDIENTE DE LA RECTA', 2),
+(11, 5, 'CÁLCULO ANALÍTICO DEL PUNTO DE CORTE DE SISTEMAS LINEALES', 2),
+(11, 5, 'RACIONALIZACIÓN', 2),
+(11, 5, 'IDENTIFICACIÓN DE LA PARÁBOLA BASADOS EN LA FORMA CANÓNICA', 2),
+(11, 5, 'CONVERSIÓN DE PARÁBOLAS DE FORMA CANÓNICA A FORMA GENERAL', 2),
+(11, 5, 'DISCRIMINANTE', 2),
+(11, 5, 'ANÁLISIS DE GRÁFICAS Y COMPONENTES DE LA PARÁBOLA', 2),
+(11, 5, 'VOLÚMENES Y CUERPOS GEOMÉTRICOS', 2),
+(11, 5, 'PROCESOS PROBABILÍSTICOS Y ALEATORIOS', 2),
+(12, 5, 'ANÁLISIS DE FUNCIONES TRIGONOMÉTRICAS', 6),
+(12, 5, 'SITUACIONES PROBLEMÁTICAS EN DONDE INTERVIENE EL TRIÁNGULO RECTÁNGULO', 3),
+(12, 5, 'APLICACIÓN GENERALIZADA DE LA LEY DEL SENO', 2),
+(12, 5, 'APLICACIÓN GENERALIZADA DE LA LEY DEL COSENO', 2),
+(12, 5, 'APLICACIÓN GENERALIZADA DE LA LEY DE LA TANGENTE', 2),
+(12, 5, 'PROCESOS PROBABILÍSTICOS Y ALEATORIOS', 2),
+(12, 5, 'FIGURAS PLANAS Y VOLÚMENES', 2),
+(12, 11, 'MOVIMIENTO UNIFORME', 3),
+(12, 11, 'MOVIMIENTO ACELERADO', 3),
+(12, 11, 'CAÍDA LIBRE', 4),
+(7, 9, 'TECNOLOGIA Y SOCIEDAD', 5),
+(7, 9, 'MATERIALES Y ESTRUCTURAS', 3),
+(7, 9, 'APLICACIONES INFORMÁTICAS', 3),
+(9, 9, 'SOLUCIÓN DE PROBLEMAS CON TECNOLOGÍA', 4),
+(9, 9, 'INFORMACIÓN Y COMUNICACIÓN', 3),
+(9, 9, 'RIESGOS EN EL USO DE LAS TIC', 3),
+(12, 9, 'NATURALEZA Y EVOLUCIÓN DE LA TECNOLOGÍA', 3),
+(12, 9, 'LA WEB', 4),
+(12, 9, 'DISEÑO GRÁFICO', 3),
+(12, 9, 'PROGRAMACIÓN WEB: HTML Y CSS', 5),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE ELECTRICIDAD', 1),
+(3, 9, 'INVENTOS E INNOVACIONES TECNOLÓGICAS', 1),
+(3, 9, 'HERRAMIENTAS OFIMÁTICAS', 5),
+(3, 9, '¿QUÉ SON LOS ARTEFACTOS TECNOLÓGICOS?', 3),
+(3, 9, 'LAS SEÑALES DE TRÁNSITO', 1),
+(4, 9, '¿QUÉ ES MULTIMEDIA?', 1),
+(3, 7, 'SALUDOS Y DESPEDIDA', 3),
+(3, 7, 'LA FAMILIA', 3),
+(3, 7, 'PARTES DEL CUERPO', 3),
+(3, 7, 'PREGUNTAS SENCILLAS SOBRE EL ENTORNO, USANDO WHAT', 2),
+(4, 7, 'VOCABULARIO: DÍAS DE LA SEMANA', 3),
+(4, 7, 'RUTINA DIARIA', 4),
+(4, 7, 'PREGUNTAS SENCILLAS USANDO WHAT, WHERE Y WHO CON RELACIÓN A ANIMALES Y SU ENTORNO', 4),
+(5, 7, 'SELF INTRODUCCIÓN', 3),
+(5, 7, 'FRUITS AND VEGETABLES VOCABULARY', 3),
+(5, 7, 'PRESENT PROGRESSIVE', 3),
+(5, 7, 'SEASONS, WEATHER AND CLOTHES', 3),
+(5, 7, 'SPORTS VOCABULARY', 3),
+(6, 7, 'PROFESIONES Y ACTIVIDADES', 3),
+(6, 7, 'EXPRESIONES PARA DISCULPARSE', 3),
+(6, 7, 'EXPRESIONES PARA REFERIRSE A CANTIDADES', 3),
+(6, 7, 'PREFERENCIAS Y GUSTOS', 3),
+(6, 7, 'SENTIMIENTOS Y EMOCIONES', 3),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE LOS SENTIDOS HUMANOS', 2),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE MEDIDAS DE LONGITUD', 1),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE CARACTERÍSTICAS DE LOS ANIMALES', 4),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE CARACTERÍSTICAS DE LAS PLANTAS', 1),
+(3, 1, 'CONOCIMIENTOS BÁSICOS SOBRE CARACTERÍSTICAS DEL CUERPO HUMANO', 1),
+(4, 1, 'CONOCIMIENTOS BÁSICOS SOBRE LOS PLANETAS Y EL UNIVERSO', 3),
+(4, 1, 'CONOCIMIENTOS BÁSICOS SOBRE EL AGUA Y SU IMPORTANCIA', 2),
+(4, 1, 'CONOCIMIENTOS BÁSICOS SOBRE CARACTERÍSTICAS DE LAS PLANTAS', 2),
+(4, 1, 'CONOCIMIENTOS BÁSICOS SOBRE CICLO DE VIDA DE LOS SERES VIVOS', 2),
+(4, 1, 'CONOCIMIENTOS BÁSICOS SOBRE FUERZA Y ENERGÍA', 1),
+(5, 1, 'CARACTERÍSTICAS DE LAS PLANTAS', 1),
+(5, 1, 'ESTADO DE LA MATERIA', 2),
+(5, 1, 'CARACTERÍSTICAS DE LA MATERIA', 1),
+(5, 1, 'LOS RECURSOS NATURALES', 2),
+(5, 1, 'EL CUERPO HUMANO', 3),
+(5, 1, 'ECOSISTEMAS', 1),
+(6, 1, 'MÁQUINAS SIMPLES Y COMPUESTAS', 1),
+(6, 1, 'FUERZA', 1),
+(6, 1, 'LA MATERIA', 4),
+(6, 1, 'LA CÉLULA', 3),
+(6, 1, 'ECOSISTEMAS', 1),
+(7, 1, 'ECOSISTEMAS', 3),
+(7, 1, 'FUERZA', 2),
+(7, 1, 'EL SONIDO', 1),
+(7, 1, 'LA ELECTRICIDAD', 2),
+(7, 1, 'REPRODUCCIÓN DE PLANTAS', 1),
+(7, 1, 'METABOLISMO HUMANO', 2),
+(8, 1, 'LA CÉLULA', 4),
+(8, 1, 'LA MATERIA', 1),
+(8, 1, 'MÉTODO CIENTÍFICO', 5),
+(9, 1, 'LA MATERIA', 1),
+(9, 1, 'EL ÁTOMO', 1),
+(9, 1, 'LA TABLA PERIÓDICA', 1),
+(9, 1, 'EL CUERPO HUMANO', 11),
+(9, 1, 'MOVIMIENTO', 1),
+(10, 1, 'FUNCIÓN CELULAR', 3),
+(10, 1, 'TIPOS DE MOVIMIENTO', 1),
+(10, 1, 'ESCALAS DE TEMPERATURA', 2),
+(10, 1, 'TEORÍA Y LEYES DE LOS GASES', 2),
+(10, 1, 'ENLACES QUÍMICOS', 2),
+(11, 10, 'LA MATERIA', 2),
+(11, 10, 'LA TABLA PERIÓDICA', 5),
+(11, 10, 'ECUACIONES QUÍMICAS', 1),
+(11, 10, 'SOLUCIONES QUÍMICAS', 4),
+(12, 10, 'PROPIEDADES FÍSICAS Y QUÍMICAS DE LA MATERIA', 3),
+(12, 10, 'CONFIGURACIÓN ELECTRÓNICA', 1),
+(12, 10, 'CINÉTICA DE LOS GASES', 1),
+(12, 10, 'CINÉTICA DE LAS SOLUCIONES QUÍMICAS', 1),
+(12, 10, 'ESCALAS DE TEMPERATURA', 1),
+(12, 10, 'CONVERSIÓN DE UNIDADES', 1),
+(12, 10, 'ENLACES QUÍMICOS', 2),
+(11, 11, 'CONCEPTO DE ENERGÍA Y CLASES', 3),
+(11, 11, 'CONCEPTO DE TRABAJO Y POTENCIA', 3),
+(11, 11, 'TRANSFORMACIONES DE LA ENERGÍA', 3),
+(11, 11, 'FUENTES DE ENERGÍA', 3),
+(11, 11, 'CONVERSIONES DE UNIDADES', 3),
+(12, 12, 'ECONOMÍA', 5),
+(12, 12, 'POLÍTICA', 5),
+(10, 4, 'REVOLUCIONES, PROCESOS DE CAMBIO Y ESTADOS NACIÓN LATINOAMERICANOS', 2),
+(10, 4, 'EL PODER POLÍTICO', 2),
+(10, 4, 'CONSTITUCIÓN POLÍTICA COLOMBIANA 1991', 2),
+(10, 4, 'IMPERIALIAMO COLONIALISMO', 2),
+(10, 4, 'COLOMBIA SIGLO XIX ESTADO NACIÓN Y EL MUNDO EN EL SIGLO XX', 2),
+(9, 4, 'ANTROPOLOGÍA', 1),
+(9, 4, 'SOCIOLOGÍA', 4),
+(9, 4, 'HISTORIA', 5),
+(6, 4, 'GEOGRAFÍA', 6),
+(6, 4, 'SOCIOLOGÍA', 4),
+(7, 4, 'ANTROPOLOGÍA', 4),
+(7, 4, 'HISTORIA', 1),
+(7, 4, 'SOCIOLOGÍA', 5),
+(11, 12, 'EL MUNDO EN EL SIGLO XX', 2),
+(11, 12, 'AMÉRICA LATINA EN EL SIGLO XX Y MOVIMIENTOS POPULARES EN LATINOAMERICANOS', 2),
+(11, 12, 'COLOMBIA EN EL SIGLO XX', 2),
+(11, 12, 'COLOMBIA COMO PAÍS Y ESTADO', 2),
+(11, 12, 'DERECHOS HUMANOS Y PARTICIPACIÓN CIUDADANA EN COLOMBIA', 2),
+(8, 4, 'ANTROPOLOGÍA', 3),
+(8, 4, 'HISTORIA', 4),
+(8, 4, 'GEOGRAFÍA', 3),
+(4, 4, 'SOCIOLOGÍA', 4),
+(4, 4, 'HISTORIA', 1),
+(4, 4, 'GEOGRAFÍA', 4),
+(5, 4, 'ANTROPOLOGÍA', 1),
+(5, 4, 'GEOGRAFÍA', 9),
+(3, 4, 'SOCIOLOGÍA', 4),
+(3, 4, 'GEOGRAFÍA', 6),
+(19, 0, 'HTML5', 22),
+(19, 0, 'CSS3', 10),
+(19, 0, 'JAVASCRIPT', 23),
+(19, 0, 'HTML5CSS3', 15),
+(19, 0, 'JQUERY', 20),
+(20, 0, 'PHP', 50),
+(20, 0, 'MYSQL', 40);
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_temas_preguntas_num;
+
+CREATE TABLE tbl_temas_preguntas_num (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_grado int(11) NOT NULL,
+  id_materia int(11) NOT NULL,
+  tema varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  ct_preguntas int(4) NOT NULL,
+  componente varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL,
+  retro varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_temp;
+
+CREATE TABLE tbl_temp (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  c1 varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  v1 int(11) NOT NULL,
+  C2 varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_temp1;
+
+CREATE TABLE tbl_temp1 (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  t1 varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_tipos_agenda;
+
+CREATE TABLE tbl_tipos_agenda (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tipo_agenda varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_tipos_agenda (tipo_agenda) VALUES
+(' Seleccione');
+
+UPDATE tbl_tipos_agenda SET id = 0 WHERE id = 1;
+
+ALTER TABLE tbl_tipos_agenda
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+INSERT INTO tbl_tipos_agenda (tipo_agenda) VALUES
+('ACOMPAÑAMIENTO'),
+('DIRECCION GRADO'),
+('INDUCCION'),
+('REUNION ACADEMICA'),
+('REUNION ADMINISTRATIVA'),
+('REUNION EQUIPO CREATIVO'),
+('REUNION EVENTOS'),
+('REUNION FINANCIERA'),
+('REUNION GIU'),
+('REUNION PENSAMIENTO'),
+('REUNION PRACTICAS UNIVERSITARIAS'),
+('REUNION PROYECTOS'),
+('REUNION PSICOLOGIA'),
+('REUNION SISTEMAS'),
+('TUTORIA'),
+('VALORACION'),
+('CIERRE VALORACION'),
+('ENTREVISTA'),
+('SEGUIMIENTO');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_tipo_preguntas;
+
+CREATE TABLE tbl_tipo_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tipo_pregunta varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_tipo_preguntas (tipo_pregunta) VALUES
+('Seleccione tipo pregunta'),
+('Respuesta corta'),
+('Selección sencilla'),
+('Selección múltiple 2'),
+('Selección múltiple 3');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_tp;
+
+CREATE TABLE tbl_tp (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  tipo_persona varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_tp (tipo_persona) VALUES
+(' SELECCIONE');
+
+UPDATE tbl_tp SET id = -1 WHERE id = 1;
+
+ALTER TABLE tbl_tp
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+INSERT INTO tbl_tp (tipo_persona) VALUES
+('NATURAL'),
+('JURIDICA');
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_usuarios_domain;
+
+CREATE TABLE tbl_usuarios_domain (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  usuario varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_palabras varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha_registro date NOT NULL,
+  ultimo_id_cambiado int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_usuarios_domain_i;
+
+CREATE TABLE tbl_usuarios_domain_i (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  usuario varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_palabras varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  fecha_registro date NOT NULL,
+  ultimo_id_cambiado int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_usuarios_domain_palabras;
+
+CREATE TABLE tbl_usuarios_domain_palabras (
+  usuario varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_palabra varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_usuarios_domain_palabras_i;
+
+CREATE TABLE tbl_usuarios_domain_palabras_i (
+  usuario varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  id_palabra varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+/*######################################################################################################*/
+
+DROP TABLE IF EXISTS tbl_usu_preguntas;
+
+CREATE TABLE tbl_usu_preguntas (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_empleado int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+INSERT INTO tbl_usu_preguntas (id_empleado) VALUES
+(9),
+(10),
+(12),
+(14),
+(18),
+(20),
+(24),
+(25),
+(26),
+(27),
+(50),
+(16),
+(19),
+(34),
+(11);
 
 /*######################################################################################################*/
 
@@ -157,9 +2274,13 @@ INSERT INTO tbl_estudiantes (apellidos, nombres, genero, tipo_documento, n_docum
 ('FIGUEREDO GUEVARA', 'GREGORY HERNANDO', 'MASCULINO', '3', '93974541', '1973-01-10', 'SOGAMOSO', 'SOGAMOSO', 'CA 14 2-27', 'CA 14 2-27', '1234567', 'gregory.figueredo@unicab.org', 'PROG', 'gregory.figueredo@unicab.org', '', 'ANA ELVA GUEVARA', '', '3192997229', '', 'MADRE', 'NA', 'B+', '9397454', '', '2023-10-29', '23543550', 'PRUEBA')
 ;
 
-/*ALTER TABLE tbl_estudiantes
-MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;*/
+UPDATE tbl_estudiantes SET id = -1 WHERE n_documento = '93974541';
+UPDATE tbl_estudiantes SET id = -2 WHERE n_documento = '93974542';
+UPDATE tbl_estudiantes SET id = -3 WHERE n_documento = '93974543';
+UPDATE tbl_estudiantes SET id = -4 WHERE n_documento = '93974544';
 
+ALTER TABLE tbl_estudiantes
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 /*######################################################################################################*/
 
@@ -190,14 +2311,19 @@ CREATE TABLE tbl_matriculas (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) VALUES
-('-1-2025-4G', '2025-01-01', 'aprobado', -4, 4, 'ant', 'A'),
-('-2-2025-4G', '2025-01-01', 'aprobado', -3, 4, 'ant con deuda', 'A'),
-('-3-2024-4G', '2024-01-01', 'aprobado', -2, 4, 'ant nuevo con deuda', 'A'),
-('-4-2024-4G', '2024-01-01', 'aprobado', -1, 4, 'ant nuevo', 'A')
+('-1-2025-4G', '2025-01-01', 'aprobado', -4, 4, 'ant nuevo', 'A'),
+('-2-2025-4G', '2025-01-01', 'aprobado', -3, 4, 'ant nuevo con deuda', 'A'),
+('-3-2024-4G', '2024-01-01', 'aprobado', -2, 4, 'ant con deuda', 'A'),
+('-4-2024-4G', '2024-01-01', 'aprobado', -1, 4, 'ant', 'A')
 ;
 
-/*ALTER TABLE tbl_matriculas
-MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;*/
+UPDATE tbl_matriculas SET id = -1 WHERE id_estudiante = -1;
+UPDATE tbl_matriculas SET id = -2 WHERE id_estudiante = -2;
+UPDATE tbl_matriculas SET id = -3 WHERE id_estudiante = -3;
+UPDATE tbl_matriculas SET id = -4 WHERE id_estudiante = -4;
+
+ALTER TABLE tbl_matriculas
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 /*######################################################################################################*/
 
@@ -572,7 +2698,14 @@ CREATE TABLE tbl_empleados (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_empleados (nombres, apellidos, email, pc, perfil, n_documento, dependencia, skype, celular, celular_what, cargo, profesion, descripcion, foto, nombre_corto, infografia, rh, estado) VALUES
-('NA', 'NA', 'NA', 'NA', 'NA', 0, 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA'),
+('NA', 'NA', 'NA', 'NA', 'NA', 0, 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA');
+
+UPDATE tbl_empleados SET id = 0 WHERE n_documento = 0;
+
+ALTER TABLE tbl_empleados
+MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+INSERT INTO tbl_empleados (nombres, apellidos, email, pc, perfil, n_documento, dependencia, skype, celular, celular_what, cargo, profesion, descripcion, foto, nombre_corto, infografia, rh, estado) VALUES
 ('IMELDA', 'VERGARA', 'rectoria@unicab.org', 'aGaZRQ3n55KcwCxx/enWHg==', 'AR_AW', 46352177, 'RECTORIA', 'NA', '', '322 254 0389', 'RECTORA', 'INGENIERA DE MINAS', 'Soy respetuosa de mí misma, autónoma, comprometida y agradecida con la vida. Ingeniera de Minas de profesión, gerente social por convicción, apasionada por aprender, investigar y liderar procesos que generen mejores condiciones de vida, con respeto, dignidad y confiabilidad. Me encanta bailar, degustar buenos alimentos y caminar para mantener mi cuerpo, mi mente y mi alma en equilibrio. Feliz por ser la cocreadora de UNICAB, de ver los excelentes resultados de quienes han confiado en este proyecto. Sueño con un mundo de seres humanos felices, libres y en armonía con la naturaleza.', '../../../assets/img/equipo/imeldavergara.png', 'Imelda Vergara', NULL, 'O +', 'activo'),
 ('JULIAN ADOLFO', 'MESA VERGARA', 'psico01@unicab.org', 'Dhph+K0OBrDCxpTvKawNRp093HwtKghR9lWYsXhn0Lw=', 'AR_AW', 1057583959, 'COORDINACION ACADEMICA', 'https://meet.google.com/hfj-atbe-bjm', '318 400 4412', '318 400 4412', 'COORDINADOR ACADEMICO', 'PSICÓLOGO CLINICO', 'Soy un apasionado por el deporte y la lectura ya que fue un privilegio que me cambió la vida y me brinda mayores posibilidades junto a mi profesión, de poder abrir más puertas para mi crecimiento, apoyar a más personas y seguir aprendiendo constantemente. Me gusta observar más allá, observar y vivir el presente. Dentro de UNICAB manejo lo concerniente a la psicología y desde esta direcciono lo que es la coordinación académica. Para lograr junto con un equipo de maestros apasionados por su labor, una excelente educación de calidad.', '../../../assets/img/equipo/Julianvergara.png', 'Julián Mesa', NULL, 'A +', 'activo'),
 ('INGRID LILIANA', 'LASPRILLA GARCIA', 'matriculas@unicab.org', 'ZVJqXjqJHhbuHYD+8gWmWg==', 'AR', 1049630464, 'ADMINISTRATIVA', 'NA', '315 696 5291', '315 696 5291', 'SECRETARIA ACADEMICA', 'ADMINISTRADORA COMERCIAL Y FINANCIERA', '', '', 'Liliana Lasprilla', 'https://unicab.org/assets/img/equipo/ingrit_liliana.png', 'B +', 'activo'),
@@ -632,9 +2765,6 @@ INSERT INTO tbl_empleados (nombres, apellidos, email, pc, perfil, n_documento, d
 ('DIANA', 'SANCHEZ', 'dianasanchez@unicab.org', 'zjn4IOYM4XjkGMepQso4mQ==', 'TU', 1052397899, 'PENSAMIENTO HUMANISTICO INGLES', 'NA', '321 492 5803', 'NA', 'TUTOR MEDIADOR', 'NA', 'NA', 'NA', '', 'https://unicab.org/assets/img/equipo/Diana.png', 'NA', 'activo'),
 ('HAYDER ORLANDO', 'ZORRO RIZO', 'hayderzorrorizo2@gmail.com', 'ZF7VKAVqJtHq0XrKzF0PLA==', 'TU', 1058352021, 'ADMINISTRATIVA', 'NA', '000 000 0000', 'NA', 'CREADOR DE CONTENIDO', 'NA', 'NA', 'NA', 'Hayder Zorro', NULL, 'NA', 'activo'),
 ('ARNULFO', 'MESA LARA', 'arnulfomesa@gmail.com', 'w8GbK1amufoYODUQLb5mmw==', 'PS', 9526629, 'ADMINISTRATIVA', '', '000 000 0000', 'NA', 'ASESOR', 'NA', 'NA', 'NA', 'Arnulfo Mesa', NULL, 'NA', 'activo');
-
-/*ALTER TABLE tbl_empleados
-MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;*/
 
 /*######################################################################################################*/
 
