@@ -53,7 +53,7 @@
 	$sql_info = "SELECT av.*, avp.paso_numero, e.nombres, e.apellidos, e.acudiente_1, e.email_acudiente_1, g.grado 
 	FROM tbl_asistente_virtual av JOIN estudiantes e ON av.documento_estudiante = e.n_documento 
 	JOIN tbl_asistente_virtual_pasos avp ON av.paso = avp.paso 
-	LEFT JOIN grados g ON av.id_grado = g.id 
+	LEFT JOIN tbl_grados g ON av.id_grado = g.id 
 	WHERE av.documento_estudiante = ? AND av.a = ?";
 	//$params = [$documento, $fanio];
 	//$datos->sql_info = mostrarSentencia($sql_info, $params);

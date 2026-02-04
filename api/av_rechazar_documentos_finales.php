@@ -48,7 +48,7 @@
 	$datos->respuesta_correo = "";
 	
 	$sql_info = "SELECT av.*, avp.paso_numero, e.nombres, e.apellidos, e.acudiente_1, e.email_acudiente_1, g.grado 
-	FROM tbl_asistente_virtual av, estudiantes e, grados g, tbl_asistente_virtual_pasos avp 
+	FROM tbl_asistente_virtual av, tbl_estudiantes e, tbl_grados g, tbl_asistente_virtual_pasos avp 
 	WHERE av.documento_estudiante = e.n_documento AND av.id_grado = g.id AND av.paso = avp.paso 
 	AND av.documento_estudiante = ? AND av.a = ?";
 	$exe_info = $mysqli1->prepare($sql_info);

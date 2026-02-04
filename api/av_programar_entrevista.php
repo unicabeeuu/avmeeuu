@@ -36,7 +36,7 @@
 	//echo "control";
 	
 	//Se buscan los datos del estudiante y acudiente
-	$sql_estudiante = "SELECT * FROM estudiantes WHERE n_documento = '$documento_est'";
+	$sql_estudiante = "SELECT * FROM tbl_estudiantes WHERE n_documento = '$documento_est'";
 	$res_estudiante = $mysqli1->query($sql_estudiante);
 	while($row_estudiante = $res_estudiante->fetch_assoc()){
 		$nombre_est = $row_estudiante['nombres']." ".$row_estudiante['apellidos'];
