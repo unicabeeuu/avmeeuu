@@ -3,6 +3,7 @@
 CREATE DATABASE admin_unieeuu DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;*/
 
 /*######################################################################################################*/
+SET SQL_SAFE_UPDATES = 0;
 
 DROP TABLE IF EXISTS tbl_carga_profesor;
 
