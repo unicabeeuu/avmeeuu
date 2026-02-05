@@ -31,7 +31,7 @@
 	$datos = new stdClass();
 	
 	//Se valida que el documento y grado ya existan
-	$sql_val = "SELECT COUNT(1) ct FROM estudiantes_eval_admision WHERE n_documento = '$documentoe' AND id_grado = ".$selgrado." AND año = $fanio";
+	$sql_val = "SELECT COUNT(1) ct FROM tbl_estudiantes_eval_admision WHERE n_documento = '$documentoe' AND id_grado = ".$selgrado." AND año = $fanio";
 	$exe_val = mysqli_query($conexion, $sql_val);
 	while ($row_val = mysqli_fetch_array($exe_val)) {
 		$ct = $row_val["ct"];
@@ -39,7 +39,7 @@
 	
 	if ($ct == 0) {
 		try {	
-			$sql_ins = "INSERT INTO estudiantes_eval_admision (nombre, n_documento, id_grado, email, observaciones, origen, año) 
+			$sql_ins = "INSERT INTO tbl_estudiantes_eval_admision (nombre, n_documento, id_grado, email, observaciones, origen, año) 
 			VALUES ('$nombreCompleto', '$documentoe', $selgrado, '$email', '', 'Institución Oficial', $fanio)";
 			//echo $sql_prem;
 			$exe_ins = mysqli_query($conexion, $sql_ins);	

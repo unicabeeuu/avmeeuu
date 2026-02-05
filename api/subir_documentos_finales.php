@@ -67,7 +67,7 @@
 	$idest = 0;
 	$datos->msg_estudiante = "";
 	$datos->msg_matricula = "";
-	$sql_buscar = "SELECT * FROM estudiantes WHERE n_documento = ?";
+	$sql_buscar = "SELECT * FROM tbl_estudiantes WHERE n_documento = ?";
 	$params = [$documento];
 	//$datos->consulta_valida_documento = mostrarSentencia($sql_buscar, $params);
 	$exe_buscar = $mysqli1->prepare($sql_buscar);
@@ -77,7 +77,7 @@
 
 	while ($row = $result->fetch_assoc()) {
 		$idest = $row['id'];
-		$sql_update = "UPDATE estudiantes SET fecha_nacimiento = ?, expedicion = ?, ciudad = ?, direccion_estudiante = ?
+		$sql_update = "UPDATE tbl_estudiantes SET fecha_nacimiento = ?, expedicion = ?, ciudad = ?, direccion_estudiante = ?
 		WHERE n_documento = ?";
 		$params = [$fecha_nacimiento, $expedicion, $ciudad, $direccion_estudiante, $documento];
 		//$datos->consulta_update_est = mostrarSentencia($sql_update, $params);
@@ -96,8 +96,8 @@
 		//$sql_mat = "SELECT n_matricula FROM matricula 
 		//WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE n_matricula like '%$a1%' AND id_estudiante = $idest)";
 		$param_n_matricula = '%'.$a1.'%';
-		$sql_mat = "SELECT n_matricula FROM matricula 
-		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE n_matricula like ? AND id_estudiante = ? )";
+		$sql_mat = "SELECT n_matricula FROM tbl_matriculas 
+		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM tbl_matriculas WHERE n_matricula like ? AND id_estudiante = ? )";
 		$params = [$param_n_matricula, $idest];
 		//$datos->consulta_n_matricula = mostrarSentencia($sql_mat, $params);
 		//echo $consulta;
@@ -113,13 +113,13 @@
 		
 		//$sql_update1 = "UPDATE matricula SET estado = 'solicitud', EstadoGrado = '$fecha2' WHERE id_estudiante = $idest AND n_matricula = '$n_matricula'";
 		if($control_antiguos == 1) {
-			$sql_update1 = "UPDATE matricula SET estado = 'antiguo_solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'antiguo_solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}
 		else if($estado == "nuevo") {
-			$sql_update1 = "UPDATE matricula SET estado = 'nuevo_solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'nuevo_solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}
 		else {
-			$sql_update1 = "UPDATE matricula SET estado = 'solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}		
 		$params = [$fecha2, $idest, $n_matricula];
 		//$datos->consulta_update_mat = mostrarSentencia($sql_update1, $params);
@@ -137,7 +137,7 @@
 	//Se valida si quedó el registro en la tabla de matrículas
 	$idestmat = 0;
 	//$sqlidmat = "SELECT id_estudiante FROM matricula WHERE id_estudiante = $idest";
-	$sql_idmat = "SELECT id_estudiante FROM matricula WHERE id_estudiante = ?";
+	$sql_idmat = "SELECT id_estudiante FROM tbl_matriculas WHERE id_estudiante = ?";
 	$params = [$idest];
 	//$datos->consulta_idestmat = mostrarSentencia($sql_idmat, $params);
 	//echo $consulta;

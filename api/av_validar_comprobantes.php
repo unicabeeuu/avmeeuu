@@ -97,7 +97,7 @@
 		//Se consulta el certificado final de calificaciones
 		$ruta = "";
 		$id_grado = $id_grado - 1;
-		$sql_certificado = "SELECT * FROM certificado WHERE identificacion = ? AND numero like '%CFF%' AND a = ? AND tipo_certificado = 'Certificado final' AND id_grado = ?";
+		$sql_certificado = "SELECT * FROM tbl_certificados WHERE identificacion = ? AND numero like '%CFF%' AND a = ? AND tipo_certificado = 'Certificado final' AND id_grado = ?";
 		//$params = [$documento, $a1, $id_grado];
 		//$datos->consulta_certificado_final = mostrarSentencia($sql_certificado, $params);
 		//echo $consulta;

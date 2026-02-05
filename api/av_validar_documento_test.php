@@ -55,8 +55,8 @@
 	$keys = ['id_gra','gra'];
 	$i = 0;	
 	
-	$tablae = "estudiantes";
-	$tablam = "matricula";
+	$tablae = "tbl_estudiantes";
+	$tablam = "tbl_matriculas";
 	$ct_av = 0;
 	$paso = 0;
 	$datos->paso = 1;
@@ -104,7 +104,7 @@
 	if($maxid == 0) {
 	    $datos->estado = "nuevo";
 	    //Se cargan los grados
-	    $query_g = "SELECT * FROM grados WHERE id > 1 AND id < 19";
+	    $query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
 	    $resultadog = $mysqli1->query($query_g);
     	while($rowg = $resultadog->fetch_assoc()) {
     	    $valores = [$rowg['id'],$rowg['grado']];
@@ -195,7 +195,7 @@
 		else {
 			$datos->estado = "nuevo";
 			//Se cargan los grados
-			$query_g = "SELECT * FROM grados WHERE id > 1 AND id < 19";
+			$query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
 			$resultadog = $mysqli1->query($query_g);
 			while($rowg = $resultadog->fetch_assoc()) {
 				$valores = [$rowg['id'],$rowg['grado']];
@@ -270,7 +270,7 @@
 					//echo "control antiguos 1";
 					if($row1['estado'] == "aprobado") {
 						//Se cargan los grados
-						$query_g = "SELECT * FROM grados WHERE id = ".$row1['id_grado']." + 1";
+						$query_g = "SELECT * FROM tbl_grados WHERE id = ".$row1['id_grado']." + 1";
 						$resultadog = $mysqli1->query($query_g);
 						while($rowg = $resultadog->fetch_assoc()) {
 							$valores = [$rowg['id'],$rowg['grado']];
@@ -281,7 +281,7 @@
 					}
 					else  {
 						//Se cargan los grados
-						$query_g = "SELECT * FROM grados WHERE id = ".$row1['id_grado'];
+						$query_g = "SELECT * FROM tbl_grados WHERE id = ".$row1['id_grado'];
 						$resultadog = $mysqli1->query($query_g);
 						while($rowg = $resultadog->fetch_assoc()) {
 							$valores = [$rowg['id'],$rowg['grado']];
@@ -294,7 +294,7 @@
 				else if ($control_antiguos == 2 || $control_antiguos == 0) {
 					//echo "control antiguos 2";
 					//Se cargan los grados
-					$query_g = "SELECT * FROM grados WHERE id > 1 AND id < 19";
+					$query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
 					$resultadog = $mysqli1->query($query_g);
 					while($rowg = $resultadog->fetch_assoc()) {
 						$valores = [$rowg['id'],$rowg['grado']];
@@ -310,7 +310,7 @@
 	}
 	
 	//Se consulta el código de entrevista para estudiatnes que no sean nuevos
-	$sqlcodigo = "SELECT *, ifnull(id, 0) id1 FROM entrevistas WHERE documento = '$documento'";
+	$sqlcodigo = "SELECT *, ifnull(id, 0) id1 FROM tbl_entrevistas WHERE documento_est = '$documento'";
 	//echo $sqlcodigo;
 	$resultado_c = $mysqli1->query($sqlcodigo);
 	while($rowc = $resultado_c->fetch_assoc()) {
@@ -318,7 +318,7 @@
 	}
 	$id = (is_null($id)) ? 0 : $id;
 	if($id == 0) {
-	    $sqlcodigo1 = "SELECT *, ifnull(id, 0) id1 FROM tbl_pre_matricula WHERE documento_est = '$documento' AND año < $fanio";
+	    $sqlcodigo1 = "SELECT *, ifnull(id, 0) id1 FROM tbl_pre_matriculas WHERE documento_est = '$documento' AND año < $fanio";
     	//echo $sqlcodigo1;
     	$resultado_c1 = $mysqli1->query($sqlcodigo1);
     	while($rowc1 = $resultado_c1->fetch_assoc()) {
@@ -332,7 +332,7 @@
 	
 	//Se valida si ya tiene un proceso de pre matrícula abierto
 	$datos->procesoAbierto = "NO";
-	$sql_pre_matricula = "SELECT * FROM tbl_pre_matricula WHERE documento_est = '$documento' AND año = $fanio";
+	$sql_pre_matricula = "SELECT * FROM tbl_pre_matriculas WHERE documento_est = '$documento' AND año = $fanio";
 	$resultado_pre_matricula = $mysqli1->query($sql_pre_matricula);
 	while($rowpm = $resultado_pre_matricula->fetch_assoc()) {
 	    $datos->procesoAbierto = "SI";
@@ -357,7 +357,7 @@
 	//Se consulta el estado de la entrevista
 	$entrevista = "NO";
 	$admitido = 0;
-	$sql_entrevista = "SELECT entrevista, admitido FROM tbl_pre_matricula WHERE documento_est = '$documento' AND año = $fanio";
+	$sql_entrevista = "SELECT entrevista, admitido FROM tbl_pre_matriculas WHERE documento_est = '$documento' AND año = $fanio";
 	$resultado_entrevista = $mysqli1->query($sql_entrevista);
 	while($row_entrevista = $resultado_entrevista->fetch_assoc()) {
 	    $entrevista = $row_entrevista["entrevista"];
@@ -378,7 +378,7 @@
 	//Se valida si el código de pre-matricula corresponde al documento
 	$ct_c1 = 0;
 	$sql_c1 = "SELECT COUNT(1) ct, email_pre_mat 
-	FROM tbl_cod_pre_matricula WHERE identificacion = $documento AND codigo = '$codigo' 
+	FROM tbl_cod_pre_matricula WHERE identificacion = '$documento' AND codigo = '$codigo' 
 	GROUP BY email_pre_mat";
 	//echo $sql_c1;
 	
@@ -428,7 +428,7 @@
         if($ct_eval_val == 1) {
             $datos->res_validacion = "APROBADO";
             //Se consulta el grado a matricular
-           /*$sql_grado_ant = "SELECT * FROM grados WHERE id = $max_idgrado + 1";
+           /*$sql_grado_ant = "SELECT * FROM tbl_grados WHERE id = $max_idgrado + 1";
            $exe_grado_ant = $mysqli1->query($sql_grado_ant);
             while($row_grado_ant = $exe_grado_ant->fetch_assoc()) {
                 //$datos->idgra_validacion_ant = $row_grado_ant['id'];
@@ -439,8 +439,8 @@
         }
         else {
             $datos->res_validacion = "NO APROBADO";
-            /*$datos->idgra_a_matricular = $max_idgrado;
-            $datos->gra_a_matricular = $max_grado;*/
+            //$datos->idgra_a_matricular = $max_idgrado;
+            //$datos->gra_a_matricular = $max_grado;
         }
     }
 	else {
@@ -576,7 +576,7 @@
 		WHEN 18 THEN (CASE i.pago_icfes WHEN 'SI' THEN 'PAGADO' ELSE 'PENDIENTE' END) ELSE 'NO APLICA' END estado_icfes, 
 		CASE WHEN i.deuda_anterior > 0 THEN (CASE WHEN i.pago_deuda >= i.deuda_anterior THEN 'PAGADA' ELSE 'PENDIENTE' END) ELSE 'SIN DEUDA' END estado_deuda_anterior, 
 		i.deuda_anterior - i.pago_deuda deuda_pendiente 
-		FROM tbl_informacion_financiera i, estudiantes e, matricula m 
+		FROM tbl_informacion_financiera i, tbl_estudiantes e, tbl_matriculas m 
 		WHERE i.documento_estudiante = e.n_documento AND e.id = m.id_estudiante AND e.n_documento = '$documento' AND e.nombres IS NOT NULL 
 		ORDER BY a DESC LIMIT 1";
 	//echo $sql_deuda;
@@ -634,7 +634,7 @@
 	
 	//Se consulta el grado si ya hay registro en matrícula para el nuevo año_matricula
 	$sql_grado_matricula = "SELECT m.*, g.grado 
-	FROM matricula m, grados g, estudiantes e 
+	FROM tbl_matriculas m, tbl_grados g, tbl_estudiantes e 
 	WHERE e.id = m.id_estudiante AND m.id_grado = g.id AND m.n_matricula like '%$fanio%' AND e.n_documento = '$documento'";
 	//echo $sql_grado_matricula;
 	$res_grado_matricula = $mysqli1->query($sql_grado_matricula);
@@ -646,7 +646,7 @@
 	$datos->grado_matricular = $grado;
 	
 	//Se consulta el grado, en caso de que no se haya hecho todavía el nuevo registro en matrícula --- consulta anterior
-	$sql_grado = "SELECT * FROM grados WHERE id = ".$datos->id_grado_matricular;
+	$sql_grado = "SELECT * FROM tbl_grados WHERE id = ".$datos->id_grado_matricular;
 	$res_grado = $mysqli1->query($sql_grado);
 	while ($row_grado = $res_grado->fetch_assoc()) {
 		$datos->grado_matricular = $row_grado['grado'];
@@ -660,7 +660,7 @@
 	$pension = 0;
 	$ocp = 0;
 	if ($idGrado > 0) {
-		$sql_costos_matricula = "SELECT * FROM tbl_costos_unicab WHERE a = $fanio AND id_grado = $idGrado";
+		$sql_costos_matricula = "SELECT * FROM tbl_costos WHERE a = $fanio AND id_grado = $idGrado";
 		//echo $sql_costos_matricula;
 		$res_costos_matricula = $mysqli1->query($sql_costos_matricula);
 		while ($row_costos_matricula = $res_costos_matricula->fetch_assoc()) {
@@ -683,7 +683,7 @@
 	$datos->id_medio = 1;
 	$datos->medio = "PAGINA WEB UNICAB";
 	$sql_medio = "SELECT pm.*, IFNULL(pm.id_medio, 0) id_medio1, m.medio 
-	FROM tbl_pre_matricula pm, tbl_medios_llegada m 
+	FROM tbl_pre_matriculas pm, tbl_medios_llegada m 
 	WHERE IFNULL(pm.id_medio, 0) = m.id AND pm.documento_est = '$documento' ORDER BY id DESC LIMIT 1";
 	//echo $sql_medio;
 	$res_medio = $mysqli1->query($sql_medio);
