@@ -214,13 +214,13 @@
     $descuento = 0;
     $ct_pagos = 0;
         
-	$sql_beca = "SELECT * FROM tbl_becas WHERE identificacion = $documento AND periodo_lectivo = 2026";
+	/*$sql_beca = "SELECT * FROM tbl_becas WHERE identificacion = $documento AND periodo_lectivo = 2026";
 	$res_beca=$mysqli1->query($sql_beca);
     while($row_beca = $res_beca->fetch_assoc()){
         $beca = $row_beca['beca'];
         $descuento = $row_beca['descuento'];
         $ct_pagos = $row_beca['ct_pagos'];
-    }
+    }*/
     
     $sql_costos = "SELECT * FROM tbl_costos WHERE a = $fanio AND id_grado = $idgra";
     //echo $sql_costos;
@@ -290,12 +290,12 @@
         $sql_updins_est = "UPDATE tbl_estudiantes SET  
         telefono_estudiante = $cel, tipo_documento = $tdoc, 
         email_acudiente_1 = '$emailA', acudiente_1 = '$nombreA', telefono_acudiente_1 = '$celA', documento_responsable = '$documentoA', 
-        estado = '$rh', parentesco_acudiente_1 = '$parentesco1' 
+        rh = '$rh', parentesco_acudiente_1 = '$parentesco1' 
         WHERE n_documento = '$documento'";
     }
     else if($estnuevo == "SI") {
 		if($estado == "nuevo") {
-			$sql_updins_est = "INSERT INTO tbl_estudiantes (apellidos, nombres, genero, tipo_documento, n_documento, telefono_estudiante, actividad_extra, situacion_se, estado, 
+			$sql_updins_est = "INSERT INTO tbl_estudiantes (apellidos, nombres, genero, tipo_documento, n_documento, telefono_estudiante, actividad_extra, situacion_se, rh, 
 			email_acudiente_1, acudiente_1, telefono_acudiente_1, parentesco_acudiente_1, fecha_datos, documento_responsable, a_matricula, 
 			direccion, direccion_estudiante) 
 			VALUES ('$apellidos', '$nombres', '$genero', $tdoc, '$documento', $cel, '$extra', '$situacion', '$rh',  
@@ -310,7 +310,7 @@
 			$sql_updins_est = "UPDATE tbl_estudiantes SET 
 			apellidos = '$apellidos', nombres = '$nombres', genero = '$genero', tipo_documento = $tdoc, telefono_estudiante = $cel, actividad_extra = '$extra', 
 			direccion = '$dirA', email_acudiente_1 = '$emailA', acudiente_1 = '$nombreA', telefono_acudiente_1 = '$celA', parentesco_acudiente_1 = '$parentesco1', 
-			documento_responsable = '$documentoA', estado = '$rh', situacion_se = '$situacion', email_institucional = '$email' 
+			documento_responsable = '$documentoA', rh = '$rh', situacion_se = '$situacion', email_institucional = '$email' 
 			WHERE n_documento = '$documento'";
 		}
 		//Se hace el insert en la tabla tbl_pre_matricula
@@ -327,7 +327,7 @@
     //echo "<br/>".$a;
     //echo $fanio."<br/>".$maxa;
     if($fanio == $maxa) {
-        $sql_mat = "SELECT MAX(idMatricula) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01'";
+        $sql_mat = "SELECT MAX(id) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01'";
         //echo "<br/>".$sql_mat;
         $exe_mat = mysqli_query($conexion,$sql_mat);
         while ($rowm = mysqli_fetch_array($exe_mat)) {
@@ -345,7 +345,7 @@
 		//Se captura el n_matricula del maxid
 		//$sql_n_matric = "SELECT n_matricula FROM matricula WHERE idMatricula = $consecutivo";
 		$sql_n_matric = "SELECT n_matricula FROM tbl_matriculas 
-		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01')";
+		WHERE id = (SELECT MAX(id) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01')";
 		$exe_n_matric = $mysqli1->query($sql_n_matric);
 		while($row_n_matric = $exe_n_matric->fetch_assoc()) {
 			$n_matric = $row_n_matric['n_matricula'];
@@ -446,9 +446,9 @@
 		
 	}
 	else {
-		$sql_insupd_prem = "INSERT INTO tbl_pre_matriculas (id_empleado, id_grado, documento_est, nombres_est, apellidos_est, fecha, actividad_extra, 
+		$sql_insupd_prem = "INSERT INTO tbl_pre_matriculas (id_grado, documento_est, nombres_est, apellidos_est, fecha, actividad_extra, 
 		nombre_a, celular_a, email_a, ciudad_a, entrevista, eval, id_medio, año) 
-		VALUES (18, $idgra, '$documento', '$nombres', '$apellidos', '$fecha2', '$extra', 
+		VALUES ($idgra, '$documento', '$nombres', '$apellidos', '$fecha2', '$extra', 
 		'$nombreA', '$celA', '$emailA', '', 'NO', 0, $medio, $fanio)";
 	}
 	//echo "<br>".$sql_insupd_prem;

@@ -97,7 +97,7 @@
 		//WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE n_matricula like '%$a1%' AND id_estudiante = $idest)";
 		$param_n_matricula = '%'.$a1.'%';
 		$sql_mat = "SELECT n_matricula FROM tbl_matriculas 
-		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM tbl_matriculas WHERE n_matricula like ? AND id_estudiante = ? )";
+		WHERE id = (SELECT MAX(id) maxid FROM tbl_matriculas WHERE n_matricula like ? AND id_estudiante = ? )";
 		$params = [$param_n_matricula, $idest];
 		//$datos->consulta_n_matricula = mostrarSentencia($sql_mat, $params);
 		//echo $consulta;

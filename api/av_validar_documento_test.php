@@ -83,7 +83,7 @@
 	}
 	
 	//Se hace la consulta del máximo registro en matrículas
-	$query0 = "SELECT IFNULL(max(m.idmatricula), 0) maxid FROM ".$tablae." e, ".$tablam." m WHERE e.id = m.id_estudiante AND e.n_documento = '$documento'";
+	$query0 = "SELECT IFNULL(max(m.id), 0) maxid FROM ".$tablae." e, ".$tablam." m WHERE e.id = m.id_estudiante AND e.n_documento = '$documento'";
 	//$query0 = "SELECT IFNULL(max(m.id), 0) maxid FROM ".$tablae." e, ".$tablam." m WHERE e.id = m.id_estudiante AND e.n_documento = '$documento'";
 	//echo $query0;
 	$resultado0 = $mysqli1->query($query0);
@@ -135,10 +135,10 @@
 		//SELECT * FROM `tbl_informacion_financiera` WHERE `documento_estudiante` IN ('9397454','93974541','93974542','93974543','93974544','93974545'); 
 		
 		if($mes < 10) {
-			$sql_val_estado = "SELECT *, (YEAR(NOW()) - 1 - YEAR(fecha_ingreso)) diferencia, YEAR(now()) actual FROM ".$tablam." WHERE idMatricula = $maxid";
+			$sql_val_estado = "SELECT *, (YEAR(NOW()) - 1 - YEAR(fecha_ingreso)) diferencia, YEAR(now()) actual FROM ".$tablam." WHERE id = $maxid";
 		}
 		else {
-			$sql_val_estado = "SELECT *, (YEAR(NOW()) - YEAR(fecha_ingreso)) diferencia, YEAR(now()) actual FROM ".$tablam." WHERE idMatricula = $maxid";
+			$sql_val_estado = "SELECT *, (YEAR(NOW()) - YEAR(fecha_ingreso)) diferencia, YEAR(now()) actual FROM ".$tablam." WHERE id = $maxid";
 		}
 		//echo $sql_val_estado."<br>";
 		$res_val_estado = $mysqli1->query($sql_val_estado);
@@ -226,12 +226,12 @@
 		
 		//echo $control_antiguos;
 		if ($control_antiguos == 1 || $control_antiguos == 2 || $estado_val == "nuevo_pre_solicitud" || $estado_val == "nuevo_solicitud") {
-			$query1 = "SELECT m.estado, m.id_grado, e.nombres, e.apellidos, e.telefono_estudiante, e.email_institucional, e.estado rh, 
+			$query1 = "SELECT m.estado, m.id_grado, e.nombres, e.apellidos, e.telefono_estudiante, e.email_institucional, e.rh, 
 			e.acudiente_1, e.email_acudiente_1, e.direccion, e.telefono_acudiente_1, 
-			e.documento_responsable, td.id, td.tipo_documento, e.ciudad, e.actividad_extra, e.genero, e.documento_responsable, e.parentesco_acudiente_1, 
-			IFNULL(e.situacion_se, '') situacion_se, e.expedicion, e.fecha_nacimiento, e.direccion_estudiante, e.ciudad   
+			e.documento_responsable, td.id, td.tipo_documento, e.ciudad, e.actividad_extra, e.genero, e.parentesco_acudiente_1, 
+			IFNULL(e.situacion_se, '') situacion_se, e.expedicion, e.fecha_nacimiento, e.direccion_estudiante 
 			FROM ".$tablae." e, ".$tablam." m, tbl_tipos_documento td 
-			WHERE e.id = m.id_estudiante AND e.tipo_documento = td.id AND e.n_documento = '$documento' AND m.idmatricula = $maxid";
+			WHERE e.id = m.id_estudiante AND e.tipo_documento = td.id AND e.n_documento = '$documento' AND m.id = $maxid";
 			//$query1 = "SELECT m.estado, m.id_grado FROM ".$tablae." e, ".$tablam." m WHERE e.id = m.id_estudiante AND e.n_documento = '$documento' AND m.id = $maxid";
 			//echo $query1;
 			$resultado1 = $mysqli1->query($query1);
@@ -396,7 +396,7 @@
 	$datos->email_prematricula = $email_premat;
 	
 	//Se busca si debe presentar evaluación de validación
-	$sql_val_ct = "SELECT COUNT(1) ct FROM tbl_validaciones WHERE documento_est = '$documento' AND año = '$fanio'";
+	/*$sql_val_ct = "SELECT COUNT(1) ct FROM tbl_validaciones WHERE documento_est = '$documento' AND año = '$fanio'";
 	//echo $sql_val_ct;
 	$exe_val_ct= $mysqli1->query($sql_val_ct);
     while($row_val_ct = $exe_val_ct->fetch_assoc()) {
@@ -428,14 +428,14 @@
         if($ct_eval_val == 1) {
             $datos->res_validacion = "APROBADO";
             //Se consulta el grado a matricular
-           /*$sql_grado_ant = "SELECT * FROM tbl_grados WHERE id = $max_idgrado + 1";
+           $sql_grado_ant = "SELECT * FROM tbl_grados WHERE id = $max_idgrado + 1";
            $exe_grado_ant = $mysqli1->query($sql_grado_ant);
             while($row_grado_ant = $exe_grado_ant->fetch_assoc()) {
                 //$datos->idgra_validacion_ant = $row_grado_ant['id'];
                 $datos->idgra_a_matricular = $row_grado_ant['id'];
                 //$datos->gra_validacion_ant = $row_grado_ant['grado'];
                 $datos->gra_a_matricular = $row_grado_ant['grado'];
-            }*/
+            }
         }
         else {
             $datos->res_validacion = "NO APROBADO";
@@ -450,7 +450,7 @@
 	   $datos->res_validacion = "NA";
 	   //$datos->idgra_a_matricular = "NA";
        //$datos->gra_a_matricular = "NA";
-	}
+	}*/
 	
 	//Se valida si ya presentó la evaluación de presaberes
 	$datos->evaluacionPresaberes = "NO";
