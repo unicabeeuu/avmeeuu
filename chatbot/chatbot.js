@@ -6954,7 +6954,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/av_pre_admisiones1_nuevos.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/av_pre_admisiones1_nuevos.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datosForm)

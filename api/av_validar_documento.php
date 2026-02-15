@@ -92,6 +92,8 @@
 	}
 	$datos->maxid = $maxid;
 	
+	$datos->nombre = "Hola";
+	$datos->apellidos = "";
 	$datos->acudiente = "";
 	$datos->emailA = "";
 	$datos->telA = "";
@@ -115,8 +117,7 @@
 		$datos->rh = "NA";
 		
 		//Se buscan datos iniciales... ¡si existen!
-		$query1 = "SELECT e.acudiente_1, e.email_acudiente_1, e.ciudad, e.telefono_acudiente_1 
-	    FROM ".$tablae." e 
+		$query1 = "SELECT e.* FROM ".$tablae." e 
 	    WHERE e.n_documento = '$documento'";
 	    //echo $query1;
         $resultado1 = $mysqli1->query($query1);
@@ -125,6 +126,9 @@
     	    $datos->emailA = $row1['email_acudiente_1'];
     	    $datos->telA = $row1['telefono_acudiente_1'];
     	    $datos->ciudadA = $row1['ciudad'];
+
+			$datos->nombres = $row1['nombres'];
+			$datos->apellidos = $row1['apellidos'];
     	}
 	}
 	else {
@@ -309,6 +313,7 @@
 	    
 	}
 	
+	$id = 0;
 	//Se consulta el código de entrevista para estudiatnes que no sean nuevos
 	$sqlcodigo = "SELECT *, ifnull(id, 0) id1 FROM tbl_entrevistas WHERE documento_est = '$documento'";
 	//echo $sqlcodigo;
@@ -738,7 +743,7 @@
 	$keys = ['id_parentesco','parentesco'];
 	$i = 0;
 	$parentescos = array();
-	$sql_parentescos = "SELECT * FROM tbl_parentesos";
+	$sql_parentescos = "SELECT * FROM tbl_parentescos";
 	$res_parentescos = $mysqli1->query($sql_parentescos);
 	while ($row_parentescos = $res_parentescos->fetch_assoc()) {
 		$valores = [$row_parentescos['id'],$row_parentescos['parentesco']];

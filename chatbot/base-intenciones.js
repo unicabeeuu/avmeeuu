@@ -52,7 +52,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Ingresa el número de documento del estudiante a matricular.",
         accion: "validar_documento",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php", // ← Cambia por tu URL real
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php", // ← Cambia por tu URL real
         mensaje_espera: "Validando documento...",
         mensaje_exito: "✅ Documento válido. Puedes continuar con el proceso.",
         mensaje_error: "❌ El documento ingresado no es válido. Por favor, verifica e inténtalo de nuevo."
