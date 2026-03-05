@@ -483,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.1.1.2" && data.validacion_comprobante_deuda == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.1.1.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -536,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.3" && data.evaluacionPresaberes == "SI") {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                             let msgControl = "paso 3.4 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -656,7 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.5.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.5.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.6.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -774,7 +774,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.3" && data.evaluacionPresaberes == "SI") {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -814,7 +814,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                             let msgControl = "paso 4.4 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -894,7 +894,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.5.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.5.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -934,7 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.6.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1003,7 +1003,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         if (paso == "2.1") {
                                             let msgControl = "paso 2.1 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1043,7 +1043,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "2.1.1.2" && data.validacion_comprobante_deuda == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.1.1.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1125,7 +1125,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "2.3.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.3.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1165,7 +1165,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "2.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.4.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1272,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "1.3.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 1.3.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1312,7 +1312,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "1.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 1.4.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1368,7 +1368,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (paso == "1.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 1.4.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1421,7 +1421,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "2.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 2.4.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1474,7 +1474,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "3.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 3.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1527,7 +1527,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "4.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 4.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1580,7 +1580,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1679,7 +1679,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.3" && data.evaluacionPresaberes == "SI") {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.3 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1719,7 +1719,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                         let msgControl = "paso 5.4 terminado";
                                         //Se consume web service de cambio de paso
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1799,7 +1799,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.5.2" && data.validacion_comprobante_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.5.2 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1839,7 +1839,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2286,7 +2286,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -2306,7 +2306,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 1.3 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2318,7 +2318,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 1.3.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2598,7 +2598,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_cd") {
                             let msgControl = "paso 2.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2650,7 +2650,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_cd") {
                             let msgControl = "paso 2.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2741,7 +2741,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se debe devolver un paso
                     let msgControl = "paso 2.1.1.1 pendiente";
                     //Se consume web service de cambio de paso
-                    fetch("https://unicab.org/avadmisiones/av_update_paso_anterior.php", {
+                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso_anterior.php", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2793,7 +2793,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_deuda", file);
                     formData.append("valor", deuda);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_deuda.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_deuda.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -2815,7 +2815,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             let msgControl = "paso 2.1.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3237,7 +3237,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -3257,7 +3257,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 2.3 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3269,7 +3269,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 2.3.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3527,7 +3527,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_nuevo_cd") {
                             let msgControl = "paso 3.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3579,7 +3579,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_nuevo_cd") {
                             let msgControl = "paso 3.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3670,7 +3670,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se debe devolver un paso
                     let msgControl = "paso 3.1.1.1 pendiente";
                     //Se consume web service de cambio de paso
-                    fetch("https://unicab.org/avadmisiones/av_update_paso_anterior.php", {
+                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso_anterior.php", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3722,7 +3722,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("valor", deuda);
 
                     //fetch('chatbot/subir-comprobante-deuda.php', {
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_deuda.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_deuda.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -3752,7 +3752,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             let msgControl = "paso 3.1.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -4098,7 +4098,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -4375,7 +4375,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -4395,7 +4395,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 3.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -4407,7 +4407,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 3.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -4953,7 +4953,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -5230,7 +5230,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -5250,7 +5250,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 4.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5262,7 +5262,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 4.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5645,7 +5645,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -5922,7 +5922,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -5942,7 +5942,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 5.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5954,7 +5954,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 5.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -6968,7 +6968,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se consume web service de cambio de paso
                     if (paso == "1.2") {
                         let msgControl = "paso 1.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -6981,7 +6981,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 1.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7002,7 +7002,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.2") {
                         let msgControl = "paso 2.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7015,7 +7015,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 2.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7036,7 +7036,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.2") {
                         let msgControl = "paso 3.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7049,7 +7049,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 3.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7063,7 +7063,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         //Se valida que no sea ciclos o primero
                                         if (data.id_grado == 2 || data.id_grado > 12) {
                                             let msgControl = "paso 3.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7090,7 +7090,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.2") {
                         let msgControl = "paso 4.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7103,7 +7103,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 4.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7117,7 +7117,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         //Se valida que no sea ciclos o primero
                                         if (data.id_grado == 2 || data.id_grado > 12) {
                                             let msgControl = "paso 4.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7144,7 +7144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.2") {
                         let msgControl = "paso 5.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7158,7 +7158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 //Se valida que no sea ciclos o primero
                                 if (data.id_grado == 2 || data.id_grado > 12) {
                                     let msgControl = "paso 5.3 terminado";
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7477,7 +7477,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/subir_documentos_finales.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales.php', {
                 method: 'POST',
                 body: formData
             })
@@ -7489,7 +7489,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se consume web service de cambio de paso
                     if (paso == "1.4") {
                         let msgControl = "paso 1.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7515,7 +7515,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.4") {
                         let msgControl = "paso 2.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7541,7 +7541,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.6") {
                         let msgControl = "paso 3.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7567,7 +7567,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.6") {
                         let msgControl = "paso 4.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7593,7 +7593,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.6") {
                         let msgControl = "paso 5.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7793,7 +7793,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/subir_documentos_finales_invalidos.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales_invalidos.php', {
                 method: 'POST',
                 body: formData
             })
@@ -7805,7 +7805,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //Se consume web service de cambio de paso
                     if (paso == "1.4") {
                         let msgControl = "paso 1.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7831,7 +7831,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.4") {
                         let msgControl = "paso 2.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7857,7 +7857,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.6") {
                         let msgControl = "paso 3.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7883,7 +7883,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.6") {
                         let msgControl = "paso 4.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7909,7 +7909,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.6") {
                         let msgControl = "paso 5.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })

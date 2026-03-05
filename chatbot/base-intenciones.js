@@ -67,7 +67,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
         accion: "datos_actuales_ant_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
                 texto: "Actualizar datos", //Si 
@@ -87,7 +87,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_inicial_ant_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//matrícula antiguo sd
         etiqueta: "costos_matricula_ant_sd",
@@ -204,7 +204,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_final_antiguo_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//validando documentos antiguo sd
         etiqueta: "validando_documentos_ant_sd",
@@ -322,7 +322,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
         accion: "datos_actuales_ant_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
                 texto: "Actualizar datos", //Si 
@@ -348,7 +348,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_inicial_ant_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//matrícula antiguo cd
         etiqueta: "costos_matricula_ant_cd",
@@ -465,7 +465,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_final_antiguo_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//validando documentos antiguo cd
         etiqueta: "validando_documentos_ant_cd",
@@ -586,7 +586,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
         accion: "datos_actuales_ant_nuevo_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php",
+        url: "http://localhost:990/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
                 texto: "Actualizar datos", //Si 
@@ -612,7 +612,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_inicial_ant_nuevo_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php" // ← Tu API real
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" // ← Tu API real
     },
     {//botón evaluación admisión ant nuevo cd
         etiqueta: "evaluacion_admision_ant_nuevo_cd",
@@ -626,7 +626,7 @@ const BASE_INTENCIONES = [
                 texto: "Link Evaluación Admisión",
                 valor: "link_evaluacion_admision", 
                 tipo: "servicio", 
-                url: "https://unicab.org/homeunicabpro/business/org/pages/evaluacionPresaberes_sm.php" 
+                url: ":https//unicab.org/homeunicabpro/business/org/pages/evaluacionPresaberes_sm.php" 
             }
         ]
     },
@@ -635,7 +635,7 @@ const BASE_INTENCIONES = [
         claves: [
             "opciones entrevista antiguo nuevo"
         ],
-        url: "https://unicab.org/avadmisiones/av_opciones_entrevista.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
         respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
         accion: "entrevista_ant_nuevo_cd"
     },
@@ -769,7 +769,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_final_antiguo_nuevo_cd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php" // ← Tu API real
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" // ← Tu API real
     },
     {//validando documentos antiguo nuevo cd
         etiqueta: "validando_documentos_ant_nuevo_cd",
@@ -797,7 +797,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
         accion: "datos_actuales_ant_nuevo_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
                 texto: "Actualizar datos", //Si 
@@ -823,7 +823,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_inicial_ant_nuevo_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//botón evaluación admisión ant nuevo sd
         etiqueta: "evaluacion_admision_ant_nuevo_sd",
@@ -846,7 +846,7 @@ const BASE_INTENCIONES = [
         claves: [
             "opciones entrevista antiguo nuevo"
         ],
-        url: "https://unicab.org/avadmisiones/av_opciones_entrevista.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
         respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
         accion: "entrevista_ant_nuevo_sd"
     },
@@ -980,7 +980,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_final_antiguo_nuevo_sd",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php" 
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" 
     },
     {//validando documentos antiguo nuevo sd
         etiqueta: "validando_documentos_ant_nuevo_sd",
@@ -1009,7 +1009,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Te damos la bienvenida a formar parte de nuestro ecosistema de educación. Por favor, completa la información solicitada:",
         accion: "formulario_inicial_nuevo",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//botón evaluación nuevo
         etiqueta: "evaluacion_admision_nuevo",
@@ -1032,7 +1032,7 @@ const BASE_INTENCIONES = [
         claves: [
             "opciones entrevista nuevo"
         ],
-        url: "https://unicab.org/avadmisiones/av_opciones_entrevista.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
         respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
         accion: "entrevista_nuevo"
     },
@@ -1166,7 +1166,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, revisa y completa la información solicitada:",
         accion: "formulario_final_nuevo",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php" 
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" 
     },
     {//validando documentos nuevo
         etiqueta: "validando_documentos_nuevo",
@@ -1195,7 +1195,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Por favor, sube los siguientes documentos:",
         accion: "formulario_final_documentos_invalidos",
-        url: "https://unicab.org/avadmisiones/av_validar_documento.php"
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
 
 

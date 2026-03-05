@@ -5,7 +5,7 @@
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
 	set_time_limit(300);
-	//https://unicab.org/avadmisiones/av_validar_documento.php 1222114726 
+	//http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php?documento=93974541
 	
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost");
