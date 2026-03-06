@@ -34,7 +34,7 @@
 		exit;
 	}*/
 	
-    require '../PhpSpreadsheet/vendor/autoload.php';
+    require '../chatbot/librerias/PhpSpreadsheet/vendor/autoload.php';
     
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -477,7 +477,7 @@
     
     // ###################### INICIO CONTRATO ###################
 	try {
-		$inputFileName = '../registro/adminunicab/php/contratos/formato_contrato.xlsx';
+		$inputFileName = '../chatbot/documentos/formato_contrato.xlsx';
 		$spreadsheet = IOFactory::load($inputFileName);
 		$spreadsheet->setActiveSheetIndex(0); //opcional
 		$sheet = $spreadsheet->getActiveSheet();
