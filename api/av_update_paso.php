@@ -1,6 +1,6 @@
 <?php
 	//Genera el select de los grados
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");

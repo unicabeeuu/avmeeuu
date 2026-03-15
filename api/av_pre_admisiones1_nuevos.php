@@ -70,12 +70,12 @@
     $emailA = $data['correo_acudiente'];
 	$parentesco1 = strtoupper($data['parentesco']);
     
-    if(is_null($fn)) {
+    /*if(is_null($fn)) {
 		//No hace nada
 	}
 	else {
 		$partesfn = explode("-", $fn);
-	}
+	}*/
 	
 	//Se busca el grado
 	$grado = "";
@@ -381,7 +381,7 @@
         $idest = $rowid['id'];
     }*/
 	$exe_id=$mysqli1->query($sqlid);
-	while($rowm = $exe_id->fetch_assoc()){
+	while($rowid = $exe_id->fetch_assoc()){
 		$idest = $rowid['id'];
 	}
 	//echo $idest;
@@ -398,37 +398,37 @@
             $ct_matric = $row_valm['ct'];
         }*/
 		$exe_valm=$mysqli1->query($sql_valm);
-		while($rowm = $exe_valm->fetch_assoc()){
+		while($row_valm = $exe_valm->fetch_assoc()){
 			$ct_matric = $row_valm['ct'];
 		}
         //echo $ct_matric;
         if($ct_matric == 0) {
             if($mes >= 10) {
 				if($control_antiguos == 1) {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha3', 'antiguo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'antiguo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else if($estado == "nuevo") {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha3', 'nuevo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'nuevo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha3', 'pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
         	}
         	else {
 				if($control_antiguos == 1) {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha2', 'antiguo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'antiguo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else if($estado == "nuevo") {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha2', 'nuevo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'nuevo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else {
-					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado) 
-					VALUES ('$n_matricula', '$fecha2', 'pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
         	}
             
@@ -440,7 +440,7 @@
 	
     //************FIN ACTUALIZACION TABLAS ESTUDIANTES Y MATRICULA **************************************************************
     
-    $sql_insert2 = str_replace(" ", "_", $sql_insert1);
+    //$sql_insert2 = str_replace(" ", "_", $sql_insert1);
     //echo "<br/>".$sql_insert2;
 	
 	//**************************************************************************************************************
@@ -518,14 +518,14 @@
 			$sheet->setCellValue('E22', "X");
 		}
 		$sheet->setCellValue('F22', $documento);
-		if(is_null($fn)) {
+		/*if(is_null($fn)) {
 			//No hace nada
 		}
 		else {
 			$sheet->setCellValue('O22', $partesfn[2]);
 			$sheet->setCellValue('P22', $partesfn[1]);
 			$sheet->setCellValue('R22', $partesfn[0]);
-		}
+		}*/
 		if($genero == "MASCULINO") {
 			$sheet->setCellValue('T22', "M");
 		}
@@ -540,7 +540,7 @@
 			$ultgrado = $row_ultgrado['grado'];
 		}*/
 		$exe_ultgrado = $mysqli1->query($sql_ultgrado);	
-		while($row_premat = $exe_ultgrado->fetch_assoc()){
+		while($row_ultgrado = $exe_ultgrado->fetch_assoc()){
 			$ultgrado = $row_ultgrado['grado'];
 		}
 		//echo "<br/>".$sql_ultgrado;
@@ -549,18 +549,18 @@
 		//Se calcula la edad
 		//echo "<br/>fn ".$fn;
 		//echo "<br/>a ".$partesfn[0]." m ".$partesfn[1]." d ".$partesfn[2];
-		$difa = $fanio1 - $partesfn[0];
+		/*$difa = $fanio1 - $partesfn[0];
 		$difm = $mes - $partesfn[1];
-		$difd = $dia - $partesfn[2];
+		$difd = $dia - $partesfn[2];*/
 		//echo "<br/>difa ".$difa." difm ".$difm." difd ".$difd;
-		if($difm <= 0 && $difd < 0) {
+		/*if($difm <= 0 && $difd < 0) {
 			$difa--;
-		}
+		}*/
 		//$sheet->setCellValue('K26', $difa);
 		
 		$sheet->setCellValue('C27', $cel);
 		$sheet->setCellValue('M27', $email);
-		$sheet->setCellValue('C28', $aextra);
+		//$sheet->setCellValue('C28', $aextra);
 		
 		//Inicio Datos Acudiente
 		$sheet->setCellValue('C34', $nombreA);
@@ -578,13 +578,13 @@
 			$sheet->setCellValue('C46', $celA);
 			$sheet->setCellValue('K46', $emailA);
 		}
-		else if($parentesco2 == "PADRE") {
+		/*else if($parentesco2 == "PADRE") {
 			$sheet->setCellValue('C41', $nombre2);
 			//$sheet->setCellValue('C43', $documentoA);
 			//$sheet->setCellValue('I44', $dirA);
 			$sheet->setCellValue('C46', $tel2);
 			$sheet->setCellValue('K46', $email2);
-		}
+		}*/
 		//Fin Datos Padre
 		
 		//Inicio Datos Madre
@@ -595,18 +595,18 @@
 			$sheet->setCellValue('C53', $celA);
 			$sheet->setCellValue('K53', $emailA);
 		}
-		else if($parentesco2 == "MADRE") {
+		/*else if($parentesco2 == "MADRE") {
 			$sheet->setCellValue('C48', $nombre2);
 			//$sheet->setCellValue('C50', $documentoA);
 			//$sheet->setCellValue('I51', $dirA);
 			$sheet->setCellValue('C53', $tel2);
 			$sheet->setCellValue('K53', $email2);
-		}
+		}*/
 		//Fin Datos Madre
 		
 		$sheet->setCellValue('H75', $nombre_completo);
 		$sheet->setCellValue('F76', $nombreA);
-		$sheet->setCellValue('L76', $nombre2);
+		//$sheet->setCellValue('L76', $nombre2);
 		
 		$partescomienzocontrato = explode("/", $comienzocontrato);
 		$partesfincontrato = explode("/", $fincontrato);
@@ -667,7 +667,7 @@
 			$ct_contrato = $row_contrato['ct'];
 		}*/
 		$exe_contrato = $mysqli1->query($sql_contrato);	
-		while($row_premat = $exe_contrato->fetch_assoc()){
+		while($row_contrato = $exe_contrato->fetch_assoc()){
 			$ct_contrato = $row_contrato['ct'];
 		}
 		if($ct_contrato == 0) {
@@ -703,7 +703,7 @@
 	$exe_upd_grado_av = $mysqli1->query($sql_upd_grado_av);	
 	
 	//Se debe programar la evaluación admisión
-	$url_eval_admisiones = "av_programar_eval_admision.php";
+	$url_eval_admisiones = "http://localhost:90/avmeeuu/avmeeuu/api/av_programar_eval_admision.php";
 	$params = [
 		'nombree' => $nombres,
 		'apellidoe' => $apellidos,
@@ -731,17 +731,17 @@
 	}
 	
 	//Se envía correo de aviso de inico de proceso
-	$url_solutions = "https://unicab.solutions/avadmisiones_inicio_proceso_correo.php";
+	$url_mail = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_inicio_proceso_correo.php";
 	$data_original_json = json_encode($data);
 	$params = [
 		'data_original_json' => $data_original_json
 	];
 	//var_dump($params); 
 	// Construir la URL completa con parámetros --- Esto no funciona cuando se envía archivos
-	//$url_con_params = $url_solutions . '?' . http_build_query($params);
+	//$url_con_params = $url_mail . '?' . http_build_query($params);
 
 	// Usar cURL para hacer la llamada interna
-	$ch = curl_init($url_solutions);
+	$ch = curl_init($url_mail);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // (solo si estás en entorno local de prueba)
 	curl_setopt($ch, CURLOPT_POST, 1);

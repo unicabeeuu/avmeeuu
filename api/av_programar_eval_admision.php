@@ -1,11 +1,11 @@
  <?php 
  	//require "../../php/conexion.php";
-	require "../admin-unicab/php/conexion.php";
+	require("../bd/1cc2s4db.php");
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	//header("Access-Control-Allow-Origin: http://localhost:90");
 	//header("Access-Control-Allow-Methods: GET, POST"); //, OPTIONS
 	//header("Access-Control-Allow-Headers: Content-Type");
-	//https://unicab.org/avadmisiones/av_programar_eval_admision.php?nombree=GREGORY&apellidoe=FIGUEREDO&documentoe=93974543&selgrado=7&email=gregory.figueredo@unicab.org
+	//http://localhost:90/avmeeuu/avmeeuu/api/av_programar_eval_admision.php?nombree=GREGORY&apellidoe=FIGUEREDO&documentoe=93974543&selgrado=5&email=gregory.figueredo@unicab.org
 
 	$nombree = strtoupper($_REQUEST['nombree']);
 	$apellidoe = strtoupper($_REQUEST['apellidoe']);
@@ -32,8 +32,12 @@
 	
 	//Se valida que el documento y grado ya existan
 	$sql_val = "SELECT COUNT(1) ct FROM tbl_estudiantes_eval_admision WHERE n_documento = '$documentoe' AND id_grado = ".$selgrado." AND año = $fanio";
-	$exe_val = mysqli_query($conexion, $sql_val);
+	/*$exe_val = mysqli_query($conexion, $sql_val);
 	while ($row_val = mysqli_fetch_array($exe_val)) {
+		$ct = $row_val["ct"];
+	}*/
+	$exe_val=$mysqli1->query($sql_val);
+	while($row_val  = $exe_val->fetch_assoc()){
 		$ct = $row_val["ct"];
 	}
 	
@@ -42,7 +46,8 @@
 			$sql_ins = "INSERT INTO tbl_estudiantes_eval_admision (nombre, n_documento, id_grado, email, observaciones, origen, año) 
 			VALUES ('$nombreCompleto', '$documentoe', $selgrado, '$email', '', 'Institución Oficial', $fanio)";
 			//echo $sql_prem;
-			$exe_ins = mysqli_query($conexion, $sql_ins);	
+			//$exe_ins = mysqli_query($conexion, $sql_ins);	
+			$exe_ins = $mysqli1->query($sql_ins);
 		
 			$datos->status = "success";
 			$datos->mensaje = "Evaluación de admisión programada con éxito";
