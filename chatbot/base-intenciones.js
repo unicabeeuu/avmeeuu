@@ -837,7 +837,7 @@ const BASE_INTENCIONES = [
                 texto: "Link Evaluación Admisión",
                 valor: "link_evaluacion_admision", 
                 tipo: "servicio", 
-                url: "https://unicab.org/homeunicabpro/business/org/pages/evaluacionPresaberes_sm.php" 
+                url: "http://localhost:90/avmeeuu/avmeeuu/api/evaluacionPresaberes_sm.php" 
             }
         ]
     },
