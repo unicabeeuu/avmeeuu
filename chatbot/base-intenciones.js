@@ -837,7 +837,7 @@ const BASE_INTENCIONES = [
                 texto: "Link Evaluación Admisión",
                 valor: "link_evaluacion_admision", 
                 tipo: "servicio", 
-                url: "http://localhost:90/avmeeuu/avmeeuu/api/evaluacionPresaberes_sm.php" 
+                url: "https://thriveusa.org/business/org/pages/evaluacionPresaberes_sm.php" 
             }
         ]
     },
