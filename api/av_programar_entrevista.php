@@ -1,5 +1,6 @@
 <?php
-    require("../registro/docenteunicab/updreg/1cc3s4db.php");
+    //require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	// Habilitar CORS solo para tu entorno local durante desarrollo
@@ -66,7 +67,8 @@
 		$exe_ins = $mysqli1->query($sql_ins);
 		
 		//Se hace el envío del correo
-		$url_eval_entrevista = "https://unicab.solutions/avadmisiones_entrevista_correo_us.php";
+		//$url_eval_entrevista = "https://unicab.solutions/avadmisiones_entrevista_correo_us.php";
+		$url_eval_entrevista = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_programacion_entrevista_correo.php";
 		$params = [
 			'noma' => $nombre_a,
 			'psi' => $psicologo1,

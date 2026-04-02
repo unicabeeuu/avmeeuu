@@ -1,5 +1,6 @@
 <?php
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
@@ -73,7 +74,8 @@
 	$partes = explode("-", $fileName);
 	$documento = $partes[0];
     $filePath = $uploadDir . $fileName;
-	$ruta = "https://unicab.org/avadmisiones/".$filePath;
+	//$ruta = "https://unicab.org/avadmisiones/".$filePath;
+	$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$filePath;
 
     //Se valida la estructura del archivo
     $nombre_base = pathinfo($fileName, PATHINFO_FILENAME);
@@ -114,7 +116,8 @@
 		//header('Location: https://unicab.solutions/avadmisiones_enviosoporte.php?ruta='.rawurlencode($ruta).'&tipo=deuda&documento='.rawurlencode($documento).'&archivo='.rawurlencode($fileName));
 		
 		// --- En lugar de redirigir, llamamos internamente al servidor B ---
-		$url_solutions = "https://unicab.solutions/avadmisiones_enviosoporte.php";
+		//$url_solutions = "https://unicab.solutions/avadmisiones_enviosoporte.php";
+		$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_envio_comprobante_matricula_correo.php";
 		$params = [
 			'ruta' => $ruta,
 			'tipo' => 'matrícula',

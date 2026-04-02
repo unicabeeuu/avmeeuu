@@ -2698,8 +2698,14 @@ CREATE TABLE tbl_empleados (
   estado varchar(20)  CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+INSERT INTO `tbl_empleados` (`nombres`, `apellidos`, `email`, `pc`, `perfil`, `n_documento`, `dependencia`, `skype`, `celular`, `celular_what`, `cargo`, `profesion`, `descripcion`, `foto`, `nombre_corto`, `infografia`, `rh`, `estado`) VALUES
+('NA', 'NA', 'NA', 'NA', 'NA', 0, 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA');
+
+UPDATE tbl_empleados SET id = 0 WHERE n_documento = 0;
+
+ALTER TABLE tbl_empleados AUTO_INCREMENT = 1;
+
 INSERT INTO `tbl_empleados` (`id`, `nombres`, `apellidos`, `email`, `pc`, `perfil`, `n_documento`, `dependencia`, `skype`, `celular`, `celular_what`, `cargo`, `profesion`, `descripcion`, `foto`, `nombre_corto`, `infografia`, `rh`, `estado`) VALUES
-(0, 'NA', 'NA', 'NA', 'NA', 'NA', 0, 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA'),
 (1, 'IMELDA', 'VERGARA', 'rectoria@unicab.org', 'aGaZRQ3n55KcwCxx/enWHg==', 'AR_AW', 46352177, 'RECTORIA', 'NA', '', '322 254 0389', 'RECTORA', 'INGENIERA DE MINAS', 'Soy respetuosa de mí misma, autónoma, comprometida y agradecida con la vida. Ingeniera de Minas de profesión, gerente social por convicción, apasionada por aprender, investigar y liderar procesos que generen mejores condiciones de vida, con respeto, dignidad y confiabilidad. Me encanta bailar, degustar buenos alimentos y caminar para mantener mi cuerpo, mi mente y mi alma en equilibrio. Feliz por ser la cocreadora de UNICAB, de ver los excelentes resultados de quienes han confiado en este proyecto. Sueño con un mundo de seres humanos felices, libres y en armonía con la naturaleza.', '../../../assets/img/equipo/imeldavergara.png', 'Imelda Vergara', NULL, 'O +', 'activo'),
 (2, 'JULIAN ADOLFO', 'MESA VERGARA', 'psico01@unicab.org', 'Dhph+K0OBrDCxpTvKawNRp093HwtKghR9lWYsXhn0Lw=', 'AR_AW', 1057583959, 'COORDINACION ACADEMICA', 'https://meet.google.com/hfj-atbe-bjm', '318 400 4412', '318 400 4412', 'COORDINADOR ACADEMICO', 'PSICÓLOGO CLINICO', 'Soy un apasionado por el deporte y la lectura ya que fue un privilegio que me cambió la vida y me brinda mayores posibilidades junto a mi profesión, de poder abrir más puertas para mi crecimiento, apoyar a más personas y seguir aprendiendo constantemente. Me gusta observar más allá, observar y vivir el presente. Dentro de UNICAB manejo lo concerniente a la psicología y desde esta direcciono lo que es la coordinación académica. Para lograr junto con un equipo de maestros apasionados por su labor, una excelente educación de calidad.', '../../../assets/img/equipo/Julianvergara.png', 'Julián Mesa', NULL, 'A +', 'activo'),
 (3, 'INGRID LILIANA', 'LASPRILLA GARCIA', 'matriculas@unicab.org', 'ZVJqXjqJHhbuHYD+8gWmWg==', 'AR', 1049630464, 'ADMINISTRATIVA', 'NA', '315 696 5291', '315 696 5291', 'SECRETARIA ACADEMICA', 'ADMINISTRADORA COMERCIAL Y FINANCIERA', '', '', 'Liliana Lasprilla', 'https://unicab.org/assets/img/equipo/ingrit_liliana.png', 'B +', 'activo'),
