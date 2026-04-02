@@ -1,5 +1,6 @@
  <?php 
- 	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+ 	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost:90");
 	header("Access-Control-Allow-Methods: GET, POST"); //, OPTIONS
