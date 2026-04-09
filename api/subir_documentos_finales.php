@@ -1,10 +1,11 @@
 <?php
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
 	set_time_limit(300);
-	//https://unicab.org/avadmisiones/subir_documentos_finales.php
+	//http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales.php
 	
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost:90");
@@ -175,7 +176,14 @@
 		
 		//Se agregan los certificados finales de calificaciones 
 		if($estado == "nuevo" || $control_antiguos == 2) {
-            if($idGradoIngreso >= 7 && $idGradoIngreso < 13) {
+			//Esto faltaba... para nuevos
+			$documentos[] = 'retiro_SIMAT';
+			$documentos[] = 'buena_conducta';
+			
+			if($idGradoIngreso > 2 && $idGradoIngreso < 7) {
+				$documentos[] = 'calificaciones'.$idGradoIngreso - 2;
+			}
+            else if($idGradoIngreso >= 7 && $idGradoIngreso < 13) {
 				for ($i = 5; $i < $idGradoIngreso - 1; $i++) {
 					$documentos[] = 'calificaciones'.$i;
 				}
@@ -230,7 +238,8 @@
 				// Asignación del nombre con prefijo
 				$safe_file_name = $input_field_name . '_' . $file_name;
 				$destination_path = $uploadDir.$safe_file_name;
-				$ruta = "https://unicab.org/avadmisiones/".$destination_path;
+				//$ruta = "https://unicab.org/avadmisiones/".$destination_path;
+				$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$destination_path;
 
 				// Mover el archivo
 				if (move_uploaded_file($file_tmp_path, $destination_path)) {
@@ -249,7 +258,7 @@
 					$archivos_fallidos[] = $safe_file_name;				
 				}
 			} 
-			elseif (isset($file_info) && $file_info['error'] !== UPLOAD_ERR_NO_FILE) {
+			else if (isset($file_info) && $file_info['error'] !== UPLOAD_ERR_NO_FILE) {
 				$archivos_fallidos[] = $input_field_name . " (Código: " . $file_info['error'] . ")";
 			}
 		}
@@ -278,7 +287,8 @@
 				'ruta'      => $ruta_comprobante
 			];			
 			
-			$url_solutions = "https://unicab.solutions/avadmisiones_send_f_antiguos.php";
+			//$url_solutions = "https://unicab.solutions/avadmisiones_send_f_antiguos.php";
+			$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_admisiones_sent_f_antiguos_correo.php";
 			// 1. Codificar los arrays a JSON (Cadenas de texto)
 			$metadata_success_json = json_encode($archivos_guardados_info);
 			$metadata_failed_json = json_encode($archivos_fallidos);
@@ -303,7 +313,7 @@
 			curl_close($ch);
 			
 			$respuesta_json = json_decode($respuesta_b, true); // el "true" lo convierte en array asociativo
-			$datos->respuesta_correo = $respuesta_json['mensaje'];
+			$datos->respuesta_correo = $respuesta_json['mensaje_correo'];
 		}		
 	}	
 	

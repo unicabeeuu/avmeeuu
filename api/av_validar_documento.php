@@ -154,7 +154,7 @@
 			$n_matricula = $row_val_estado['n_matricula'];
 			$fecha_ingreso = $row_val_estado['fecha_ingreso'];
 		}
-		
+		$datos->estado_val = $estado_val;
 		if ($estado_val == 'antiguo_pre_solicitud' || $estado_val == 'antiguo_solicitud') {
 			$control_antiguos = 1;
 		}
