@@ -2438,7 +2438,9 @@ CREATE TABLE tbl_parametros (
 
 INSERT INTO tbl_parametros (parametro, v1, v2, t1, t2, f1, f2) VALUES
 ('mat_ordinarias', NULL, NULL, NULL, NULL, '2025-10-01', '2026-03-31'),
-('mat_extraordinarias', NULL, NULL, NULL, NULL, '2025-10-01', '2026-03-31')
+('mat_extraordinarias', NULL, NULL, NULL, NULL, '2025-10-01', '2026-03-31'),
+('cierre1P', NULL, NULL, NULL, NULL, '2026-03-20', NULL),
+('cierre2P', NULL, NULL, NULL, NULL, '2026-05-29', NULL)
 ;
 
 

@@ -24,16 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');
     const month = date.getMonth();
+    let month1 = "";
     const year = date.getFullYear();
     let year1 = year;
     if ((month + 1) >= 10) {
         year1++;
     }
+    if ((month + 1) < 10) {
+        month1 = "0" + (month + 1);
+    }
+
     const fecha = year + "" + (month + 1) + "" + day; 
+    const fecha2 = year + "-" + month1 + "-" + day; 
     let referencia_pago = "";
     let referencia_pago_m = "";
     let admitido = 0;
     let entrevista = "NO";
+    let cierre1P = fecha;
+    let cierre2P = fecha;
     let intentos_programacion_entrevista = 0;
 
     // Delegación para inputs y textareas
@@ -343,6 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             matricula = data.pp;
                             admitido = data.admitido;
                             entrevista = data.entrevista;
+                            cierre1P = data.cierre1P;
+                            cierre2P = data.cierre2P;
                             intentos_programacion_entrevista = parseInt(data.intentos_programacion_entrevista);
                             $("#s-nombre").html(nombre_estudiante + " - " + cc);
 
@@ -7356,6 +7366,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     crearCampoArchivo(form, "Adjunta certificado final calificaciones grado " + _grados[datos.id_grado_matricular - 2], "calificaciones" + (datos.id_grado_matricular - 2), true);
                 }
             }
+
+            // ########################## se agregan los certificados de notas de periodos anteriores ######################################
+            if(fecha2 > cierre2P) {
+                crearCampoArchivo(form, "Adjunta certificado de calificaciones primer periodo ", "calificaciones_1P", true);
+                crearCampoArchivo(form, "Adjunta certificado de calificaciones segundo periodo ", "calificaciones_2P", true);
+            }
+            else if(fecha2 > cierre1P) {
+                crearCampoArchivo(form, "Adjunta certificado de calificaciones primer periodo ", "calificaciones_1P", true);
+            }
+            // #############################################################################################################################
         }       
 
         // --- Paso 6: SUBE LOS SIGUIENTES DOCUMENTOS DEL ACUDIENTE---

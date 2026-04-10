@@ -537,6 +537,28 @@
 			$datos->mat_extraordinaria = "NO";
 		}
 	}
+
+	//consultar las fechas de cierre de periodo
+	$cierre1P = $fechaHoy;
+	$cierre2P = $fechaHoy;
+	$sql_cierre_periodos = "SELECT parametro, f1 FROM tbl_parametros WHERE parametro IN (?, ?)";
+	$params = ['cierre1P', 'cierre2P'];
+	$exe_cierre_periodos = $mysqli1->prepare($sql_cierre_periodos);
+    $exe_cierre_periodos->bind_param('ss', $params[0], $params[1]);
+	$exe_cierre_periodos->execute();
+	$result = $exe_cierre_periodos->get_result();
+
+	while ($row_cierre_periodos = $result->fetch_assoc()) {
+		if( $row_cierre_periodos['parametro'] == 'cierre1P') {
+			$cierre1P = $row_cierre_periodos['f1'];
+		}
+		else if( $row_cierre_periodos['parametro'] == 'cierre2P') {
+			$cierre2P = $row_cierre_periodos['f1'];
+		}
+	}
+	$datos->cierre1P = $cierre1P;
+	$datos->cierre2P = $cierre2P;
+	
 	
 	//Se valida si el estudiante esta bloqueado
 	$bloqueado = "NO";
