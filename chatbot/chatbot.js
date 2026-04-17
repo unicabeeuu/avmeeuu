@@ -3730,6 +3730,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const formData = new FormData();
                     formData.append("comprobante_deuda", file);
                     formData.append("valor", deuda);
+                    console.log(formData);
 
                     //fetch('chatbot/subir-comprobante-deuda.php', {
                     fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_deuda.php', {
