@@ -265,7 +265,7 @@
 				// Asignación del nombre con prefijo
 				$safe_file_name = $input_field_name . '_' . $file_name;
 				$destination_path = $uploadDir.$safe_file_name;
-				//$ruta = "https://unicab.org/avadmisiones/".$destination_path;
+				//$ruta = "https://thriveusa.org/avmeeuu/".$destination_path;
 				$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$destination_path;
 
 				// Mover el archivo
@@ -314,7 +314,7 @@
 				'ruta'      => $ruta_comprobante
 			];			
 			
-			//$url_solutions = "https://unicab.solutions/avadmisiones_send_f_antiguos.php";
+			//$url_solutions = "https://unicab.solutions/avmeeuu_admisiones_sent_f_antiguos_correo";
 			$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_admisiones_sent_f_antiguos_correo.php";
 			// 1. Codificar los arrays a JSON (Cadenas de texto)
 			$metadata_success_json = json_encode($archivos_guardados_info);

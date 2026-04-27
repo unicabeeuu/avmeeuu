@@ -731,6 +731,7 @@
 	}
 	
 	//Se envía correo de aviso de inico de proceso
+	//$url_mail = "https://unicab.solutions/avmeeuu_inicio_proceso_correo.php";
 	$url_mail = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_inicio_proceso_correo.php";
 	$data_original_json = json_encode($data);
 	$params = [

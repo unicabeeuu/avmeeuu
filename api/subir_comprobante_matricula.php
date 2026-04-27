@@ -74,7 +74,7 @@
 	$partes = explode("-", $fileName);
 	$documento = $partes[0];
     $filePath = $uploadDir . $fileName;
-	//$ruta = "https://unicab.org/avadmisiones/".$filePath;
+	//$ruta = "https://thriveusa.org/avmeeuu/".$filePath;
 	$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$filePath;
 
     //Se valida la estructura del archivo
@@ -116,11 +116,11 @@
 		//header('Location: https://unicab.solutions/avadmisiones_enviosoporte.php?ruta='.rawurlencode($ruta).'&tipo=deuda&documento='.rawurlencode($documento).'&archivo='.rawurlencode($fileName));
 		
 		// --- En lugar de redirigir, llamamos internamente al servidor B ---
-		//$url_solutions = "https://unicab.solutions/avadmisiones_enviosoporte.php";
+		//$url_solutions = "https://unicab.solutions/avmeeuu_envio_comprobante_matricula_correo.php";
 		$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_envio_comprobante_matricula_correo.php";
 		$params = [
 			'ruta' => $ruta,
-			'tipo' => 'matrícula',
+			'tipo' => 'TUITION',
 			'documento' => $documento,
 			'archivo' => $fileName
 		];

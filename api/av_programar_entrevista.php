@@ -67,7 +67,7 @@
 		$exe_ins = $mysqli1->query($sql_ins);
 		
 		//Se hace el envío del correo
-		//$url_eval_entrevista = "https://unicab.solutions/avadmisiones_entrevista_correo_us.php";
+		//$url_eval_entrevista = "https://unicab.solutions/avmeeuu_programar_entrevista_correo.php";
 		$url_eval_entrevista = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_programacion_entrevista_correo.php";
 		$params = [
 			'noma' => $nombre_a,
