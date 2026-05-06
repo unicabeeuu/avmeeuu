@@ -115,7 +115,7 @@
 		];
 		//var_dump($archivos);
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_documentos_matricula.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_documentos_matricula_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$archivos_json = json_encode($archivos);
 		$data_original_json = json_encode($_POST);
@@ -166,7 +166,7 @@
 		//echo $ruta;
 		//var_dump($archivos);
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_documentos_matricula.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_documentos_matricula_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$archivos_json = json_encode($archivos);
 		$data_original_json = json_encode($_POST);
@@ -197,7 +197,7 @@
 		//echo "control deuda";
 		//Se envía como parámetro el documento
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_comprobante_deuda_validado.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_comprobante_deuda_validado_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$data_original_json = json_encode($_POST);
 		$params = [

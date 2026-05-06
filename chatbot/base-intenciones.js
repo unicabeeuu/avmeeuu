@@ -586,7 +586,7 @@ const BASE_INTENCIONES = [
         ],
         respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
         accion: "datos_actuales_ant_nuevo_cd",
-        url: "http://localhost:990/avmeeuu/avmeeuu/api/av_validar_documento.php",
+        url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
                 texto: "Actualizar datos", //Si 
@@ -626,7 +626,7 @@ const BASE_INTENCIONES = [
                 texto: "Link Evaluación Admisión",
                 valor: "link_evaluacion_admision", 
                 tipo: "servicio", 
-                url: ":https//unicab.org/homeunicabpro/business/org/pages/evaluacionPresaberes_sm.php" 
+                url: "https://thriveusa.org/business/org/pages/evaluacionPresaberes_sm.php" 
             }
         ]
     },
@@ -1023,7 +1023,7 @@ const BASE_INTENCIONES = [
                 texto: "Link Evaluación Admisión",
                 valor: "link_evaluacion_admision", 
                 tipo: "servicio", 
-                url: "https://unicab.org/homeunicabpro/business/org/pages/evaluacionPresaberes_sm.php" 
+                url: "https://thriveusa.org/business/org/pages/evaluacionPresaberes_sm.php" 
             }
         ]
     },
