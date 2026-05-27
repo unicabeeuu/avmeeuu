@@ -2293,8 +2293,8 @@ CREATE TABLE tbl_generos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_generos (genero) VALUES
-('FEMENINO'),
-('MASCULINO');
+('FEMALE'),
+('MALE');
 
 /*######################################################################################################*/
 
@@ -2336,12 +2336,12 @@ CREATE TABLE tbl_tipos_documento (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_tipos_documento (tipo_documento) VALUES
-('TARJETA DE IDENTIDAD'),
-('REGISTRO CIVIL'),
-('CEDULA'),
-('PASAPORTE'),
-('PERMISO DE PERMANENCIA TEMPORAL'),
-('PERMISO POR PROTECCIÓN TEMPORAL');
+('SOCIAL SECURITY CARD / SSN'),
+('BIRTH CERTIFICATE'),
+('STATE ID'),
+('PASSPORT'),
+('PERMANENT RESIDENT CARD (GREEN CARD)'),
+('EMPLOYMENT AUTHORIZATION DOCUMENT (EAD)');
 
 
 /*######################################################################################################*/
@@ -2354,24 +2354,24 @@ CREATE TABLE tbl_grados (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_grados (grado) VALUES
-('Sin grado'),
-('Primero'),
-('Segundo'),
-('Tercero'),
-('Cuarto'),
-('Quinto'),
-('Sexto'),
-('Séptimo'),
-('Octavo'),
-('Noveno'),
-('Décimo'),
-('UnDécimo'),
-('Ciclo I'),
-('Ciclo II'),
-('Ciclo III'),
-('Ciclo IV'),
-('Ciclo V'),
-('Ciclo VI')
+('No degree'),
+('First'),
+('Second'),
+('Third'),
+('Fourth'),
+('Fifth'),
+('Sixth'),
+('Seventh'),
+('Eighth'),
+('Ninth'),
+('Tenth'),
+('Eleventh'),
+('Cycle I'),
+('Cycle II'),
+('Cycle III'),
+('Cycle IV'),
+('Cycle V'),
+('Cycle VI')
 ;
 
 /*######################################################################################################*/
@@ -2578,10 +2578,10 @@ CREATE TABLE tbl_medios_llegada (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_medios_llegada (medio) VALUES
-('PAGINA WEB UNICAB'),
-('OTRAS PAGINAS WEB'),
-('RECOMENDACION'),
-('REDES SOCIALES');
+('THRIVE WEBSITE'),
+('OTHER WEBSITES'),
+('RECOMMENDATION'),
+('SOCIAL NETWORKS');
 
 /*######################################################################################################*/
 
@@ -2593,17 +2593,16 @@ CREATE TABLE tbl_parentescos (
 );
 
 INSERT INTO tbl_parentescos (parentesco) VALUES
-('MADRE'),
-('PADRE'),
-('ABUELA'),
-('ABUELO'),
-('HERMANA'),
-('HERMANO'),
-('TIA'),
-('TIO'),
-('PRIMA'),
-('PRIMO'),
-('OTRO');
+('MOTHER'),
+('FATHER'),
+('GRANDMOTHER'),
+('GRANDFATHER'),
+('SISTER'),
+('BROTHER'),
+('AUNT'),
+('UNCLE'),
+('COUSIN'),
+('OTHER');
 
 /*######################################################################################################*/
 

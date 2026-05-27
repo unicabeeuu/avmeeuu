@@ -12,7 +12,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido.";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -102,12 +102,12 @@
 		}
 		
 		$datos->status = "success";
-		$datos->mensaje = "Entrevista programada con éxito.";
+		$datos->mensaje = "Successfully scheduled interview.";
 		$datos->mensaje_entrevista = $mensaje_entrevista;
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "Agenda ocupada para esa fecha y hora.";
+		$datos->mensaje = "Schedule is full for that date and time.";
 		$datos->mensaje_entrevista = "";
 	}
 	

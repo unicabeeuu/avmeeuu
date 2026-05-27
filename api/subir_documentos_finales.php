@@ -31,7 +31,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}	
@@ -346,24 +346,24 @@
 	
 	if ($msg_estudiante == "EstudianteError") {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al guardar información del estudiante.";
+		$datos->mensaje = "❌ Error saving student information.";
 	}
 	else if ($msg_matricula == "MatriculaError") {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al guardar información de la matrícula.";
+		$datos->mensaje = "❌ Error saving registration information.";
 	}
 	else {
 		if (count($archivos_guardados_info) > 0) {
 			$datos->status = "success";
-			$datos->mensaje = "✅ Documentos y datos guardados con éxito";
+			$datos->mensaje = "✅ Documents and data saved successfully";
 		}
 		else if (count($archivos_fallidos) > 0) {
 			$datos->status = "error";
-			$datos->mensaje_fallidos = "❌ Datos guardados con éxito pero algunos documentos fallaron";
+			$datos->mensaje_fallidos = "❌ Data saved successfully, but some documents failed";
 		}
 		else {
 			$datos->status = "error";
-			$datos->mensaje_fallidos = "❌ Datos guardados con éxito pero los documentos fallaron";
+			$datos->mensaje_fallidos = "❌ Data saved successfully but documents failed";
 		}
 	}		
 	

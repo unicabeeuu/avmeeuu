@@ -21,7 +21,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -234,10 +234,10 @@
 	
 	if ($stmt->execute()) {
         $datos->status = "success";
-		$datos->mensaje = "✅ Comprobante validado con éxito";
+		$datos->mensaje = "✅ Receipt successfully validated";
     } else {
         $datos->status = "error";
-		$datos->mensaje = "❌ Error al validar el comprobante";
+		$datos->mensaje = "❌ Error validating the receipt";
     }	
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

@@ -36,14 +36,14 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!isset($documento)) {
 			$datos->status = "error";
-			$datos->mensaje = "Faltan campos requeridos";
+			$datos->mensaje = "Required fields are missing";
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 			exit;
 		}
 	} 
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}

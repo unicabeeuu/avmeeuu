@@ -30,7 +30,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}	
@@ -204,15 +204,15 @@
 	
 	if (count($archivos_guardados_info) > 0) {
 		$datos->status = "success";
-		$datos->mensaje = "✅ Documentos inválidos guardados con éxito";
+		$datos->mensaje = "✅ Invalid documents successfully saved";
 	}
 	else if (count($archivos_fallidos) > 0) {
 		$datos->status = "error";
-		$datos->mensaje_fallidos = "❌ Algunos documentos fallaron";
+		$datos->mensaje_fallidos = "❌ Some documents failed";
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje_fallidos = "❌ Los documentos fallaron";
+		$datos->mensaje_fallidos = "❌ The documents failed";
 	}			
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

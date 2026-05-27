@@ -2,40 +2,40 @@ const BASE_INTENCIONES = [
     {//Saludo
         etiqueta: "saludo",
         claves: ["hola", "buenos días", "buenas", "hey", "buenas tardes", "buenas noches"],
-        respuesta: "¡Hola! Soy tu asistente de admisiones. Es un gusto asistirlo/a en el proceso."
+        respuesta: "Hello! I'm your admissions assistant. It's a pleasure to assist you with the process."
     },
     {//menu inicial
         etiqueta: "menu_inicial",
         claves: ["admisiones", "iniciar admisiones", "quiero matricular", "iniciar matrícula", "nueva matrícula", "matrícula"],
-        respuesta: "Selecciona una opción para comenzar:",
+        respuesta: "Select an option to begin:",
         accion: "mostrar_menu_botones",
         botones: [
             {
-                texto: "Comenzar proceso de admisión",
+                texto: "Start admissions process",
                 valor: "iniciar_admision",
                 tipo: "intencion",
                 destino: "validar_documento"
             },
             {
-                texto: "Ver calendario",
+                texto: "See calendar",
                 valor: "descargar_calendario",
                 tipo: "d_pdf",
                 url: "https://unicab.org/calendario/calendario_2026_f.pdf"
             },
             {
-                texto: "Ver listado de documentos requeridos",
+                texto: "See list of required documents",
                 valor: "descargar_listado_documentos",
                 tipo: "d_pdf",
                 url: "https://unicab.org/assets/descargas/listado_documentos_1.pdf"
             },
             {
-                texto: "Ver costos colegio regular",
+                texto: "See regular school costs",
                 valor: "descargar_costos",
                 tipo: "d_pdf",
                 url: "https://unicab.org/assets/descargas/costos/Educacion_Regular_CIRCULAR_No_20_DE_18_DE_NOVIEMBRE_DE_2025.pdf"
             },
             {
-                texto: "Ver costos educación ciclos",
+                texto: "View educational costs for cycles",
                 valor: "descargar_costos",
                 tipo: "d_pdf",
                 url: "https://unicab.org/assets/descargas/costos/Educacion_por_Ciclos_CIRCULAR_No_21_DE_18_DE_NOVIEMBRE_DE_2025.pdf"
@@ -50,12 +50,12 @@ const BASE_INTENCIONES = [
             "validar identificación", 
             "validación de identificación"
         ],
-        respuesta: "Ingresa el número de documento del estudiante a matricular.",
+        respuesta: "Enter the document number of the student starting the registration process.",
         accion: "validar_documento",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php", // ← Cambia por tu URL real
-        mensaje_espera: "Validando documento...",
-        mensaje_exito: "✅ Documento válido. Puedes continuar con el proceso.",
-        mensaje_error: "❌ El documento ingresado no es válido. Por favor, verifica e inténtalo de nuevo."
+        mensaje_espera: "Validating document...",
+        mensaje_exito: "✅ Valid document. You can continue with the process.",
+        mensaje_error: "❌ The document you entered is not valid. Please check and try again."
     },
 
 
@@ -65,12 +65,12 @@ const BASE_INTENCIONES = [
         claves: [
             "datos actuales antiguo"
         ],
-        respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
+        respuesta: "These are the data currently recorded in our system:",
         accion: "datos_actuales_ant_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
-                texto: "Actualizar datos", //Si 
+                texto: "Update data", //Si 
                 valor: "actualizar_datos", 
                 tipo: "intencion", 
                 destino: "formulario_inicial_ant_sd" 
@@ -85,24 +85,24 @@ const BASE_INTENCIONES = [
             "datos cargados del estudiante", 
             "información inicial cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_inicial_ant_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//matrícula antiguo sd
         etiqueta: "costos_matricula_ant_sd",
         claves: ["matrícula", "costo matrícula", "pagar matrícula"], 
-        respuesta: "Los costos de matrícula para el grado |X| son:",
+        respuesta: "The tuition costs for grade |X| are:",
         accion: "costos_matricula_ant_sd",
         botones: [
             { 
-                texto: "Pagar matrícula", 
+                texto: "Pay tuition", 
                 valor: "pagar_matricula", 
                 tipo: "intencion", 
                 destino: "opciones_pago_matricula_antiguo_sd" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_sd" 
@@ -112,7 +112,7 @@ const BASE_INTENCIONES = [
     {//opciones pago matrícula sd
         etiqueta: "opciones_pago_matricula_antiguo_sd",
         claves: ["opciones de pago matrícula", "formas de pago matrícula"],
-        respuesta: "Selecciona una opción de pago para la matrícula de",
+        respuesta: "Select a payment option for tuition",
         accion: "opciones_pago_matricula_antiguo_sd",
         botones: [
             { 
@@ -140,7 +140,7 @@ const BASE_INTENCIONES = [
                 url: "pagoMatricula.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_sd" 
@@ -155,16 +155,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante matrícula",
             "cargar comprobante matrícula"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago matrícula por valor de",
+        respuesta: "Please attach your proof of tuition payment for the amount of",
         accion: "comprobante_matricula_ant_sd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated.",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_matricula_antiguo_sd"
             }
@@ -176,7 +176,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_matricula_ant_sd"
     },
     {//documentos finales ant sd
@@ -184,12 +184,12 @@ const BASE_INTENCIONES = [
         claves: [
             "documentos finales antiguo"
         ],
-        respuesta: "Estos son los documentos que se deben subir:",
+        respuesta: "These are the documents that need to be uploaded:",
         accion: "documentos_finales_ant_sd",
         tipos: ["pdf"],
         botones: [
             {
-            texto: "Subir documentos y completar datos",
+            texto: "Upload documents and complete data",
             tipo: "intencion",
             destino: "formulario_final_antiguo_sd"
             }
@@ -202,7 +202,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_final_antiguo_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
@@ -212,7 +212,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Documentos recibidos. Documentos en proceso de validación.",
+        respuesta: "✅ Documents received. Documents in the validation process.",
         accion: "validando_documentos_ant_sd"
     },
     {//Mensaje final
@@ -232,13 +232,13 @@ const BASE_INTENCIONES = [
         accion: "valor_dueda_ant_cd",
         botones: [
             { 
-                texto: "Pagar deuda", 
+                texto: "pay debt", 
                 valor: "pagar_deuda", 
                 tipo: "intencion", 
                 destino: "opciones_pago_deuda_antiguo" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_deuda_ant_cd" 
@@ -248,7 +248,7 @@ const BASE_INTENCIONES = [
     {//opciones pago deuda antiguo cd
         etiqueta: "opciones_pago_deuda_antiguo",
         claves: ["opciones de pago deuda", "formas de pago deuda"],
-        respuesta: "Selecciona una opción de pago para la deuda de",
+        respuesta: "Select a payment option for the debt of",
         accion: "opciones_pago_deuda_antiguo",
         botones: [
             { 
@@ -276,7 +276,7 @@ const BASE_INTENCIONES = [
                 url: "pagoDeuda.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_deuda_ant_cd" 
@@ -291,16 +291,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante deuda",
             "cargar comprobante deuda"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago deuda por valor de",
+        respuesta: "Please attach your proof of payment for the debt amounting to",
         accion: "comprobante_deuda_ant_cd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated.",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_deuda_antiguo"
             }
@@ -312,7 +312,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante deuda",
             "validar comprobante deuda"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_deuda_ant_cd"
     },
     {//mostrar datos actuales ant cd
@@ -320,12 +320,12 @@ const BASE_INTENCIONES = [
         claves: [
             "datos actuales antiguo"
         ],
-        respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
+        respuesta: "These are the data currently recorded in our system:",
         accion: "datos_actuales_ant_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
-                texto: "Actualizar datos", //Si 
+                texto: "Update data", //Si 
                 valor: "actualizar_datos", 
                 tipo: "intencion", 
                 destino: "formulario_inicial_ant_cd" 
@@ -346,24 +346,24 @@ const BASE_INTENCIONES = [
             "datos cargados del estudiante", 
             "información inicial cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_inicial_ant_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
     {//matrícula antiguo cd
         etiqueta: "costos_matricula_ant_cd",
         claves: ["matrícula", "costo matrícula", "pagar matrícula"], 
-        respuesta: "Los costos de matrícula para el grado |X| son:",
+        respuesta: "The tuition costs for grade |X| are:",
         accion: "costos_matricula_ant_cd",
         botones: [
             { 
-                texto: "Pagar matrícula", 
+                texto: "Pay tuition", 
                 valor: "pagar_matricula", 
                 tipo: "intencion", 
                 destino: "opciones_pago_matricula_antiguo_cd" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_cd" 
@@ -373,7 +373,7 @@ const BASE_INTENCIONES = [
     {//opciones pago matrícula cd
         etiqueta: "opciones_pago_matricula_antiguo_cd",
         claves: ["opciones de pago matrícula", "formas de pago matrícula"],
-        respuesta: "Selecciona una opción de pago para la matrícula de",
+        respuesta: "Select a payment option for tuition",
         accion: "opciones_pago_matricula_antiguo_cd",
         botones: [
             { 
@@ -401,7 +401,7 @@ const BASE_INTENCIONES = [
                 url: "pagoMatricula.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_cd" 
@@ -416,16 +416,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante matrícula",
             "cargar comprobante matrícula"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago matrícula por valor de",
+        respuesta: "Please attach your proof of tuition payment for the amount of",
         accion: "comprobante_matricula_ant_cd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_matricula_antiguo_cd"
             }
@@ -437,7 +437,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_matricula_ant_cd"
     },
     {//documentos finales ant cd
@@ -445,12 +445,12 @@ const BASE_INTENCIONES = [
         claves: [
             "documentos finales antiguo"
         ],
-        respuesta: "Estos son los documentos que se deben subir:",
+        respuesta: "These are the documents that need to be uploaded:",
         accion: "documentos_finales_ant_cd",
         tipos: ["pdf"],
         botones: [
             {
-            texto: "Subir documentos y completar datos",
+            texto: "Upload documents and complete data",
             tipo: "intencion",
             destino: "formulario_final_antiguo_cd"
             }
@@ -463,7 +463,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_final_antiguo_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
@@ -473,7 +473,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Documentos recibidos. Documentos en proceso de validación.",
+        respuesta: "✅ Documents received. Documents in the validation process.",
         accion: "validando_documentos_ant_cd"
     },
     {//Mensaje final
@@ -496,13 +496,13 @@ const BASE_INTENCIONES = [
         //destino: "opciones_pago",
         botones: [
             { 
-                texto: "Pagar deuda", 
+                texto: "pay debt", 
                 valor: "pagar_deuda", 
                 tipo: "intencion", 
                 destino: "opciones_pago_deuda_antiguo_nuevo" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_deuda_ant_nuevo_cd" 
@@ -512,7 +512,7 @@ const BASE_INTENCIONES = [
     {//opciones pago deuda antiguo nuevo cd
         etiqueta: "opciones_pago_deuda_antiguo_nuevo",
         claves: ["opciones de pago deuda", "formas de pago deuda"], // No necesita palabras clave, se activa por botón
-        respuesta: "Selecciona una opción de pago para la deuda de",
+        respuesta: "Select a payment option for the debt of",
         accion: "opciones_pago_deuda_antiguo_nuevo",
         botones: [
             { 
@@ -540,7 +540,7 @@ const BASE_INTENCIONES = [
                 url: "pagoDeuda.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_deuda_ant_nuevo_cd" 
@@ -555,16 +555,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante deuda",
             "cargar comprobante deuda"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago deuda por valor de",
+        respuesta: "Please attach your proof of payment for the debt amounting to",
         accion: "comprobante_deuda_ant_nuevo_cd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated.",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_deuda_antiguo_nuevo"
             }
@@ -576,7 +576,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante deuda",
             "validar comprobante deuda"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_deuda_ant_nuevo_cd"
     },
     {//mostrar datos actuales ant nuevo cd
@@ -584,12 +584,12 @@ const BASE_INTENCIONES = [
         claves: [
             "datos actuales antiguo nuevo"
         ],
-        respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
+        respuesta: "These are the data currently recorded in our system:",
         accion: "datos_actuales_ant_nuevo_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
-                texto: "Actualizar datos", //Si 
+                texto: "Update data", //Si 
                 valor: "actualizar_datos", 
                 tipo: "intencion", 
                 destino: "formulario_inicial_ant_nuevo_cd" 
@@ -610,7 +610,7 @@ const BASE_INTENCIONES = [
             "datos cargados del estudiante", 
             "información inicial cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_inicial_ant_nuevo_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" // ← Tu API real
     },
@@ -636,7 +636,7 @@ const BASE_INTENCIONES = [
             "opciones entrevista antiguo nuevo"
         ],
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
-        respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
+        respuesta: "You will need to attend an interview. Please select a date and time for the interview:",
         accion: "entrevista_ant_nuevo_cd"
     },
     {//reprogramar entrevista antiguo nuevo cd
@@ -648,7 +648,7 @@ const BASE_INTENCIONES = [
         accion: "reprogramar_entrevista_ant_nuevo_cd",
         botones: [
             {
-            texto: "Reprogramar entrevista",
+            texto: "Reschedule interview",
             tipo: "intencion",
             destino: "entrevista_ant_nuevo_cd"
             }
@@ -657,17 +657,17 @@ const BASE_INTENCIONES = [
     {//matrícula antiguo nuevo cd
         etiqueta: "costos_matricula_ant_nuevo_cd",
         claves: ["matrícula", "costo matrícula", "pagar matrícula"], 
-        respuesta: "Los costos de matrícula para el grado |X| son:",
+        respuesta: "The tuition costs for grade |X| are:",
         accion: "costos_matricula_ant_nuevo_cd",
         botones: [
             { 
-                texto: "Pagar matrícula", 
+                texto: "Pay tuition", 
                 valor: "pagar_matricula", 
                 tipo: "intencion", 
                 destino: "opciones_pago_matricula_antiguo_nuevo_cd" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_nuevo_cd" 
@@ -677,7 +677,7 @@ const BASE_INTENCIONES = [
     {//opciones pago matrícula antiguo nuevo cd
         etiqueta: "opciones_pago_matricula_antiguo_nuevo_cd",
         claves: ["opciones de pago matrícula", "formas de pago matrícula"], // No necesita palabras clave, se activa por botón
-        respuesta: "Selecciona una opción de pago para la matrícula de",
+        respuesta: "Select a payment option for tuition",
         accion: "opciones_pago_matricula_antiguo_nuevo_cd",
         botones: [
             { 
@@ -705,7 +705,7 @@ const BASE_INTENCIONES = [
                 url: "pagoMatricula.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_nuevo_cd" 
@@ -720,16 +720,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante matrícula",
             "cargar comprobante matrícula"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago matrícula por valor de",
+        respuesta: "Please attach your proof of tuition payment for the amount of",
         accion: "comprobante_matricula_ant_nuevo_cd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated.",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_matricula_antiguo_nuevo_cd"
             }
@@ -741,7 +741,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_matricula_ant_nuevo_cd"
     },
     {//documentos finales ant nuevo cd
@@ -749,12 +749,12 @@ const BASE_INTENCIONES = [
         claves: [
             "documentos finales antiguo nuevo"
         ],
-        respuesta: "Estos son los documentos que se deben subir:",
+        respuesta: "These are the documents that need to be uploaded:",
         accion: "documentos_finales_ant_nuevo_cd",
         tipos: ["pdf"],
         botones: [
             {
-            texto: "Subir documentos y completar datos",
+            texto: "Upload documents and complete data",
             tipo: "intencion",
             destino: "formulario_final_antiguo_nuevo_cd"
             }
@@ -767,7 +767,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_final_antiguo_nuevo_cd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" // ← Tu API real
     },
@@ -777,7 +777,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Documentos recibidos. Documentos en proceso de validación.",
+        respuesta: "✅ Documents received. Documents in the validation process.",
         accion: "validando_documentos_ant_nuevo_cd"
     },
     {//Mensaje final
@@ -795,12 +795,12 @@ const BASE_INTENCIONES = [
         claves: [
             "datos actuales antiguo nuevo"
         ],
-        respuesta: "Estos son los datos que actualmente se registran en nuestro sistema:",
+        respuesta: "These are the data currently recorded in our system:",
         accion: "datos_actuales_ant_nuevo_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php",
         botones: [
             { 
-                texto: "Actualizar datos", //Si 
+                texto: "Update data", //Si 
                 valor: "actualizar_datos", 
                 tipo: "intencion", 
                 destino: "formulario_inicial_ant_nuevo_sd" 
@@ -821,7 +821,7 @@ const BASE_INTENCIONES = [
             "datos cargados del estudiante", 
             "información inicial cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_inicial_ant_nuevo_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
@@ -847,7 +847,7 @@ const BASE_INTENCIONES = [
             "opciones entrevista antiguo nuevo"
         ],
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
-        respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
+        respuesta: "You will need to attend an interview. Please select a date and time for the interview::",
         accion: "entrevista_ant_nuevo_sd"
     },
     {//reprogramar entrevista antiguo nuevo sd
@@ -859,7 +859,7 @@ const BASE_INTENCIONES = [
         accion: "reprogramar_entrevista_ant_nuevo_sd",
         botones: [
             {
-            texto: "Reprogramar entrevista",
+            texto: "Reschedule interview",
             tipo: "intencion",
             destino: "entrevista_ant_nuevo_sd"
             }
@@ -868,17 +868,17 @@ const BASE_INTENCIONES = [
     {//matrícula antiguo nuevo sd
         etiqueta: "costos_matricula_ant_nuevo_sd",
         claves: ["matrícula", "costo matrícula", "pagar matrícula"], 
-        respuesta: "Los costos de matrícula para el grado |X| son:",
+        respuesta: "The tuition costs for grade |X| are:",
         accion: "costos_matricula_ant_nuevo_sd",
         botones: [
             { 
-                texto: "Pagar matrícula", 
+                texto: "Pay tuition", 
                 valor: "pagar_matricula", 
                 tipo: "intencion", 
                 destino: "opciones_pago_matricula_antiguo_nuevo_sd" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_nuevo_sd" 
@@ -888,7 +888,7 @@ const BASE_INTENCIONES = [
     {//opciones pago matrícula antiguo nuevo sd
         etiqueta: "opciones_pago_matricula_antiguo_nuevo_sd",
         claves: ["opciones de pago matrícula", "formas de pago matrícula"], // No necesita palabras clave, se activa por botón
-        respuesta: "Selecciona una opción de pago para la matrícula de",
+        respuesta: "Select a payment option for tuition",
         accion: "opciones_pago_matricula_antiguo_nuevo_sd",
         botones: [
             { 
@@ -916,7 +916,7 @@ const BASE_INTENCIONES = [
                 url: "pagoMatricula.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_ant_nuevo_sd" 
@@ -931,16 +931,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante matrícula",
             "cargar comprobante matrícula"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago matrícula por valor de",
+        respuesta: "Please attach your proof of tuition payment for the amount of",
         accion: "comprobante_matricula_ant_nuevo_sd",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_matricula_antiguo_nuevo_sd"
             }
@@ -952,7 +952,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_matricula_ant_nuevo_sd"
     },
     {//documentos finales ant nuevo sd
@@ -960,12 +960,12 @@ const BASE_INTENCIONES = [
         claves: [
             "documentos finales antiguo nuevo"
         ],
-        respuesta: "Estos son los documentos que se deben subir:",
+        respuesta: "These are the documents that need to be uploaded:",
         accion: "documentos_finales_ant_nuevo_sd",
         tipos: ["pdf"],
         botones: [
             {
-            texto: "Subir documentos y completar datos",
+            texto: "Upload documents and complete data",
             tipo: "intencion",
             destino: "formulario_final_antiguo_nuevo_sd"
             }
@@ -978,7 +978,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information:",
         accion: "formulario_final_antiguo_nuevo_sd",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" 
     },
@@ -988,7 +988,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Documentos recibidos. Documentos en proceso de validación.",
+        respuesta: "✅ Documents received. Documents in the validation process.",
         accion: "validando_documentos_ant_nuevo_sd"
     },
     {//Mensaje final
@@ -1007,7 +1007,7 @@ const BASE_INTENCIONES = [
             "cargar datos iniciales", 
             "formulario inicial nuevo"
         ],
-        respuesta: "Te damos la bienvenida a formar parte de nuestro ecosistema de educación. Por favor, completa la información solicitada:",
+        respuesta: "Welcome to our education ecosystem. Please complete the requested information:",
         accion: "formulario_inicial_nuevo",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },
@@ -1033,7 +1033,7 @@ const BASE_INTENCIONES = [
             "opciones entrevista nuevo"
         ],
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_opciones_entrevista.php",
-        respuesta: "Es necesario que presentes una entrevista. Selecciona un día y hora para la entrevista:",
+        respuesta: "You will need to attend an interview. Please select a date and time for the interview:",
         accion: "entrevista_nuevo"
     },
     {//reprogramar entrevista nuevo
@@ -1045,7 +1045,7 @@ const BASE_INTENCIONES = [
         accion: "reprogramar_entrevista_nuevo",
         botones: [
             {
-            texto: "Reprogramar entrevista",
+            texto: "Reschedule interview",
             tipo: "intencion",
             destino: "entrevista_nuevo"
             }
@@ -1054,17 +1054,17 @@ const BASE_INTENCIONES = [
     {//matrícula nuevo
         etiqueta: "costos_matricula_nuevo",
         claves: ["matrícula", "costo matrícula", "pagar matrícula"], 
-        respuesta: "Los costos de matrícula para el grado |X| son:",
+        respuesta: "The tuition costs for grade |X| are:",
         accion: "costos_matricula_nuevo",
         botones: [
             { 
-                texto: "Pagar matrícula", 
+                texto: "Pay tuition", 
                 valor: "pagar_matricula", 
                 tipo: "intencion", 
                 destino: "opciones_pago_matricula_nuevo" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_nuevo" 
@@ -1074,7 +1074,7 @@ const BASE_INTENCIONES = [
     {//opciones pago matrícula nuevo
         etiqueta: "opciones_pago_matricula_nuevo",
         claves: ["opciones de pago matrícula", "formas de pago matrícula"], // No necesita palabras clave, se activa por botón
-        respuesta: "Selecciona una opción de pago para la matrícula de",
+        respuesta: "Select a payment option for tuition",
         accion: "opciones_pago_matricula_nuevo",
         botones: [
             { 
@@ -1102,7 +1102,7 @@ const BASE_INTENCIONES = [
                 url: "pagoMatricula.php" 
             },
             { 
-                texto: "Subir comprobante de pago", 
+                texto: "Upload proof of payment", 
                 valor: "subir_comprobante", 
                 tipo: "intencion", 
                 destino: "comprobante_matricula_nuevo" 
@@ -1117,16 +1117,16 @@ const BASE_INTENCIONES = [
             "adjuntar comprobante matrícula",
             "cargar comprobante matrícula"
         ],
-        respuesta: "Por favor, adjunta tu comprobante de pago matrícula por valor de",
+        respuesta: "Please attach your proof of tuition payment for the amount of",
         accion: "comprobante_matricula_nuevo",
         tipos: ["pdf", "png", "jpg", "jpeg"],
-        mensaje_espera: "Subiendo archivo...",
-        mensaje_exito: "✅ Comprobante recibido. Tu pago está en proceso de validación.",
-        mensaje_error: "❌ Error al subir el archivo. Asegúrate de que sea PDF, PNG o JPG y que no supere 5 MB.",
+        mensaje_espera: "Uploading file...",
+        mensaje_exito: "✅ Receipt received. Your payment is being validated.",
+        mensaje_error: "❌ Error uploading file. Please ensure it is a PDF, PNG or JPG file and does not exceed 5 MB.",
         // 🔹 NUEVO: botón para cambiar medio de pago
         botones: [
             {
-            texto: "Cambiar medio de pago",
+            texto: "Change payment method",
             tipo: "intencion",
             destino: "opciones_pago_matricula_nuevo"
             }
@@ -1138,7 +1138,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Comprobante recibido. Tu pago está en proceso de validación. Una vez validado, se enviará un correo al email del acudiente.",
+        respuesta: "✅ Receipt received. Your payment is being validated. Once validated, an email will be sent to the parent/guardian's email address.",
         accion: "validando_comprobante_matricula_nuevo"
     },
     {//documentos finales nuevo
@@ -1146,12 +1146,12 @@ const BASE_INTENCIONES = [
         claves: [
             "documentos finales nuevo"
         ],
-        respuesta: "Estos son los documentos que se deben subir:",
+        respuesta: "These are the documents that need to be uploaded:",
         accion: "documentos_finales_nuevo",
         tipos: ["pdf"],
         botones: [
             {
-            texto: "Subir documentos y completar datos",
+            texto: "Upload documents and complete data",
             tipo: "intencion",
             destino: "formulario_final_nuevo"
             }
@@ -1164,7 +1164,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, revisa y completa la información solicitada:",
+        respuesta: "Please review and complete the requested information::",
         accion: "formulario_final_nuevo",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php" 
     },
@@ -1174,7 +1174,7 @@ const BASE_INTENCIONES = [
             "validacion comprobante matrícula",
             "validar comprobante matrícula"
         ],
-        respuesta: "✅ Documentos recibidos. Documentos en proceso de validación.",
+        respuesta: "✅ Documents received. Documents in the validation process.",
         accion: "validando_documentos_nuevo"
     },
     {//Mensaje final
@@ -1193,7 +1193,7 @@ const BASE_INTENCIONES = [
             "formulario final con datos", 
             "información final cargada"
         ],
-        respuesta: "Por favor, sube los siguientes documentos:",
+        respuesta: "Please upload the following documents:",
         accion: "formulario_final_documentos_invalidos",
         url: "http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php"
     },

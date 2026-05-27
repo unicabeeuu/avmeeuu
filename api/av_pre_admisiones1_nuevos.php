@@ -19,7 +19,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido.";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -29,7 +29,7 @@
 	
 	/*if (json_last_error() !== JSON_ERROR_NONE) {
 		$datos->status = "error";
-		$datos->mensaje = "Datos inválidos.";
+		$datos->mensaje = "Invalid data.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}*/
@@ -760,7 +760,7 @@
 	}	
 	
 	$datos->status = "success";
-	$datos->mensaje = "Datos guardados con éxito.";
+	$datos->mensaje = "Data saved successfully.";
 	$datos->grado = $grado;
 	$datos->id_grado = $idgra;
 	$datos->contrato = $ruta;

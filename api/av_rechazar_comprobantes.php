@@ -24,7 +24,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -173,11 +173,11 @@
 	
 	if ($datos->respuesta_correo == "CorreoOK") {
 		$datos->status = "success";
-		$datos->mensaje = "✅ Correo de rechazo de comprobante enviado con éxito";
+		$datos->mensaje = "✅ Receipt rejection email successfully sent";
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al enviar correo de rechazo del comprobante";
+		$datos->mensaje = "❌ Error sending receipt rejection email";
 	}
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);
