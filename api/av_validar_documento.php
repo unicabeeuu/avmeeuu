@@ -334,6 +334,7 @@
 	$datos->cod_ent = $id;
     
 	$datos->grados = $grados;
+	$datos->gradoSolicitado = 0;
 	
 	//Se valida si ya tiene un proceso de pre matrícula abierto
 	$datos->procesoAbierto = "NO";
@@ -490,7 +491,7 @@
 		$datos->evaluacionPresaberes = "SI";
 	}*/
 	
-	if ($datos->gradoSolicitado == 2 || $datos->gradoSolicitado >= 13) {
+	if ($datos->gradoSolicitado <= 2 || $datos->gradoSolicitado >= 13) {
 		$datos->evaluacionPresaberes = "SI";
 	}
 	

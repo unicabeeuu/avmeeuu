@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const color = btn.tipo === "d_pdf" ? "#FF9805" : "#0B77B3";
+                    const color = btn.tipo === "d_pdf" ? "#222A75" : "#fc0d8c";
                     const boton = crearBoton(btn.tipo, color, btn.texto);
 
                     // Comportamiento al hacer clic
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.marginBottom = "10px";
                 //input.value = cc;
 
-                const boton = crearBoton("proceso", "#28A745", "Validate document");
+                const boton = crearBoton("proceso", "#0b77b3", "Validate document");
                 boton.type = "submit";
 
                 form.appendChild(input);
@@ -1978,7 +1978,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75>
                             ADDITIONAL STUDENT INFORMATION
                         </div>
                         <div><strong>Surnames:</strong> ${d.apellidos}</div>
@@ -1992,11 +1992,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
                         <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             GUARDIAN'S INFORMATION
                         </div>
                         <div><strong>Name:</strong> ${d.acudiente}</div>
@@ -2038,7 +2038,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -2134,7 +2134,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_sd") {
@@ -2172,7 +2172,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -2223,7 +2223,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 //label.style.borderRadius = "8px";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -2258,7 +2258,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -2412,7 +2412,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                         LIST OF DOCUMENTS
                     </div>
                     <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
@@ -2458,7 +2458,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -2603,7 +2603,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_deuda_antiguo") {
@@ -2646,7 +2646,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -2712,7 +2712,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 //label.textContent = "📤 Seleccionar comprobante";
                 label.style.padding = "12px 16px";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 //label.style.backgroundColor = "#C75EA3";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -2749,7 +2749,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.color = "#555";
 
                 // --- Nuevo botón "Cambiar medio de pago" ---
-                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -2930,7 +2930,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             ADDITIONAL STUDENT INFORMATION
                         </div>
                         <div><strong>Surnames:</strong> ${d.apellidos}</div>
@@ -2944,11 +2944,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
                         <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             GUARDIAN'S INFORMATION
                         </div>
                         <div><strong>Name:</strong> ${d.acudiente}</div>
@@ -2990,7 +2990,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -3086,7 +3086,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_cd") {
@@ -3124,7 +3124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -3175,7 +3175,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -3209,7 +3209,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -3352,7 +3352,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                         LIST OF DOCUMENTS
                     </div>
                     <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
@@ -3398,7 +3398,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -3532,7 +3532,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_deuda_antiguo_nuevo") {
@@ -3575,7 +3575,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -3641,7 +3641,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 //label.textContent = "📤 Seleccionar comprobante";
                 label.style.padding = "12px 16px";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 //label.style.backgroundColor = "#C75EA3";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -3678,7 +3678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.color = "#555";
 
                 // --- Nuevo botón "Cambiar medio de pago" ---
-                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -3877,7 +3877,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             ADDITIONAL STUDENT INFORMATION
                         </div>
                         <div><strong>Surnames:</strong> ${d.apellidos}</div>
@@ -3891,11 +3891,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
                         <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             GUARDIAN'S INFORMATION
                         </div>
                         <div><strong>Name:</strong> ${d.acudiente}</div>
@@ -3937,7 +3937,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -4035,7 +4035,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -4088,7 +4088,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
@@ -4182,7 +4182,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
@@ -4225,7 +4225,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_nuevo_cd") {
@@ -4263,7 +4263,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -4314,7 +4314,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -4348,7 +4348,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -4492,7 +4492,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                         LIST OF DOCUMENTS
                     </div>
                     <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
@@ -4557,7 +4557,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -4731,7 +4731,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             ADDITIONAL STUDENT INFORMATION
                         </div>
                         <div><strong>Surnames:</strong> ${d.apellidos}</div>
@@ -4745,11 +4745,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
                         <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                             GUARDIAN'S INFORMATION
                         </div>
                         <div><strong>Name:</strong> ${d.acudiente}</div>
@@ -4791,7 +4791,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -4889,7 +4889,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -4943,7 +4943,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
@@ -5037,7 +5037,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
@@ -5080,7 +5080,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_nuevo_sd") {
@@ -5118,7 +5118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -5169,7 +5169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -5203,7 +5203,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -5346,7 +5346,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                         LIST OF DOCUMENTS
                     </div>
                     <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
@@ -5392,7 +5392,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -5581,7 +5581,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -5635,7 +5635,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
@@ -5729,7 +5729,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
@@ -5772,7 +5772,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_nuevo") {
@@ -5810,7 +5810,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -5861,7 +5861,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -5895,7 +5895,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
@@ -6039,7 +6039,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
                 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
                         LIST OF DOCUMENTS
                     </div>
                     <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
@@ -6085,7 +6085,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
@@ -6740,8 +6740,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
         titulo1.textContent = "Step 1 - ADDITIONAL STUDENT INFORMATION";
         form.appendChild(titulo1);
 
@@ -6815,8 +6815,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
         titulo2.innerHTML = `Step 2 - SOCIO-ECONOMIC CONDITION<br>
         <pp><strong>The special socioeconomic condition</strong> This refers to situations that prevent students of various ages from attending in person, such as: athletes, artists, entrepreneurs, itinerant families, people with health problems, and technology enthusiasts. A certificate demonstrating the condition must be presented.</pp>`;
         form.appendChild(titulo2);
@@ -6837,8 +6837,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo3.style.marginBottom = "15px";
         titulo3.style.fontWeight = "600";
         titulo3.style.fontSize = "16px";
-        titulo3.style.borderTop = "3px solid #ff9805";
-        titulo3.style.borderBottom = "3px solid #ff9805";
+        titulo3.style.borderTop = "3px solid #222A75";
+        titulo3.style.borderBottom = "3px solid #222A75";
         titulo3.textContent = "Step 3 - ADDITIONAL INFORMATION ABOUT THE GUARDIAN";
         form.appendChild(titulo3);
 
@@ -6858,7 +6858,7 @@ document.addEventListener("DOMContentLoaded", () => {
         parentescoSelect.value = datos.parentesco_acudiente_1 ?? "0";
 
         // Botón enviar
-        const submitBtn = crearBoton("intencion", "#28A745", "Send data");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -7242,8 +7242,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
         titulo1.textContent = "Step 1 - FINAL STUDENT DATA";
         form.appendChild(titulo1);
 
@@ -7269,8 +7269,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
         titulo2.textContent = "Step 2 - GUARDIAN INFORMATION";
         form.appendChild(titulo2);
 
@@ -7288,8 +7288,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo3.style.marginBottom = "15px";
         titulo3.style.fontWeight = "600";
         titulo3.style.fontSize = "16px";
-        titulo3.style.borderTop = "3px solid #ff9805";
-        titulo3.style.borderBottom = "3px solid #ff9805";
+        titulo3.style.borderTop = "3px solid #222A75";
+        titulo3.style.borderBottom = "3px solid ##222A75";
         titulo3.textContent = "Step 3 - UPGRADE THE REGISTRATION CONTRACT AND PROMISSORY NOTE";
         form.appendChild(titulo3);
 
@@ -7304,8 +7304,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo4.style.marginBottom = "15px";
         titulo4.style.fontWeight = "600";
         titulo4.style.fontSize = "16px";
-        titulo4.style.borderTop = "3px solid #ff9805";
-        titulo4.style.borderBottom = "3px solid #ff9805";
+        titulo4.style.borderTop = "3px solid #222A75";
+        titulo4.style.borderBottom = "3px solid #222A75";
         titulo4.textContent = "Step 4 - UPLOAD THE FOLLOWING STUDENT DOCUMENTS";
         form.appendChild(titulo4);
 
@@ -7329,8 +7329,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo5.style.marginBottom = "15px";
         titulo5.style.fontWeight = "600";
         titulo5.style.fontSize = "16px";
-        titulo5.style.borderTop = "3px solid #ff9805";
-        titulo5.style.borderBottom = "3px solid #ff9805";
+        titulo5.style.borderTop = "3px solid #222A75";
+        titulo5.style.borderBottom = "3px solid #222A75";
         titulo5.textContent = "Step 5 - UPLOAD THE FOLLOWING STUDENT ACADEMIC DOCUMENTS";
         form.appendChild(titulo5);
 
@@ -7390,8 +7390,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo6.style.marginBottom = "15px";
         titulo6.style.fontWeight = "600";
         titulo6.style.fontSize = "16px";
-        titulo6.style.borderTop = "3px solid #ff9805";
-        titulo6.style.borderBottom = "3px solid #ff9805";
+        titulo6.style.borderTop = "3px solid #222A75";
+        titulo6.style.borderBottom = "3px solid #222A75";
         titulo6.textContent = "Step 6 - UPLOAD THE FOLLOWING DOCUMENTS FROM THE GUARDIAN";
         form.appendChild(titulo6);
 
@@ -7414,7 +7414,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.style.cursor = "pointer";
         submitBtn.style.fontSize = "14px";
         submitBtn.style.width = "100%";*/
-        const submitBtn = crearBoton("intencion", "#28A745", "Send data and documents");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data and documents");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -7687,8 +7687,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
         titulo1.textContent = "Step 1 - FINAL STUDENT DATA";
         form.appendChild(titulo1);
 
@@ -7707,8 +7707,8 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
         titulo2.textContent = "Step 2 - UPLOAD THE FOLLOWING DOCUMENTS";
         form.appendChild(titulo2);
 
@@ -7730,7 +7730,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.style.cursor = "pointer";
         submitBtn.style.fontSize = "14px";
         submitBtn.style.width = "100%";*/
-        const submitBtn = crearBoton("intencion", "#28A745", "Send data and documents");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data and documents");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -8221,7 +8221,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //label.textContent = etiqueta;
         label.style.padding = "12px 16px";
         //label.style.backgroundColor = "#C75EA3";
-        label.style.backgroundColor = "#FF9805";
+        label.style.backgroundColor = "#222A75";
         label.style.color = "white";
         label.style.borderRadius = "8px 0px 0px 0px";
         label.style.cursor = "pointer";
@@ -8631,8 +8631,8 @@ document.addEventListener("DOMContentLoaded", () => {
         estadoDiv.style.justifyContent = "center";
         estadoDiv.style.gap = "12px";
         estadoDiv.style.padding = "16px 20px";
-        estadoDiv.style.borderTop = "3px solid #ff9805";
-        estadoDiv.style.borderBottom = "3px solid #ff9805";
+        estadoDiv.style.borderTop = "3px solid #222A75";
+        estadoDiv.style.borderBottom = "3px solid #222A75";
         estadoDiv.style.backgroundColor = "#fff";
         estadoDiv.style.color = "#000";
         estadoDiv.style.fontFamily = "Arial, sans-serif";
@@ -8700,8 +8700,8 @@ document.addEventListener("DOMContentLoaded", () => {
         estadoDiv.style.justifyContent = "center";
         estadoDiv.style.gap = "12px";
         estadoDiv.style.padding = "16px 20px";
-        estadoDiv.style.borderTop = "3px solid #ff9805";
-        estadoDiv.style.borderBottom = "3px solid #ff9805";
+        estadoDiv.style.borderTop = "3px solid #222A75";
+        estadoDiv.style.borderBottom = "3px solid #222A75";
         estadoDiv.style.backgroundColor = "#fff";
         estadoDiv.style.color = "#000";
         estadoDiv.style.fontFamily = "Arial, sans-serif";

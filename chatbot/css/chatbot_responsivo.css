@@ -483,7 +483,7 @@ img, svg {
 .chat-input button {
     margin-left: 8px;
     padding: 0 16px;
-    background-color: #28a745;
+    background-color: #0B77B3;
     color: white;
     border: none;
     border-radius: 8px;
@@ -528,7 +528,7 @@ ul {
 
 ul li::before {
     content: "▸";
-    color: #FF9805;
+    color: #222A75;
     font-weight: bold;
     display: inline-block;
     width: 1em;
