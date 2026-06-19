@@ -21,7 +21,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -48,7 +48,7 @@
 	$datos->respuesta_correo = "";
 	
 	$sql_info = "SELECT av.*, avp.paso_numero, e.nombres, e.apellidos, e.acudiente_1, e.email_acudiente_1, g.grado 
-	FROM tbl_asistente_virtual av, estudiantes e, grados g, tbl_asistente_virtual_pasos avp 
+	FROM tbl_asistente_virtual av, tbl_estudiantes e, tbl_grados g, tbl_asistente_virtual_pasos avp 
 	WHERE av.documento_estudiante = e.n_documento AND av.id_grado = g.id AND av.paso = avp.paso 
 	AND av.documento_estudiante = ? AND av.a = ?";
 	$exe_info = $mysqli1->prepare($sql_info);
@@ -157,11 +157,11 @@
 	
 	if ($datos->respuesta_correo == "CorreoOK") {
 		$datos->status = "success";
-		$datos->mensaje = "✅ Correo de rechazo de documentos finales enviado con éxito";
+		$datos->mensaje = "✅ Final document rejection email successfully sent";
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al enviar correo de rechazo de documentos finales";
+		$datos->mensaje = "❌ Error sending final document rejection email";
 	}
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

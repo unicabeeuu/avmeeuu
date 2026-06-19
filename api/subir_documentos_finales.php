@@ -1,10 +1,11 @@
 <?php
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
 	set_time_limit(300);
-	//https://unicab.org/avadmisiones/subir_documentos_finales.php
+	//http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales.php
 	
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost:90");
@@ -30,7 +31,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}	
@@ -67,7 +68,7 @@
 	$idest = 0;
 	$datos->msg_estudiante = "";
 	$datos->msg_matricula = "";
-	$sql_buscar = "SELECT * FROM estudiantes WHERE n_documento = ?";
+	$sql_buscar = "SELECT * FROM tbl_estudiantes WHERE n_documento = ?";
 	$params = [$documento];
 	//$datos->consulta_valida_documento = mostrarSentencia($sql_buscar, $params);
 	$exe_buscar = $mysqli1->prepare($sql_buscar);
@@ -77,7 +78,7 @@
 
 	while ($row = $result->fetch_assoc()) {
 		$idest = $row['id'];
-		$sql_update = "UPDATE estudiantes SET fecha_nacimiento = ?, expedicion = ?, ciudad = ?, direccion_estudiante = ?
+		$sql_update = "UPDATE tbl_estudiantes SET fecha_nacimiento = ?, expedicion = ?, ciudad = ?, direccion_estudiante = ?
 		WHERE n_documento = ?";
 		$params = [$fecha_nacimiento, $expedicion, $ciudad, $direccion_estudiante, $documento];
 		//$datos->consulta_update_est = mostrarSentencia($sql_update, $params);
@@ -96,8 +97,8 @@
 		//$sql_mat = "SELECT n_matricula FROM matricula 
 		//WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE n_matricula like '%$a1%' AND id_estudiante = $idest)";
 		$param_n_matricula = '%'.$a1.'%';
-		$sql_mat = "SELECT n_matricula FROM matricula 
-		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE n_matricula like ? AND id_estudiante = ? )";
+		$sql_mat = "SELECT n_matricula FROM tbl_matriculas 
+		WHERE id = (SELECT MAX(id) maxid FROM tbl_matriculas WHERE n_matricula like ? AND id_estudiante = ? )";
 		$params = [$param_n_matricula, $idest];
 		//$datos->consulta_n_matricula = mostrarSentencia($sql_mat, $params);
 		//echo $consulta;
@@ -113,13 +114,13 @@
 		
 		//$sql_update1 = "UPDATE matricula SET estado = 'solicitud', EstadoGrado = '$fecha2' WHERE id_estudiante = $idest AND n_matricula = '$n_matricula'";
 		if($control_antiguos == 1) {
-			$sql_update1 = "UPDATE matricula SET estado = 'antiguo_solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'antiguo_solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}
 		else if($estado == "nuevo") {
-			$sql_update1 = "UPDATE matricula SET estado = 'nuevo_solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'nuevo_solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}
 		else {
-			$sql_update1 = "UPDATE matricula SET estado = 'solicitud', EstadoGrado = ? WHERE id_estudiante = ? AND n_matricula = ?";
+			$sql_update1 = "UPDATE tbl_matriculas SET estado = 'solicitud', estado_grado = ? WHERE id_estudiante = ? AND n_matricula = ?";
 		}		
 		$params = [$fecha2, $idest, $n_matricula];
 		//$datos->consulta_update_mat = mostrarSentencia($sql_update1, $params);
@@ -137,7 +138,7 @@
 	//Se valida si quedó el registro en la tabla de matrículas
 	$idestmat = 0;
 	//$sqlidmat = "SELECT id_estudiante FROM matricula WHERE id_estudiante = $idest";
-	$sql_idmat = "SELECT id_estudiante FROM matricula WHERE id_estudiante = ?";
+	$sql_idmat = "SELECT id_estudiante FROM tbl_matriculas WHERE id_estudiante = ?";
 	$params = [$idest];
 	//$datos->consulta_idestmat = mostrarSentencia($sql_idmat, $params);
 	//echo $consulta;
@@ -175,7 +176,14 @@
 		
 		//Se agregan los certificados finales de calificaciones 
 		if($estado == "nuevo" || $control_antiguos == 2) {
-            if($idGradoIngreso >= 7 && $idGradoIngreso < 13) {
+			//Esto faltaba... para nuevos
+			$documentos[] = 'retiro_SIMAT';
+			$documentos[] = 'buena_conducta';
+			
+			if($idGradoIngreso > 2 && $idGradoIngreso < 7) {
+				$documentos[] = 'calificaciones'.$idGradoIngreso - 2;
+			}
+            else if($idGradoIngreso >= 7 && $idGradoIngreso < 13) {
 				for ($i = 5; $i < $idGradoIngreso - 1; $i++) {
 					$documentos[] = 'calificaciones'.$i;
 				}
@@ -202,6 +210,33 @@
 			}
         }
 		
+		// ##################### se agregan los certificados de notas de periodos anteriores ###############################
+		$cierre1P = $fechaHoy;
+		$cierre2P = $fechaHoy;
+		$sql_cierre_periodos = "SELECT parametro, f1 FROM tbl_parametros WHERE parametro IN (?, ?)";
+		$params = ['cierre1P', 'cierre2P'];
+		$exe_cierre_periodos = $mysqli1->prepare($sql_cierre_periodos);
+		$exe_cierre_periodos->bind_param('ss', $params[0], $params[1]);
+		$exe_cierre_periodos->execute();
+		$result = $exe_cierre_periodos->get_result();
+
+		while ($row_cierre_periodos = $result->fetch_assoc()) {
+			if( $row_cierre_periodos['parametro'] == 'cierre1P') {
+				$cierre1P = $row_cierre_periodos['f1'];
+			}
+			else if( $row_cierre_periodos['parametro'] == 'cierre2P') {
+				$cierre2P = $row_cierre_periodos['f1'];
+			}
+		}
+
+		if($fechaHoy > date($cierre2P)) {
+			$documentos[] = 'calificaciones_1P';
+			$documentos[] = 'calificaciones_2P';
+		}
+		else if($fechaHoy > date($cierre1P)) {
+			$documentos[] = 'calificaciones_1P';
+		}
+
 		$documentos[] = 'documento_acudiente';
 		//var_dump($documentos);
 
@@ -230,7 +265,8 @@
 				// Asignación del nombre con prefijo
 				$safe_file_name = $input_field_name . '_' . $file_name;
 				$destination_path = $uploadDir.$safe_file_name;
-				$ruta = "https://unicab.org/avadmisiones/".$destination_path;
+				//$ruta = "https://thriveusa.org/avmeeuu/".$destination_path;
+				$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$destination_path;
 
 				// Mover el archivo
 				if (move_uploaded_file($file_tmp_path, $destination_path)) {
@@ -249,7 +285,7 @@
 					$archivos_fallidos[] = $safe_file_name;				
 				}
 			} 
-			elseif (isset($file_info) && $file_info['error'] !== UPLOAD_ERR_NO_FILE) {
+			else if (isset($file_info) && $file_info['error'] !== UPLOAD_ERR_NO_FILE) {
 				$archivos_fallidos[] = $input_field_name . " (Código: " . $file_info['error'] . ")";
 			}
 		}
@@ -278,7 +314,8 @@
 				'ruta'      => $ruta_comprobante
 			];			
 			
-			$url_solutions = "https://unicab.solutions/avadmisiones_send_f_antiguos.php";
+			//$url_solutions = "https://unicab.solutions/avmeeuu_admisiones_sent_f_antiguos_correo";
+			$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_admisiones_sent_f_antiguos_correo.php";
 			// 1. Codificar los arrays a JSON (Cadenas de texto)
 			$metadata_success_json = json_encode($archivos_guardados_info);
 			$metadata_failed_json = json_encode($archivos_fallidos);
@@ -303,30 +340,30 @@
 			curl_close($ch);
 			
 			$respuesta_json = json_decode($respuesta_b, true); // el "true" lo convierte en array asociativo
-			$datos->respuesta_correo = $respuesta_json['mensaje'];
+			$datos->respuesta_correo = $respuesta_json['mensaje_correo'];
 		}		
 	}	
 	
 	if ($msg_estudiante == "EstudianteError") {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al guardar información del estudiante.";
+		$datos->mensaje = "❌ Error saving student information.";
 	}
 	else if ($msg_matricula == "MatriculaError") {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al guardar información de la matrícula.";
+		$datos->mensaje = "❌ Error saving registration information.";
 	}
 	else {
 		if (count($archivos_guardados_info) > 0) {
 			$datos->status = "success";
-			$datos->mensaje = "✅ Documentos y datos guardados con éxito";
+			$datos->mensaje = "✅ Documents and data saved successfully";
 		}
 		else if (count($archivos_fallidos) > 0) {
 			$datos->status = "error";
-			$datos->mensaje_fallidos = "❌ Datos guardados con éxito pero algunos documentos fallaron";
+			$datos->mensaje_fallidos = "❌ Data saved successfully, but some documents failed";
 		}
 		else {
 			$datos->status = "error";
-			$datos->mensaje_fallidos = "❌ Datos guardados con éxito pero los documentos fallaron";
+			$datos->mensaje_fallidos = "❌ Data saved successfully but documents failed";
 		}
 	}		
 	

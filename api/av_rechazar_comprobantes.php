@@ -24,7 +24,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -53,7 +53,7 @@
 	$sql_info = "SELECT av.*, avp.paso_numero, e.nombres, e.apellidos, e.acudiente_1, e.email_acudiente_1, g.grado 
 	FROM tbl_asistente_virtual av JOIN estudiantes e ON av.documento_estudiante = e.n_documento 
 	JOIN tbl_asistente_virtual_pasos avp ON av.paso = avp.paso 
-	LEFT JOIN grados g ON av.id_grado = g.id 
+	LEFT JOIN tbl_grados g ON av.id_grado = g.id 
 	WHERE av.documento_estudiante = ? AND av.a = ?";
 	//$params = [$documento, $fanio];
 	//$datos->sql_info = mostrarSentencia($sql_info, $params);
@@ -173,11 +173,11 @@
 	
 	if ($datos->respuesta_correo == "CorreoOK") {
 		$datos->status = "success";
-		$datos->mensaje = "✅ Correo de rechazo de comprobante enviado con éxito";
+		$datos->mensaje = "✅ Receipt rejection email successfully sent";
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "❌ Error al enviar correo de rechazo del comprobante";
+		$datos->mensaje = "❌ Error sending receipt rejection email";
 	}
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

@@ -1,5 +1,6 @@
 <?php
-    require("../registro/docenteunicab/updreg/1cc3s4db.php");
+    //require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	// Habilitar CORS solo para tu entorno local durante desarrollo
@@ -11,7 +12,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido.";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -36,7 +37,7 @@
 	//echo "control";
 	
 	//Se buscan los datos del estudiante y acudiente
-	$sql_estudiante = "SELECT * FROM estudiantes WHERE n_documento = '$documento_est'";
+	$sql_estudiante = "SELECT * FROM tbl_estudiantes WHERE n_documento = '$documento_est'";
 	$res_estudiante = $mysqli1->query($sql_estudiante);
 	while($row_estudiante = $res_estudiante->fetch_assoc()){
 		$nombre_est = $row_estudiante['nombres']." ".$row_estudiante['apellidos'];
@@ -66,7 +67,8 @@
 		$exe_ins = $mysqli1->query($sql_ins);
 		
 		//Se hace el envío del correo
-		$url_eval_entrevista = "https://unicab.solutions/avadmisiones_entrevista_correo_us.php";
+		//$url_eval_entrevista = "https://unicab.solutions/avmeeuu_programar_entrevista_correo.php";
+		$url_eval_entrevista = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_programacion_entrevista_correo.php";
 		$params = [
 			'noma' => $nombre_a,
 			'psi' => $psicologo1,
@@ -100,12 +102,12 @@
 		}
 		
 		$datos->status = "success";
-		$datos->mensaje = "Entrevista programada con éxito.";
+		$datos->mensaje = "Successfully scheduled interview.";
 		$datos->mensaje_entrevista = $mensaje_entrevista;
 	}
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "Agenda ocupada para esa fecha y hora.";
+		$datos->mensaje = "Schedule is full for that date and time.";
 		$datos->mensaje_entrevista = "";
 	}
 	

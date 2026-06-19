@@ -1,6 +1,7 @@
 <?php
 	//Genera el select de los grados
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
@@ -27,7 +28,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -52,7 +53,7 @@
     // Validar tamaño
     if ($file['size'] > $maxSize) {
         $datos->status = "error";
-		$datos->mensaje = "Archivo demasiado grande";
+		$datos->mensaje = "File too large";
         echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
     }
@@ -61,7 +62,7 @@
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $allowedTypes)) {
         $datos->status = "error";
-		$datos->mensaje = "Tipo de archivo no permitido";
+		$datos->mensaje = "Unallowed file type";
         echo json_encode($datos, JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -71,11 +72,12 @@
 	$partes = explode("-", $fileName);
 	$documento = $partes[0];
     $filePath = $uploadDir . $fileName;
-	$ruta = "https://unicab.org/avadmisiones/".$filePath;
+	//$ruta = "https://thriveusa.org/avmeeuu/".$filePath;
+	$ruta = "http://localhost:90/avmeeuu/avmeeuu/api/".$filePath;
 
     //Se valida la estructura del archivo
     $nombre_base = pathinfo($fileName, PATHINFO_FILENAME);
-    $patron = '/^\d{5,15}-(20\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))-deuda$/';
+    $patron = '/^\d{5,15}-(20\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))-debt$/';
     
     if (preg_match($patron, $nombre_base, $matches)) {    
         // El formato es correcto. $matches[1] contendrá la fecha "AAAAMMDD"
@@ -91,14 +93,14 @@
             //echo "✅ Válido: El archivo '$fileName' es correcto (Formato OK y Fecha Lógica OK).";            
         } else {
             $datos->status = "error";
-			$datos->mensaje = "⚠️ Inválido: Formato OK, pero la fecha '$fecha_str' no es real.";
+			$datos->mensaje = "⚠️ Invalid: Format OK, but the date '$fecha_str' it's not real.";
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
             exit;
         }
         
     } else {
         $datos->status = "error";
-		$datos->mensaje = "❌ El nombre de archivo '$fileName' no cumple con el formato requerido.";
+		$datos->mensaje = "❌ The file name '$fileName' does not meet the required format.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -115,7 +117,8 @@
 		//header('Location: https://unicab.solutions/avadmisiones_enviosoporte.php?ruta='.rawurlencode($ruta).'&tipo=deuda&documento='.rawurlencode($documento).'&archivo='.rawurlencode($fileName));
 		
 		// --- En lugar de redirigir, llamamos internamente al servidor B ---
-		$url_solutions = "https://unicab.solutions/avadmisiones_enviosoporte.php";
+		//$url_solutions = "https://unicab.solutions/avmeeuu_envio_comprobante_deuda_correo.php";
+		$url_solutions = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_envio_comprobante_deuda_correo.php";
 		$params = [
 			'ruta' => $ruta,
 			'tipo' => 'deuda',
@@ -137,25 +140,25 @@
 		
 		if ($http_code == 200) {
 			$datos->status = "success";
-			$datos->mensaje = "✅ Válido: El archivo '$fileName' es correcto (Formato OK y Fecha Lógica OK).";
+			$datos->mensaje = "✅ Valid: The file '$fileName' It is correct (Format OK and Logical Date OK).";
 			$datos->respuesta_correo = $respuesta_json['mensaje_correo'];
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		} else {
 			$datos->status = "success";
-			$datos->mensaje = "✅ Válido: El archivo '$fileName' es correcto (Formato OK y Fecha Lógica OK).";
+			$datos->mensaje = "✅ Valid: The file '$fileName' It is correct (Format OK and Logical Date OK).";
 			$datos->respuesta_correo = $respuesta_json['mensaje_correo'];
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		}
 				
     } else {
         $datos->status = "error";
-		$datos->mensaje = "❌ Error al guardar el archivo. Verifica permisos de escritura.";
+		$datos->mensaje = "❌ Error saving file. Please contact the administrator.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
     }
 	
 	//$datos->status = "success";
-	//$datos->mensaje = "✅ Válido: El archivo '$fileName' es correcto (Formato OK y Fecha Lógica OK).";
+	//$datos->mensaje = "✅ Valid: The file '$fileName' It is correct (Format OK and Logical Date OK).";
 	
 	//echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 	

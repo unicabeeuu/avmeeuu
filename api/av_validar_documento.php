@@ -5,7 +5,7 @@
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
 	set_time_limit(300);
-	//https://unicab.org/avadmisiones/av_validar_documento.php 1222114726 
+	//http://localhost:90/avmeeuu/avmeeuu/api/av_validar_documento.php?documento=93974541
 	
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost");
@@ -39,14 +39,14 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!isset($documento)) {
 			$datos->status = "error";
-			$datos->mensaje = "Faltan campos requeridos";
+			$datos->mensaje = "Required fields are missing";
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 			exit;
 		}
 	} 
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -92,7 +92,7 @@
 	}
 	$datos->maxid = $maxid;
 	
-	$datos->nombres = "Hola";
+	$datos->nombre = "Hola";
 	$datos->apellidos = "";
 	$datos->acudiente = "";
 	$datos->emailA = "";
@@ -154,7 +154,7 @@
 			$n_matricula = $row_val_estado['n_matricula'];
 			$fecha_ingreso = $row_val_estado['fecha_ingreso'];
 		}
-		
+		$datos->estado_val = $estado_val;
 		if ($estado_val == 'antiguo_pre_solicitud' || $estado_val == 'antiguo_solicitud') {
 			$control_antiguos = 1;
 		}
@@ -334,6 +334,7 @@
 	$datos->cod_ent = $id;
     
 	$datos->grados = $grados;
+	$datos->gradoSolicitado = 0;
 	
 	//Se valida si ya tiene un proceso de pre matrícula abierto
 	$datos->procesoAbierto = "NO";
@@ -490,7 +491,7 @@
 		$datos->evaluacionPresaberes = "SI";
 	}*/
 	
-	if ($datos->gradoSolicitado == 2 || $datos->gradoSolicitado >= 13) {
+	if ($datos->gradoSolicitado <= 2 || $datos->gradoSolicitado >= 13) {
 		$datos->evaluacionPresaberes = "SI";
 	}
 	
@@ -537,6 +538,28 @@
 			$datos->mat_extraordinaria = "NO";
 		}
 	}
+
+	//consultar las fechas de cierre de periodo
+	$cierre1P = $fechaHoy;
+	$cierre2P = $fechaHoy;
+	$sql_cierre_periodos = "SELECT parametro, f1 FROM tbl_parametros WHERE parametro IN (?, ?)";
+	$params = ['cierre1P', 'cierre2P'];
+	$exe_cierre_periodos = $mysqli1->prepare($sql_cierre_periodos);
+    $exe_cierre_periodos->bind_param('ss', $params[0], $params[1]);
+	$exe_cierre_periodos->execute();
+	$result = $exe_cierre_periodos->get_result();
+
+	while ($row_cierre_periodos = $result->fetch_assoc()) {
+		if( $row_cierre_periodos['parametro'] == 'cierre1P') {
+			$cierre1P = $row_cierre_periodos['f1'];
+		}
+		else if( $row_cierre_periodos['parametro'] == 'cierre2P') {
+			$cierre2P = $row_cierre_periodos['f1'];
+		}
+	}
+	$datos->cierre1P = $cierre1P;
+	$datos->cierre2P = $cierre2P;
+	
 	
 	//Se valida si el estudiante esta bloqueado
 	$bloqueado = "NO";
@@ -866,7 +889,7 @@
 			}
 			else {
 				$sql_av = "INSERT INTO tbl_asistente_virtual (documento_estudiante, a, paso, antiguo, control_antiguos, nuevo, id_grado, con_deuda, deuda)  VALUES 
-				('$documento', $fanio, '4.2', 0, $datos->control_antiguos, 1, $idGrado, 0, $datos->deuda_pendiente) 
+				('$documento', '$fanio', '4.2', 0, $datos->control_antiguos, 1, $idGrado, 0, $datos->deuda_pendiente) 
 				ON DUPLICATE KEY UPDATE paso = VALUES(paso), antiguo = VALUES(antiguo), control_antiguos = VALUES(control_antiguos), 
 				nuevo = VALUES(nuevo), id_grado = VALUES(id_grado), con_deuda = VALUES(con_deuda), deuda = VALUES(deuda)";
 				$datos->paso = '4.2';
@@ -875,7 +898,7 @@
 		}
 		else if ($datos->estado == "nuevo") {
 			$sql_av = "INSERT INTO tbl_asistente_virtual (documento_estudiante, a, paso, antiguo, control_antiguos, nuevo, id_grado, con_deuda, deuda)  VALUES 
-			('$documento', $fanio, '5.2', 0, $datos->control_antiguos, 1, $idGrado, 0, $datos->deuda_pendiente) 
+			('$documento', '$fanio', '5.2', 0, $datos->control_antiguos, 1, $idGrado, 0, $datos->deuda_pendiente) 
 			ON DUPLICATE KEY UPDATE paso = VALUES(paso), antiguo = VALUES(antiguo), control_antiguos = VALUES(control_antiguos), 
 			nuevo = VALUES(nuevo), id_grado = VALUES(id_grado), con_deuda = VALUES(con_deuda), deuda = VALUES(deuda)";
 			$datos->paso = '5.2';
