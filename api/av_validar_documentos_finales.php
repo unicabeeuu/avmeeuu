@@ -22,7 +22,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -103,22 +103,22 @@
 		$sql = "UPDATE tbl_documentos_matriculas SET validado = ?, correo = 1 WHERE documento = ? AND a = ?";
 		$stmt = $mysqli1->prepare($sql);
 		$stmt->bind_param('isi', $validado, $documento, $a);
-		$datos->mensaje_todos = "✅ Documentos finales de matrícula validados con éxito";
+		$datos->mensaje_todos = "✅ Final registration documents successfully validated";
 	}
 	else {
 		$sql = "UPDATE tbl_documentos_matriculas SET validado = ? WHERE id = ?";
 		$stmt = $mysqli1->prepare($sql);
 		$stmt->bind_param('ii', $validado, $id);
-		$datos->mensaje_todos = "❌ Algunos documentos finales de matrícula faltan por validar";
+		$datos->mensaje_todos = "❌ Some final registration documents are missing validation";
 	}
 	
 	
 	if ($stmt->execute()) {
         $datos->status = "success";
-		$datos->mensaje = "✅ Documento final $tipo_documento validado con éxito";
+		$datos->mensaje = "✅ Final document $tipo_documento successfully validated";
     } else {
         $datos->status = "error";
-		$datos->mensaje = "❌ Error al validar el documento final $tipo_documento";
+		$datos->mensaje = "❌ Error validating the final document $tipo_documento";
     }	
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

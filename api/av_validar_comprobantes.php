@@ -21,7 +21,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -97,7 +97,7 @@
 		//Se consulta el certificado final de calificaciones
 		$ruta = "";
 		$id_grado = $id_grado - 1;
-		$sql_certificado = "SELECT * FROM certificado WHERE identificacion = ? AND numero like '%CFF%' AND a = ? AND tipo_certificado = 'Certificado final' AND id_grado = ?";
+		$sql_certificado = "SELECT * FROM tbl_certificados WHERE identificacion = ? AND numero like '%CFF%' AND a = ? AND tipo_certificado = 'Certificado final' AND id_grado = ?";
 		//$params = [$documento, $a1, $id_grado];
 		//$datos->consulta_certificado_final = mostrarSentencia($sql_certificado, $params);
 		//echo $consulta;
@@ -115,7 +115,7 @@
 		];
 		//var_dump($archivos);
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_documentos_matricula.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_documentos_matricula_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$archivos_json = json_encode($archivos);
 		$data_original_json = json_encode($_POST);
@@ -166,7 +166,7 @@
 		//echo $ruta;
 		//var_dump($archivos);
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_documentos_matricula.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_documentos_matricula_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$archivos_json = json_encode($archivos);
 		$data_original_json = json_encode($_POST);
@@ -197,7 +197,7 @@
 		//echo "control deuda";
 		//Se envía como parámetro el documento
 		
-		$url_solutions = "https://unicab.solutions/avadmisiones_comprobante_deuda_validado.php";
+		$url_solutions = "https://unicab.solutions/avmeeuu_comprobante_deuda_validado_correo.php";
 		// 1. Codificar los arrays a JSON (Cadenas de texto)
 		$data_original_json = json_encode($_POST);
 		$params = [
@@ -234,10 +234,10 @@
 	
 	if ($stmt->execute()) {
         $datos->status = "success";
-		$datos->mensaje = "✅ Comprobante validado con éxito";
+		$datos->mensaje = "✅ Receipt successfully validated";
     } else {
         $datos->status = "error";
-		$datos->mensaje = "❌ Error al validar el comprobante";
+		$datos->mensaje = "❌ Error validating the receipt";
     }	
 	
 	echo json_encode($datos, JSON_UNESCAPED_UNICODE);

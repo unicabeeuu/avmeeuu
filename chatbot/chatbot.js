@@ -19,21 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
     let control_antiguos = 0;
     let meet_psicologo = "http://meet.google.com/uqq-iusq-umf";
     let con_nota_receso =  false;
-    let nota_receso = "A partir del 12 de Diciembre hasta el 18 de Enero hay receso. Los procesos de validación de comprobantes de pago y documentos quedan suspendidos por este tiempo.";
+    let nota_receso = "From December 12th to January 18th, there will be a break. The validation of payment receipts and documents will be suspended during this time.";
 
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');
     const month = date.getMonth();
+    let month1 = "";
     const year = date.getFullYear();
     let year1 = year;
     if ((month + 1) >= 10) {
         year1++;
     }
+    if ((month + 1) < 10) {
+        month1 = "0" + (month + 1);
+    }
+
     const fecha = year + "" + (month + 1) + "" + day; 
+    const fecha2 = year + "-" + month1 + "-" + day; 
     let referencia_pago = "";
     let referencia_pago_m = "";
     let admitido = 0;
     let entrevista = "NO";
+    let cierre1P = fecha;
+    let cierre2P = fecha;
     let intentos_programacion_entrevista = 0;
 
     // Delegación para inputs y textareas
@@ -60,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const id = e.target.id;
             const desc = e.target.getAttribute("data-desc");
             if (e.target.value === "0") {
-                mostrarError(`Seleccione una opción para ${desc}`, id);
+                mostrarError(`Select an option to ${desc}`, id);
             } else {
                 ocultarError(id);
             }
@@ -78,23 +86,28 @@ document.addEventListener("DOMContentLoaded", () => {
         asistenteFullscreen.style.display = "block";
         document.querySelector(".bot-inicio-inline").style.display = "none";
 
-        agregarMensaje("Unibot", {
-            respuesta: "¡Hola! Soy tu asistente de admisiones. Es un gusto asistirlo/a en el proceso.",
+        agregarMensaje("Tivy", {
+            respuesta: "Hello! I'm your admissions assistant. It's a pleasure to assist you with the process.",
             botones: null // No hay botones aquí
         });
 
         // Mostrar menú inicial
         const respuestaCompleta = encontrarIntencion("iniciar admisiones");
         //console.log(respuestaCompleta);
-        agregarMensaje("Unibot", respuestaCompleta);
+        agregarMensaje("Tivy", respuestaCompleta);
 
-        parrafoInicial.innerHTML = "Recuerda que si ya has iniciado el proceso de admisión, después de ingresar el número del documento del estudiante, será dirigido al paso en dónde quedaste por última vez.";
+        parrafoInicial.innerHTML = "Remember that if you have already started the admissions process, after entering the student's document number, you will be directed to the step where you last left off.";
         parrafoInicial.style.color = "#0070C0";
         parrafoInicial.style.fontWeight = "bold";
         parrafoInicial.style.display = "none";
 
         header1.style.display = "none";
         header2.style.display = "flex";
+        const elementos = document.querySelectorAll('.ocultar');
+        elementos.forEach(el => {
+            el.style.display = "none";
+        });
+        document.getElementById('header1eeuu').style.display = "none";
 
         // Cambiar a sección de chat
         seccionChat.classList.add("activa");
@@ -116,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Obtener respuesta del bot
         const respuestaCompleta = encontrarIntencion(mensaje);
-        agregarMensaje("Unibot", respuestaCompleta);
+        agregarMensaje("Tivy", respuestaCompleta);
 
         // Limpiar entrada y hacer scroll
         entradaChat.value = "";
@@ -131,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (tipo === "user") {
             const msg = document.createElement("p");
             msg.className = "user-msg";
-            msg.innerHTML = `<strong>Tú:</strong> ${contenido}`;
+            msg.innerHTML = `<strong>You:</strong> ${contenido}`;
             //msg.style.textAlign = "right"; // ← Alinea a la derecha
             msg.style.marginLeft = "auto"; // ← Empuja a la derecha
             contenedor.appendChild(msg);
@@ -143,9 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
             let tipos = [];
             let campos = [];
             let documentos = [];
-            let mensajeEspera = "Subiendo...";
-            let mensajeExito = "Archivo subido correctamente.";
-            let mensajeError = "Error al subir el archivo.";
+            let mensajeEspera = "Going up...";
+            let mensajeExito = "File uploaded successfully.";
+            let mensajeError = "Error uploading the file.";
 
             if (typeof contenido === 'object' && contenido !== null) {
                 respuesta = contenido.respuesta || "";
@@ -155,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 tipos = contenido.tipos || [];
                 campos = contenido.campos || [];
                 documentos = contenido.documentos || [];
-                boton_enviar = contenido.boton_enviar || "Enviar";
+                boton_enviar = contenido.boton_enviar || "Send";
                 mensajeEspera = contenido.mensaje_espera || mensajeEspera;
                 mensajeExito = contenido.mensaje_exito || mensajeExito;
                 mensajeError = contenido.mensaje_error || mensajeError;
@@ -167,28 +180,28 @@ document.addEventListener("DOMContentLoaded", () => {
             if(respuesta != "") {
                 const msg = document.createElement("p");
                 msg.className = "bot-msg";
-                if(respuesta == "Selecciona una opción de pago para la deuda de") {
+                if(respuesta == "Select a payment option for the debt of") {
                     respuesta = respuesta + " <span style='color: red;'><strong>" + formatoCadenaNumero(deuda) + "</strong></span>";
                 }
-                else if(respuesta == "Por favor, adjunta tu comprobante de pago deuda por valor de") {
+                else if(respuesta == "Please attach your proof of payment for the debt amounting to") {
                     respuesta = respuesta + " <span style='color: red;'><strong>" + formatoCadenaNumero(deuda) + "</strong></span>.";
                     //respuesta = respuesta + " El nombre del archivo debe tener la siguiente forma <span style='color: blue;'>documentoEstudiante-añomesdia-deuda</span> Ej: <span style='color: blue;'>9397532-20251010-deuda</span>";
                     //respuesta = respuesta + " ... y se permiten archivos pdf, png y jpg con un peso máximo de 5MB.";
-                    respuesta = respuesta + "<ul><li>El nombre del archivo debe tener la siguiente forma <span style='color: #0B77B3;'><strong>documentoEstudiante-añomesdia-deuda</strong></span></li><li>Ej: <span style='color: #0B77B3;'><strong>9397532-20251010-deuda</strong></span></li>";
-                    respuesta = respuesta + "<li>Y se permiten archivos pdf, png y jpg con un peso máximo de 5MB.</li></ul>";
+                    respuesta = respuesta + "<ul><li>The file name must have the following format <span style='color: #0B77B3;'><strong>documentstudent-yearmonthday-debt</strong></span></li><li>Ex: <span style='color: #0B77B3;'><strong>9397532-20251010-debt</strong></span></li>";
+                    respuesta = respuesta + "<li>And pdf, png and jpg files are allowed with a maximum size of 5MB.</li></ul>";
                 }
                 else if(respuesta == "Es necesario que presentes una evaluación de admisión para el grado:") {
                     respuesta = respuesta + " " + grado;
                 }
-                else if(respuesta == "Selecciona una opción de pago para la matrícula de") {
+                else if(respuesta == "Select a payment option for tuition") {
                     respuesta = respuesta + " <span style='color: #0B77B3;'><strong>" + formatoCadenaNumero(matricula) + "</strong></span>";
                 }
-                else if(respuesta == "Por favor, adjunta tu comprobante de pago matrícula por valor de") {
+                else if(respuesta == "Please attach your proof of tuition payment for the amount of") {
                     respuesta = respuesta + " <span style='color: #0B77B3;'><strong>" + formatoCadenaNumero(matricula) + "</strong></span>.";
-                    respuesta = respuesta + "<ul><li>El nombre del archivo debe tener la siguiente forma <span style='color: #0B77B3;'><strong>documentoEstudiante-añoMatrícula-pp</strong></span></li><li>Ej: <span style='color: #0B77B3;'><strong>9397532-2026-pp</strong></span></li>";
-                    respuesta = respuesta + "<li>Y se permiten archivos pdf, png y jpg con un peso máximo de 5MB.</li></ul>";
+                    respuesta = respuesta + "<ul><li>The file name must have the following format <span style='color: #0B77B3;'><strong>documentstudent-yearRegistration-pp</strong></span></li><li>Ex: <span style='color: #0B77B3;'><strong>9397532-2026-pp</strong></span></li>";
+                    respuesta = respuesta + "<li>And pdf, png and jpg files are allowed with a maximum size of 5MB.</li></ul>";
                 }
-                msg.innerHTML = `<strong>Unibot:</strong> ${respuesta}`;
+                msg.innerHTML = `<img src="chatbot/img/unibot2eeuu.png" class="logo"><strong> Tivy:</strong> ${respuesta}`;
                 contenedor.appendChild(msg);
             }
 
@@ -204,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const color = btn.tipo === "d_pdf" ? "#FF9805" : "#0B77B3";
+                    const color = btn.tipo === "d_pdf" ? "#222A75" : "#fc0d8c";
                     const boton = crearBoton(btn.tipo, color, btn.texto);
 
                     // Comportamiento al hacer clic
@@ -213,9 +226,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             // Buscar la intención destino
                             const intencionDestino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino); //esto busca por etiqueta
                             if (intencionDestino) {
-                                agregarMensaje("Unibot", { ...intencionDestino }); //esto saca una copia de la intencion
+                                agregarMensaje("Tivy", { ...intencionDestino }); //esto saca una copia de la intencion
                             } else {
-                                agregarMensaje("Unibot", "No se encontró el proceso solicitado.");
+                                agregarMensaje("Tivy", "The requested process was not found.");
                             }
                         } else if (btn.tipo === "d_pdf" && btn.url) {
                             window.open(btn.url, '_blank');
@@ -250,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 form.style.backgroundColor = "#f9f9f9";
 
                 const label = document.createElement("label");
-                label.textContent = "Ingresa el documento sin puntos ni espacios:";
+                label.textContent = "Enter the document without periods or spaces:";
                 label.style.display = "block";
                 label.style.marginBottom = "6px";
                 label.style.fontSize = "14px";
@@ -261,9 +274,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.type = "text";
                 input.name = "documento";
                 input.id = "documento";
-                input.setAttribute("data-validar", "numero");
-                input.setAttribute("data-desc", "documento");
-                input.placeholder = "Número de documento...";
+                input.setAttribute("data-validar", "number");
+                input.setAttribute("data-desc", "document");
+                input.placeholder = "Document number...";
                 input.style.width = "100%";
                 input.style.padding = "8px";
                 input.style.border = "1px solid #ccc";
@@ -272,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.marginBottom = "10px";
                 //input.value = cc;
 
-                const boton = crearBoton("proceso", "#28A745", "Validar documento");
+                const boton = crearBoton("proceso", "#0b77b3", "Validate document");
                 boton.type = "submit";
 
                 form.appendChild(input);
@@ -302,12 +315,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     cc = documento;
                     //console.log(cc);
                     if (!documento) {
-                        alert("Ingresa el número de documento del estudiante a matricular.");
+                        alert("Enter the document number of the student starting the registration process.");
                         return;
                     }
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", contenido.mensaje_espera);
+                    agregarMensaje("Tivy", contenido.mensaje_espera);
 
                     // Enviar al web service
                     //console.log(JSON.stringify({ documento: documento }));
@@ -336,13 +349,15 @@ document.addEventListener("DOMContentLoaded", () => {
                             estado = data.estado;
                             control_antiguos = data.control_antiguos;
                             nombre_estudiante = data.nombres + " " + data.apellidos;
-                            referencia_pago = cc + "-" + fecha + "-deuda";
+                            referencia_pago = cc + "-" + fecha + "-debt";
                             referencia_pago_m = cc + "-" + year1 + "-pp";
                             etiqueta_intencion = data.etiqueta_intencion;
                             grado = data.grado_matricular;
                             matricula = data.pp;
                             admitido = data.admitido;
                             entrevista = data.entrevista;
+                            cierre1P = data.cierre1P;
+                            cierre2P = data.cierre2P;
                             intentos_programacion_entrevista = parseInt(data.intentos_programacion_entrevista);
                             $("#s-nombre").html(nombre_estudiante + " - " + cc);
 
@@ -351,13 +366,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             if (data.bloqueado == "SI") {
                                 control_matricula = 1;
-                                agregarMensaje("Unibot", "Documento restringido. Por favor comunícate con Rectoría o Secretaría Académica");	
+                                agregarMensaje("Tivy", "Restricted document. Please contact the Rector's Office or Academic Secretariat.");	
                             }
                             
                             if (control_matricula == 0) {
                                 if (data.mat_ordinaria == "AUN NO") {
                                     control_matricula = 1;
-                                    agregarMensaje("Unibot", "Las matrículas ordinarias van desde el " + data.mat_ordinaria_desde + " hasta el " + data.mat_ordinaria_hasta);
+                                    agregarMensaje("Tivy", "The ordinary tuitions go from the " + data.mat_ordinaria_desde + " until the " + data.mat_ordinaria_hasta);
                                 }
                                 else if (data.mat_ordinaria == "SI") {
                                     control_matricula = 0;
@@ -365,22 +380,22 @@ document.addEventListener("DOMContentLoaded", () => {
                                 else if (data.mat_ordinaria == "NO") {
                                     if(data.mat_extraordinaria == "AUN NO") {
                                         control_matricula = 1;
-                                        agregarMensaje("Unibot", "Las matrículas extraordinarias van desde el " + data.mat_extraordinaria_desde + " hasta el " + data.mat_extraordinaria_hasta);
+                                        agregarMensaje("Tivy", "The extraordinary tuitions go from the " + data.mat_extraordinaria_desde + " until the " + data.mat_extraordinaria_hasta);
                                     }
                                     else if(data.mat_extraordinaria == "SI") {
                                         control_matricula = 0;
                                     }
                                     else if(data.mat_extraordinaria == "NO") {
                                         control_matricula = 1;
-                                        agregarMensaje("Unibot", "Las matrículas extraordinarias van desde el " + data.mat_extraordinaria_desde + " hasta el " + data.mat_extraordinaria_hasta);
+                                        agregarMensaje("Tivy", "The extraordinary tuitions go from the " + data.mat_extraordinaria_desde + " until the " + data.mat_extraordinaria_hasta);
                                     }
                                 }
-                            }            		    
+                            }
                             
                             if (control_matricula == 0) {
                                 if (data.control_documentos_invalidos == "1" && data.tipos.length > 0) {
                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "formulario_final_documentos_invalidos");
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
 
                                     if (paso == "1.4") {
                                         //imagen con pasos resumen
@@ -434,7 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                 }
                                 else if (data.control_antiguos == 2) {//Antiguo nuevo
-                                    agregarMensaje("Unibot", "¡Qué gusto tenerte con nostros nuevamente " + data.nombres + " " + data.apellidos + ". Como te ausentaste por más de un año, tu proceso de matrícula es como estudiante <span style='color: blue;'><strong>Nuevo</strong></span>.");
+                                    agregarMensaje("Tivy", "It's great to have you with us again! " + data.nombres + " " + data.apellidos + ". Since you were absent for more than a year, your registration process is as a student. <span style='color: blue;'><strong>New</strong></span>.");
                                     if(data.deuda_pendiente > 0) {//con deuda
                                         deuda = data.deuda_pendiente;
                                         //imagen con pasos resumen
@@ -448,20 +463,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                         //Se valida el paso
                                         if (paso == "3.1.1") {
-                                            //agregarMensaje("Unibot", "Nuestro sistema ha detectado que tienes una deuda pendiente por valor de <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span>. Para continuar es necesario ponerte al día con la dueda.");
-                                            let respuesta = "Nuestro sistema ha detectado que tienes deuda pendiente por valor de <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span> con éste detalle: <ul>";
+                                            //agregarMensaje("Unibot", "Nuestro sistema ha detectado que tienes una deuda pendiente for the value of <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span>. Para continuar es necesario ponerte al día con la dueda.");
+                                            let respuesta = "Our system has detected that you have an outstanding debt of <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span> with this detail: <ul>";
                                             
                                             if(data.deuda_año_anterior > 0) {
-                                                respuesta += "<li>Deuda último año por valor de <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deuda_año_anterior) + "</span></li>";
+                                                respuesta += "<li>Debt last year amounting to <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deuda_año_anterior) + "</span></li>";
                                             }                                            
                                             
                                             if(data.deudas.length > 0) {
                                                 for (let i = 0; i < data.deudas.length; i++) {
-                                                    respuesta += "<li>Año " + data.deudas[i].a + "  por valor de <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deudas[i].deuda) + "</span></li>";
+                                                    respuesta += "<li>Year " + data.deudas[i].a + "  for the value of <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deudas[i].deuda) + "</span></li>";
                                                 }
                                             }
-                                            respuesta += "</ul>Para continuar es necesario ponerte al día con la dueda total." 
-                                            agregarMensaje("Unibot", respuesta);
+                                            respuesta += "</ul>To continue, you must pay your total debt." 
+                                            agregarMensaje("Tivy", respuesta);
 
                                             /*agregarMensaje("Unibot", {
                                                 respuesta: "Nuestro sistema ha detectado que tienes una deuda pendiente por valor de <span style='color: red;'><strong>$" + Number(data.deuda_pendiente).toLocaleString('es-CO') + "</strong></span>. Para continuar es necesario ponerte al día con la dueda.",
@@ -473,17 +488,17 @@ document.addEventListener("DOMContentLoaded", () => {
                                             //const botonPago = encontrarIntencion("deuda pendiente"); //esto busca por claves
                                             //agregarMensaje("Unibot", botonPago);
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "valor_dueda_ant_nuevo_cd");
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "3.1.1.1") {
                                             //agregarMensaje("Unibot", "Nuestro sistema ha detectado que tienes una deuda pendiente por valor de <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span>. Para continuar es necesario ponerte al día con la dueda.");
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "3.1.1.2" && data.validacion_comprobante_deuda == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.1.1.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -494,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -509,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "3.1.1.2") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -522,7 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "3.2" || paso == "3.2.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -536,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.3" && data.evaluacionPresaberes == "SI") {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -576,7 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                             let msgControl = "paso 3.4 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -587,11 +602,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
 
-                                                    let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                                    let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                                     intencion.respuesta = respuesta;
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -605,15 +620,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "3.4" && data.programoEntrevista == "SI") {
-                                            let respuesta = admitido == "1" ? "Su entrevista está programada para el día: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link de la entrevista: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
+                                            let respuesta = admitido == "1" ? "Your interview is scheduled for the day: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link to the interview: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
                                             
                                             let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_ant_nuevo_cd");
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "3.4") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -625,11 +640,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "3.5") {
-                                            let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                            let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -642,7 +657,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if ((paso == "3.5.1" || paso == "3.5.2") && data.validacion_comprobante_matricula == 0) {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -656,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.5.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.5.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -667,7 +682,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -682,7 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "3.6") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -696,7 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "3.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 3.6.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -707,7 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -722,7 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "3.6.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -735,7 +750,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "3.7") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -760,7 +775,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                         if (paso == "4.1" || paso == "4.2") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -774,7 +789,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.3" && data.evaluacionPresaberes == "SI") {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -814,7 +829,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                             let msgControl = "paso 4.4 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -825,11 +840,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
 
-                                                    let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                                    let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                                     intencion.respuesta = respuesta;
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -843,15 +858,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "4.4" && data.programoEntrevista == "SI") {
-                                            let respuesta = admitido == "1" ? "Su entrevista está programada para el día: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link de la entrevista: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
+                                            let respuesta = admitido == "1" ? "Your interview is scheduled for the day: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link to the interview: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
                                             
                                             let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_ant_nuevo_sd");
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "4.4") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -863,11 +878,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "4.5") {
-                                            let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                            let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -880,7 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if ((paso == "4.5.1" || paso == "4.5.2") && data.validacion_comprobante_matricula == 0) {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -894,7 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.5.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.5.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -905,7 +920,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -920,7 +935,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "4.6") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -934,7 +949,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "4.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 4.6.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -945,7 +960,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -960,7 +975,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "4.6.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -973,7 +988,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "4.7") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -987,7 +1002,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                 }
                                 else if (data.control_antiguos == 1) {//Antiguo
-                                    agregarMensaje("Unibot", "¡Qué gusto tenerte con nostros nuevamente " + data.nombres + " " + data.apellidos + ".");
+                                    agregarMensaje("Tivy", "It's great to have you with us again! " + data.nombres + " " + data.apellidos + ".");
                                     if(data.deuda_pendiente > 0) {
                                         deuda = data.deuda_pendiente;
                                         //imagen con pasos resumen
@@ -1003,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         if (paso == "2.1") {
                                             let msgControl = "paso 2.1 terminado";
                                             //Se consume web service de cambio de paso
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1014,36 +1029,36 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data.siguiente_paso;
                                                     etiqueta_intencion = data.etiqueta_intencion;
                                                     const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                                                    if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                                                 }
                                             });                                        
                                         }
                                         else if (paso == "2.1.1") {
                                             //agregarMensaje("Unibot", "Nuestro sistema ha detectado que tienes una deuda pendiente por valor de <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span>. Para continuar es necesario ponerte al día con la dueda.");
-                                            let respuesta = "Nuestro sistema ha detectado que tienes deuda pendiente por valor de <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span> con éste detalle: <ul>";
+                                            let respuesta = "Our system has detected that you have an outstanding debt of <span style='color: red;'><strong>" + formatoCadenaNumero(data.deuda_pendiente) + "</strong></span> with this detail: <ul>";
                                             
                                             if(data.deuda_año_anterior > 0) {
-                                                respuesta += "<li>Deuda último año por valor de <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deuda_año_anterior) + "</span></li>";
+                                                respuesta += "<li>Debt last year amounting to <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deuda_año_anterior) + "</span></li>";
                                             }                                            
                                             
                                             if(data.deudas.length > 0) {
                                                 for (let i = 0; i < data.deudas.length; i++) {
-                                                    respuesta += "<li>Año " + data.deudas[i].a + "  por valor de <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deudas[i].deuda) + "</span></li>";
+                                                    respuesta += "<li>Year " + data.deudas[i].a + "  for the value of <span style='color: red; font-weight: bold;'>" + formatoCadenaNumero(data.deudas[i].deuda) + "</span></li>";
                                                 }
                                             }
-                                            respuesta += "</ul>Para continuar es necesario ponerte al día con la dueda total." 
-                                            agregarMensaje("Unibot", respuesta);
+                                            respuesta += "</ul>To continue, you must pay your total debt." 
+                                            agregarMensaje("Tivy", respuesta);
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "valor_dueda_ant_cd");
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "2.1.1.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                         else if (paso == "2.1.1.2" && data.validacion_comprobante_deuda == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.1.1.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1054,7 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -1069,7 +1084,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "2.1.1.2") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1082,7 +1097,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "2.2" || paso == "2.2.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1094,11 +1109,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "2.3") {
-                                            let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                            let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1111,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if ((paso == "2.3.1" || paso == "2.3.2") && data.validacion_comprobante_matricula == 0) {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1125,7 +1140,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "2.3.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.3.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1136,7 +1151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -1151,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "2.4") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1165,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "2.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 2.4.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1176,7 +1191,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -1191,7 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "2.4.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1204,7 +1219,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "2.5") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1229,7 +1244,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         //Se valida el paso
                                         if (paso == "1.2" || paso == "1.2.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1241,11 +1256,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                             divPasos.appendChild(imgPasos);
                                         }
                                         else if (paso == "1.3") {
-                                            let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                            let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                             
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                             intencion.respuesta = respuesta;
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1258,7 +1273,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if ((paso == "1.3.1" || paso == "1.3.2") && data.validacion_comprobante_matricula == 0) {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1272,7 +1287,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "1.3.2" && data.validacion_comprobante_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 1.3.2 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1283,7 +1298,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                             
@@ -1298,7 +1313,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "1.4") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1312,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         else if (paso == "1.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                             //Se consume web service de cambio de paso
                                             let msgControl = "paso 1.4.1 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1323,7 +1338,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     paso = data_cp.siguiente_paso;
                                                     etiqueta_intencion = data_cp.etiqueta_intencion;
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
 
@@ -1338,7 +1353,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "1.4.1") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1351,7 +1366,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         }
                                         else if (paso == "1.5") {
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -1368,7 +1383,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (paso == "1.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 1.4.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1379,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1394,7 +1409,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "1.4.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1407,7 +1422,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "1.5") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1421,7 +1436,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "2.4.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 2.4.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1432,7 +1447,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1447,7 +1462,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "2.4.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1460,7 +1475,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "2.5") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1474,7 +1489,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "3.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 3.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1485,7 +1500,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1500,7 +1515,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "3.6.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1513,7 +1528,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "3.7") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1527,7 +1542,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "4.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 4.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1538,7 +1553,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1553,7 +1568,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "4.6.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1566,7 +1581,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "4.7") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1580,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1591,7 +1606,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1606,7 +1621,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "5.6.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1619,7 +1634,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "5.7") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1634,7 +1649,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         let r_grado = data.grados[0].gra;
                                         //alert(r_grado);
                                         let r_idgrado = data.grados[0].id_gra;
-                                        agregarMensaje("Unibot", "Este documento se encuentra activo en el grado " + r_grado + ".");
+                                        agregarMensaje("Tivy", "This document is active at the grade level " + r_grado + ".");
                                     }                                    
                                 }
                                 /*else if(data.estado == "solicitud" || data.estado == "pre_solicitud") {
@@ -1649,23 +1664,23 @@ document.addEventListener("DOMContentLoaded", () => {
                                     let r_grado = data.grados[0].gra;
                                     let r_idgrado = data.grados[0].id_gra;
                                     //$("#register_grado").val(r_idgrado);
-                                    agregarMensaje("Unibot", "Estudiante antiguo, puede iniciar proceso de matícula para el grado " + r_grado + ".");
+                                    agregarMensaje("Tivy", "Old student, you can start the tuition process for the grade " + r_grado + ".");
                                 }
                                 else if (data.estado == "aprobado") {
                                     let r_grado = data.grados[0].gra;
                                     let r_idgrado = data.grados[0].id_gra;
                                     //$("#register_grado").val(r_idgrado);
-                                    agregarMensaje("Unibot", "Estudiante antiguo, puede iniciar proceso de matícula para el grado " + r_grado + ".");
+                                    agregarMensaje("Tivy", "Old student, you can start the tuition process for the grade " + r_grado + ".");
                                 }
                                 else if (data.estado == "retirado") {
-                                    agregarMensaje("Unibot", "Este documento se encuentra Retirado en este momento. Comunícate con Secretaría Académica.");
+                                    agregarMensaje("Tivy", "This document is currently withdrawn. Please contact the Academic Secretariat.");
                                 }
                                 else if (data.estado == "nuevo" || data.estado == "nuevo_pre_solicitud" || data.estado == "nuevo_solicitud") { 
-                                    agregarMensaje("Unibot", "Te damos la bienvenida a formar parte de nuestro ecosistema de educación.");
+                                    agregarMensaje("Tivy", "Welcome to our education ecosystem.");
                                     
                                     if (paso == "5.1" || paso == "5.2") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "formulario_inicial_nuevo");
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1679,7 +1694,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.3" && data.evaluacionPresaberes == "SI") {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.3 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1719,7 +1734,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.4" && data.programoEntrevista == "SI" && data.entrevista == "SI" && data.admitido == 1) {
                                         let msgControl = "paso 5.4 terminado";
                                         //Se consume web service de cambio de paso
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1730,11 +1745,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
 
-                                                let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                                let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                         
                                                 let intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                                 intencion.respuesta = respuesta;
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1748,15 +1763,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                         divPasos.appendChild(imgPasos);
                                     }
                                     else if (paso == "5.4" && data.programoEntrevista == "SI") {
-                                        let respuesta = admitido == "1" ? "Su entrevista está programada para el día: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link de la entrevista: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
+                                        let respuesta = admitido == "1" ? "Your interview is scheduled for the day: " + data.fechaEntrevista + " " + data.horaEntrevista + ". Link to the interview: <a href='" + meet_psicologo + "' target='_blank'>" + meet_psicologo + "</a>" : "";
                                         
                                         let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_nuevo");
                                         intencion.respuesta = respuesta;
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
                                     }
                                     else if (paso == "5.4") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1768,11 +1783,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                         divPasos.appendChild(imgPasos);
                                     }
                                     else if (paso == "5.5") {
-                                        let respuesta = "Los costos de matrícula para el grado " + data.grado_matricular + " son: <ul><li>Matrícula <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Otros Cobros Periódicos <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pensión <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
+                                        let respuesta = "Tuition costs for the degree " + data.grado_matricular + " are: <ul><li>Tuition <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.matricula) + "</span></li><li>Other periodic collections <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.ocp) + "</span></li><li>Pension <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pension) + "</span></li><li>Total <span style='color: #0B77B3; font-weight: bold;'>" + formatoCadenaNumero(data.pp) + "</span></li></ul>";
                                         
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                         intencion.respuesta = respuesta;
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1785,7 +1800,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if ((paso == "5.5.1" || paso == "5.5.2") && data.validacion_comprobante_matricula == 0) {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1799,7 +1814,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.5.2" && data.validacion_comprobante_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.5.2 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1810,7 +1825,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
                                         
@@ -1825,7 +1840,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "5.6") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1839,7 +1854,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     else if (paso == "5.6.1" && data.validacion_documentos_finales_matricula == 1) {
                                         //Se consume web service de cambio de paso
                                         let msgControl = "paso 5.6.1 terminado";
-                                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -1850,7 +1865,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 paso = data_cp.siguiente_paso;
                                                 etiqueta_intencion = data_cp.etiqueta_intencion;
                                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                if (intencion) agregarMensaje("Unibot", intencion);
+                                                if (intencion) agregarMensaje("Tivy", intencion);
                                             }
                                         });
 
@@ -1865,7 +1880,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "5.6.1") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1878,7 +1893,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                     else if (paso == "5.7") {
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
 
                                         //imagen con pasos resumen
                                         const divPasos = document.getElementById("div-pasos");
@@ -1891,10 +1906,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                     }
                                 }
                                 else if (data.estado == "inactivo") {
-                                    agregarMensaje("Unibot", "Este documento se encuentra inactivo en este momento. Comunícate con Secretaría Académica.");
+                                    agregarMensaje("Tivy", "This document is currently withdrawn. Please contact the Academic Secretariat.");
                                 }
                                 else {
-                                    agregarMensaje("Unibot", "No se pudo procesar la solicitud de matrícula para éste documento. Comunícate con Secretaría Académica.");
+                                    agregarMensaje("Tivy", "The registration request for this document could not be processed. Please contact the Academic Secretariat.");
                                 }
                             }
 
@@ -1902,7 +1917,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             // Opcional: desbloquear siguiente paso
                             //agregarMensaje("Unibot", "¿En qué más puedo ayudarte?");
                         } else {
-                            agregarMensaje("Unibot", contenido.mensaje_error);
+                            agregarMensaje("Tivy", contenido.mensaje_error);
                         }
                     })
                     /*.catch(err => {
@@ -1936,7 +1951,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }                    
                     contenedor.removeChild(contenedorCarga);
@@ -1963,33 +1978,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS COMPLEMENTARIOS DEL ESTUDIANTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75>
+                            ADDITIONAL STUDENT INFORMATION
                         </div>
-                        <div><strong>Apellidos:</strong> ${d.apellidos}</div>
-                        <div><strong>Nombres:</strong> ${d.nombres}</div>
-                        <div><strong>Grado:</strong> ${grado}</div>
-                        <div><strong>Tipo de documento:</strong> ${d.tdoc}</div>
-                        <div><strong>Teléfono:</strong> ${d.tel}</div>
-                        <div><strong>Correo:</strong> ${d.email}</div>
-                        <div><strong>Factor RH:</strong> ${rh}</div>
-                        <div><strong>Medio de llegada:</strong> ${d.medio}</div>
-                        <div><strong>Actividad extra:</strong> ${d.actividad_extra}</div>
-                        <div><strong>Género:</strong> ${d.genero}</div>
+                        <div><strong>Surnames:</strong> ${d.apellidos}</div>
+                        <div><strong>Names:</strong> ${d.nombres}</div>
+                        <div><strong>Degree:</strong> ${grado}</div>
+                        <div><strong>Document type:</strong> ${d.tdoc}</div>
+                        <div><strong>Phone:</strong> ${d.tel}</div>
+                        <div><strong>Mail:</strong> ${d.email}</div>
+                        <div><strong>RH factor:</strong> ${rh}</div>
+                        <div><strong>Means of arrival:</strong> ${d.medio}</div>
+                        <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
+                        <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            CONDICIÓN SOCIO-ECONÓMICA: ${d.situacion_se}
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS DEL ACUDIENTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            GUARDIAN'S INFORMATION
                         </div>
-                        <div><strong>Nombre:</strong> ${d.acudiente}</div>
-                        <div><strong>Documento:</strong> ${d.docA}</div>
-                        <div><strong>Dirección:</strong> ${d.direccion}</div>
-                        <div><strong>Celular:</strong> ${d.telA}</div>
-                        <div><strong>Correo:</strong> ${d.emailA}</div>
-                        <div><strong>Parentesco:</strong> ${d.parentesco_acudiente_1}</div>
+                        <div><strong>Name:</strong> ${d.acudiente}</div>
+                        <div><strong>Document:</strong> ${d.docA}</div>
+                        <div><strong>Address:</strong> ${d.direccion}</div>
+                        <div><strong>Cellular:</strong> ${d.telA}</div>
+                        <div><strong>Mail:</strong> ${d.emailA}</div>
+                        <div><strong>Relationship:</strong> ${d.parentesco_acudiente_1}</div>
                     `;
                     contenedor.appendChild(cont);
 
@@ -2006,10 +2021,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.wordWrap = "break-word";
                     msg1.className += "bot-msg";
                     if (grado == "" || grado == "Ninguno") {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Necesitas actualizar los datos registrados y seleccionar un grado.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Revisa y actualiza los datos registrados.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> Review and update the recorded data.";
                     }                    
                     contenedor.appendChild(msg1);
                     
@@ -2023,11 +2038,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                            if (destino) agregarMensaje("Unibot", destino);
+                            if (destino) agregarMensaje("Tivy", destino);
                         };
 
                         if ((grado == "" || grado == "Ninguno") && index == 1) {
@@ -2043,7 +2058,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -2059,7 +2074,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -2073,7 +2088,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -2085,7 +2100,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -2103,7 +2118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -2119,16 +2134,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_sd") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_sd");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_matricula_ant_sd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_sd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                         }
                     };
                     botonera.appendChild(boton);
@@ -2157,7 +2172,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -2166,7 +2181,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: matricula,
                                     referencia: referencia_pago_m,
-                                    concepto: "Matrícula"
+                                    concepto: "Tuition"
                                 });
                             }
                             else {                                
@@ -2175,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         else if (btn.destino == "comprobante_matricula_ant_sd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_sd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);                                                    
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);                                                    
                         }
                     };
                     botonera.appendChild(boton);
@@ -2208,7 +2223,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 //label.style.borderRadius = "8px";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -2225,13 +2240,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -2243,12 +2258,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_sd");
-                    if (intencion) agregarMensaje("Unibot", intencion);
+                    if (intencion) agregarMensaje("Tivy", intencion);
                 };
 
                 input.addEventListener("change", function(e) {
@@ -2266,27 +2281,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-2026-pp.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-2026-pp.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -2306,7 +2321,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 1.3 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2318,7 +2333,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 1.3.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2329,7 +2344,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             paso = data.siguiente_paso;
                                             etiqueta_intencion = data.etiqueta_intencion;
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -2346,12 +2361,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -2378,7 +2393,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 estadoDiv.style.margin = "10px auto";
                 estadoDiv.style.width = "fit-content";
                 estadoDiv.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";*/
-                const estadoDiv = estadoValidacion("comprobante pago matrícula");
+                const estadoDiv = estadoValidacion("tuition payment receipt");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -2397,34 +2412,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                        LISTADO DE DOCUMENTOS
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                        LIST OF DOCUMENTS
                     </div>
-                    <div style="color: red;"><strong>Nota: Todos los documentos deben ser en pdf. Tener en cuenta que si todos los documentos no están debidamente cargados, serán rechazados y su proceso se demorará varios días más. La revisión podría tardar hasta 8 días hábiles.</strong></div><br>
-                    <div>1. Contrato de matrícula, Pagaré y consentimiento informado <span style="font-weight: bold;">firmados</span>. <mark class="mi-resaltado">El pagaré debe estar autenticado en notaría.</mark> (El contrato y el pagaré se enviaron al correo del acudiente cuando se validó el comprobante de matrícula).</div><br>
-                    <div>2. Documento de identidad del estudiante (registro civil para menores de 7 años; tarjeta de identidad entre 7 y 17 años y cédula de ciudadanía para mayores de 18 años). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>3. Documento de identidad del acudiente, (misma persona que firma el contrato). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>4. Paz y salvo año lectivo anterior.</div><br>
-                    <div>5. Fotografía reciente del estudiante.</div><br>
+                    <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
+                    <div>1. Matriculation Contract, Promissory Note, and Informed Consent. <span style="font-weight: bold;">signed</span>. <mark class="mi-resaltado">The promissory note must be authenticated at a notary's office.</mark> (The contract and promissory note were sent to the guardian's email address once the registration receipt was validated.).</div><br>
+                    <div>2. Student identity document (Civil registration for children under 7 years old; identity card for those between 7 and 17 years old and citizenship card for those over 18 years old). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>3. Guardian's identity document, (same person who signs the contract). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>4. Clearance certificate for the previous academic year.</div><br>
+                    <div>5. Recent photograph of the student.</div><br>
                     <div>6. Certificado de afiliación a E.P.S del estudiante.</div><br>
-                    <div>7. Certificado de actividad extracurricular. <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>8. <mark class="mi-resaltado">Para estudiantes nuevos:</mark> <span style="color: white; background: orange;">Primaria:</span> Certificado final de calificaciones año anterior. <span style="color: white; background: purple;">Bachillerato:</span> Todos los certificados finales de calificaciones desde quinto de primaria hasta el último año cursado.</div><br>
-                    <div>9. Carnet de vacunación al día, con esquema completo incluyendo refuerzos. Tener en cuenta la siguiente tabla:
+                    <div>7. Certificate of extracurricular activity. <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>8. <mark class="mi-resaltado">For new students:</mark> <span style="color: white; background: orange;">Primary:</span> Final grade certificate from the previous year. <span style="color: white; background: purple;">Baccalaureate:</span> All final grade certificates from fifth grade through the last year completed.</div><br>
+                    <div>9. Up-to-date vaccination record, with complete schedule including boosters. Please refer to the following table.:
                         <table>
                             <thead>
                                 <tr>
-                                    <th>EDAD</th><th>VACUNA</th>
+                                    <th>AGE</th><th>VACCINE</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>9 a 17 AÑOS</td><td>VPH</td>
+                                    <td>9 to 17 YEARS</td><td>VPH</td>
                                 </tr>
                                 <tr>
-                                    <td>6 a 15 AÑOS</td><td>SARAMPIÓN, RUBEOLA</td>
+                                    <td>6 to 15 YEARS</td><td>MEASLES, RUBELLA</td>
                                 </tr>
                                 <tr>
-                                    <td>9 MESES a 19 AÑOS</td><td>FIEBRE AMARILLA</td>
+                                    <td>9 MONTHS to 19 YEARS</td><td>YELLOW FEVER</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2443,11 +2458,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                        if (destino) agregarMensaje("Unibot", destino);
+                        if (destino) agregarMensaje("Tivy", destino);
                     };
 
                     botonera.appendChild(boton);
@@ -2470,7 +2485,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -2484,7 +2499,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -2496,7 +2511,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -2509,7 +2524,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -2529,7 +2544,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 estadoDiv.style.margin = "10px auto";
                 estadoDiv.style.width = "fit-content";
                 estadoDiv.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";*/
-                const estadoDiv = estadoValidacion("documentos matrícula");
+                const estadoDiv = estadoValidacion("registration documents");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -2539,7 +2554,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Imagen final
                 const imgFinal = document.createElement("img");
                 imgFinal.src = contenido.imagen;
-                imgFinal.alt = "Proceso de admisión completado";
+                imgFinal.alt = "Admission process completed";
                 //imgFinal.style.width = "80%";
                 imgFinal.classList.add("imgFinal");
                 /*imgFinal.style.maxWidth = "600px";*/
@@ -2588,17 +2603,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_deuda_antiguo") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_deuda_antiguo");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_deuda_ant_cd") {
                             let msgControl = "paso 2.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2609,7 +2624,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                                    if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                                 }
                             });
                         }
@@ -2631,7 +2646,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -2640,7 +2655,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: deuda,
                                     referencia: referencia_pago,
-                                    concepto: "Deuda"
+                                    concepto: "Debt"
                                 });
                             }
                             else {                                
@@ -2650,7 +2665,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_cd") {
                             let msgControl = "paso 2.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2661,7 +2676,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                                    if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                                 }
                             });                                                    
                         }
@@ -2697,7 +2712,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 //label.textContent = "📤 Seleccionar comprobante";
                 label.style.padding = "12px 16px";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 //label.style.backgroundColor = "#C75EA3";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -2715,13 +2730,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -2734,14 +2749,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.color = "#555";
 
                 // --- Nuevo botón "Cambiar medio de pago" ---
-                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     //Se debe devolver un paso
                     let msgControl = "paso 2.1.1.1 pendiente";
                     //Se consume web service de cambio de paso
-                    fetch("https://unicab.org/avadmisiones/av_update_paso_anterior.php", {
+                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso_anterior.php", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2753,7 +2768,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             paso = data.paso_anterior;
                             //etiqueta_intencion = data.etiqueta_intencion;
                             const anterior = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_deuda_antiguo");
-                            if (anterior) agregarMensaje("Unibot", anterior);
+                            if (anterior) agregarMensaje("Tivy", anterior);
                         }
                     });
                 };
@@ -2773,27 +2788,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-20251105-deuda.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-20251105-debt.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_deuda", file);
                     formData.append("valor", deuda);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_deuda.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_deuda.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -2815,7 +2830,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             let msgControl = "paso 2.1.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -2826,7 +2841,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
 
                                     //imagen con pasos resumen
                                     const divPasos = document.getElementById("div-pasos");
@@ -2841,12 +2856,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -2862,7 +2877,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago deuda");
+                const estadoDiv = estadoValidacion("proof of debt payment");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -2888,7 +2903,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }                    
                     contenedor.removeChild(contenedorCarga);
@@ -2915,33 +2930,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS COMPLEMENTARIOS DEL ESTUDIANTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            ADDITIONAL STUDENT INFORMATION
                         </div>
-                        <div><strong>Apellidos:</strong> ${d.apellidos}</div>
-                        <div><strong>Nombres:</strong> ${d.nombres}</div>
-                        <div><strong>Grado:</strong> ${grado}</div>
-                        <div><strong>Tipo de documento:</strong> ${d.tdoc}</div>
-                        <div><strong>Teléfono:</strong> ${d.tel}</div>
-                        <div><strong>Correo:</strong> ${d.email}</div>
-                        <div><strong>Factor RH:</strong> ${rh}</div>
-                        <div><strong>Medio de llegada:</strong> ${d.medio}</div>
-                        <div><strong>Actividad extra:</strong> ${d.actividad_extra}</div>
-                        <div><strong>Género:</strong> ${d.genero}</div>
+                        <div><strong>Surnames:</strong> ${d.apellidos}</div>
+                        <div><strong>Names:</strong> ${d.nombres}</div>
+                        <div><strong>Degree:</strong> ${grado}</div>
+                        <div><strong>Document type:</strong> ${d.tdoc}</div>
+                        <div><strong>Phone:</strong> ${d.tel}</div>
+                        <div><strong>Mail:</strong> ${d.email}</div>
+                        <div><strong>RH factor:</strong> ${rh}</div>
+                        <div><strong>Means of arrival:</strong> ${d.medio}</div>
+                        <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
+                        <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            CONDICIÓN SOCIO-ECONÓMICA: ${d.situacion_se}
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS DEL ACUDIENTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            GUARDIAN'S INFORMATION
                         </div>
-                        <div><strong>Nombre:</strong> ${d.acudiente}</div>
-                        <div><strong>Documento:</strong> ${d.docA}</div>
-                        <div><strong>Dirección:</strong> ${d.direccion}</div>
-                        <div><strong>Celular:</strong> ${d.telA}</div>
-                        <div><strong>Correo:</strong> ${d.emailA}</div>
-                        <div><strong>Parentesco:</strong> ${d.parentesco_acudiente_1}</div>
+                        <div><strong>Name:</strong> ${d.acudiente}</div>
+                        <div><strong>Document:</strong> ${d.docA}</div>
+                        <div><strong>Address:</strong> ${d.direccion}</div>
+                        <div><strong>Cellular:</strong> ${d.telA}</div>
+                        <div><strong>Mail:</strong> ${d.emailA}</div>
+                        <div><strong>Relationship:</strong> ${d.parentesco_acudiente_1}</div>
                     `;
                     contenedor.appendChild(cont);
 
@@ -2958,10 +2973,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.wordWrap = "break-word";
                     msg1.className += "bot-msg";
                     if (grado == "" || grado == "Ninguno") {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Necesitas actualizar los datos registrados y seleccionar un grado.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Revisa y actualiza los datos registrados.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> Review and update the recorded data.";
                     }                    
                     contenedor.appendChild(msg1);
                     
@@ -2975,11 +2990,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                            if (destino) agregarMensaje("Unibot", destino);
+                            if (destino) agregarMensaje("Tivy", destino);
                         };
 
                         if ((grado == "" || grado == "Ninguno") && index == 1) {
@@ -2995,7 +3010,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -3011,7 +3026,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -3025,7 +3040,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -3037,7 +3052,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -3055,7 +3070,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.error("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -3071,16 +3086,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_cd") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_cd");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_matricula_ant_cd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_cd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                         }
                     };
                     botonera.appendChild(boton);
@@ -3109,7 +3124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -3118,7 +3133,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: matricula,
                                     referencia: referencia_pago_m,
-                                    concepto: "Matrícula"
+                                    concepto: "Tuition"
                                 });
                             }
                             else {                                
@@ -3127,7 +3142,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         else if (btn.destino == "comprobante_matricula_ant_cd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_cd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);                                                    
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);                                                    
                         }
                     };
                     botonera.appendChild(boton);
@@ -3160,7 +3175,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -3176,13 +3191,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -3194,12 +3209,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_cd");
-                    if (intencion) agregarMensaje("Unibot", intencion);
+                    if (intencion) agregarMensaje("Tivy", intencion);
                 };
 
                 input.addEventListener("change", function(e) {
@@ -3217,27 +3232,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-2026-pp.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-2026-pp.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -3257,7 +3272,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 2.3 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3269,7 +3284,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 2.3.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3280,7 +3295,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             paso = data.siguiente_paso;
                                             etiqueta_intencion = data.etiqueta_intencion;
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -3297,12 +3312,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -3318,7 +3333,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago matrícula");
+                const estadoDiv = estadoValidacion("tuition payment receipt");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -3337,34 +3352,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                        LISTADO DE DOCUMENTOS
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                        LIST OF DOCUMENTS
                     </div>
-                    <div style="color: red;"><strong>Nota: Todos los documentos deben ser en pdf. Tener en cuenta que si todos los documentos no están debidamente cargados, serán rechazados y su proceso se demorará varios días más. La revisión podría tardar hasta 8 días hábiles.</strong></div><br>
-                    <div>1. Contrato de matrícula, Pagaré y consentimiento informado <span style="font-weight: bold;">firmados</span>. <mark class="mi-resaltado">El pagaré debe estar autenticado en notaría.</mark> (El contrato y el pagaré se enviaron al correo del acudiente cuando se validó el comprobante de matrícula).</div><br>
-                    <div>2. Documento de identidad del estudiante (registro civil para menores de 7 años; tarjeta de identidad entre 7 y 17 años y cédula de ciudadanía para mayores de 18 años). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>3. Documento de identidad del acudiente, (misma persona que firma el contrato). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>4. Paz y salvo año lectivo anterior.</div><br>
-                    <div>5. Fotografía reciente del estudiante.</div><br>
+                    <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
+                    <div>1. Matriculation Contract, Promissory Note, and Informed Consent <span style="font-weight: bold;">signed</span>. <mark class="mi-resaltado">The promissory note must be authenticated at a notary's office.</mark> (The contract and promissory note were sent to the guardian's email address once the registration receipt was validated).</div><br>
+                    <div>2. Student identity document (Civil registration for children under 7 years old; identity card for those between 7 and 17 years old and citizenship card for those over 18 years old). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>3. Guardian's identity document, (same person who signs the contract). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>4. Clearance certificate for the previous academic year.</div><br>
+                    <div>5. Recent photograph of the student.</div><br>
                     <div>6. Certificado de afiliación a E.P.S del estudiante.</div><br>
-                    <div>7. Certificado de actividad extracurricular. <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>8. <mark class="mi-resaltado">Para estudiantes nuevos:</mark> <span style="color: white; background: orange;">Primaria:</span> Certificado final de calificaciones año anterior. <span style="color: white; background: purple;">Bachillerato:</span> Todos los certificados finales de calificaciones desde quinto de primaria hasta el último año cursado.</div><br>
-                    <div>9. Carnet de vacunación al día, con esquema completo incluyendo refuerzos. Tener en cuenta la siguiente tabla:
+                    <div>7. Certificate of extracurricular activity. <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>8. <mark class="mi-resaltado">For new students:</mark> <span style="color: white; background: orange;">Primary:</span> Final grade certificate from the previous year. <span style="color: white; background: purple;">Baccalaureate:</span> All final grade certificates from fifth grade through the last year completed.</div><br>
+                    <div>9. Up-to-date vaccination record, with complete schedule including boosters. Please refer to the following table:
                         <table>
                             <thead>
                                 <tr>
-                                    <th>EDAD</th><th>VACUNA</th>
+                                    <th>AGE</th><th>VACCINE</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>9 a 17 AÑOS</td><td>VPH</td>
+                                    <td>9 to 17 YEARS</td><td>VPH</td>
                                 </tr>
                                 <tr>
-                                    <td>6 a 15 AÑOS</td><td>SARAMPIÓN, RUBEOLA</td>
+                                    <td>6 to 15 YEARS</td><td>MEASLES, RUBELLA</td>
                                 </tr>
                                 <tr>
-                                    <td>9 MESES a 19 AÑOS</td><td>FIEBRE AMARILLA</td>
+                                    <td>9 MONTHS to 19 YEARS</td><td>YELLOW FEVER</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -3383,11 +3398,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                        if (destino) agregarMensaje("Unibot", destino);
+                        if (destino) agregarMensaje("Tivy", destino);
                     };
 
                     botonera.appendChild(boton);
@@ -3410,7 +3425,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -3424,7 +3439,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -3436,7 +3451,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -3449,7 +3464,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌It was not possible to connect to the system.");
                 });
             }
 
@@ -3458,7 +3473,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("documentos matrícula");
+                const estadoDiv = estadoValidacion("registration documents");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -3468,7 +3483,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Imagen final
                 const imgFinal = document.createElement("img");
                 imgFinal.src = contenido.imagen;
-                imgFinal.alt = "Proceso de admisión completado";
+                imgFinal.alt = "Admission process completed";
                 //imgFinal.style.width = "80%";
                 /*imgFinal.style.maxWidth = "600px";*/
                 imgFinal.classList.add("imgFinal");
@@ -3517,17 +3532,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_deuda_antiguo_nuevo") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_deuda_antiguo_nuevo");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_deuda_ant_nuevo_cd") {
                             let msgControl = "paso 3.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3538,7 +3553,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                                    if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                                 }
                             });
                         }
@@ -3560,7 +3575,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -3569,7 +3584,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: deuda,
                                     referencia: referencia_pago,
-                                    concepto: "Deuda"
+                                    concepto: "Debt"
                                 });
                             }
                             else {                                
@@ -3579,7 +3594,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         else if (btn.destino == "comprobante_deuda_ant_nuevo_cd") {
                             let msgControl = "paso 3.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3590,7 +3605,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                                    if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                                 }
                             });                                                    
                         }
@@ -3626,7 +3641,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 //label.textContent = "📤 Seleccionar comprobante";
                 label.style.padding = "12px 16px";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 //label.style.backgroundColor = "#C75EA3";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
@@ -3644,13 +3659,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -3663,14 +3678,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.color = "#555";
 
                 // --- Nuevo botón "Cambiar medio de pago" ---
-                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton(contenido.botones[0].tipo, "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     //Se debe devolver un paso
                     let msgControl = "paso 3.1.1.1 pendiente";
                     //Se consume web service de cambio de paso
-                    fetch("https://unicab.org/avadmisiones/av_update_paso_anterior.php", {
+                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso_anterior.php", {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3681,7 +3696,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             paso = data.paso_anterior;
                             etiqueta_intencion = data.etiqueta_intencion;
                             const anterior = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                            if (anterior) agregarMensaje("Unibot", anterior);
+                            if (anterior) agregarMensaje("Tivy", anterior);
                         }
                     });
                 };
@@ -3701,28 +3716,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-20251105-deuda.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-20251105-debt.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_deuda", file);
                     formData.append("valor", deuda);
+                    console.log(formData);
 
                     //fetch('chatbot/subir-comprobante-deuda.php', {
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_deuda.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_deuda.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -3752,7 +3768,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             let msgControl = "paso 3.1.1.1 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -3763,7 +3779,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     paso = data.siguiente_paso;
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
 
                                     //imagen con pasos resumen
                                     const divPasos = document.getElementById("div-pasos");
@@ -3778,13 +3794,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         //console.error(err);
                         console.error("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -3805,7 +3821,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago deuda");
+                const estadoDiv = estadoValidacion("proof of debt payment");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -3831,7 +3847,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }                    
                     contenedor.removeChild(contenedorCarga);
@@ -3861,33 +3877,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS COMPLEMENTARIOS DEL ESTUDIANTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            ADDITIONAL STUDENT INFORMATION
                         </div>
-                        <div><strong>Apellidos:</strong> ${d.apellidos}</div>
-                        <div><strong>Nombres:</strong> ${d.nombres}</div>
-                        <div><strong>Grado:</strong> ${grado}</div>
-                        <div><strong>Tipo de documento:</strong> ${d.tdoc}</div>
-                        <div><strong>Teléfono:</strong> ${d.tel}</div>
-                        <div><strong>Correo:</strong> ${d.email}</div>
-                        <div><strong>Factor RH:</strong> ${rh}</div>
-                        <div><strong>Medio de llegada:</strong> ${d.medio}</div>
-                        <div><strong>Actividad extra:</strong> ${d.actividad_extra}</div>
-                        <div><strong>Género:</strong> ${d.genero}</div>
+                        <div><strong>Surnames:</strong> ${d.apellidos}</div>
+                        <div><strong>Names:</strong> ${d.nombres}</div>
+                        <div><strong>Degree:</strong> ${grado}</div>
+                        <div><strong>Document type:</strong> ${d.tdoc}</div>
+                        <div><strong>Phone:</strong> ${d.tel}</div>
+                        <div><strong>Mail:</strong> ${d.email}</div>
+                        <div><strong>RH factor:</strong> ${rh}</div>
+                        <div><strong>Means of arrival:</strong> ${d.medio}</div>
+                        <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
+                        <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            CONDICIÓN SOCIO-ECONÓMICA: ${d.situacion_se}
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS DEL ACUDIENTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            GUARDIAN'S INFORMATION
                         </div>
-                        <div><strong>Nombre:</strong> ${d.acudiente}</div>
-                        <div><strong>Documento:</strong> ${d.docA}</div>
-                        <div><strong>Dirección:</strong> ${d.direccion}</div>
-                        <div><strong>Celular:</strong> ${d.telA}</div>
-                        <div><strong>Correo:</strong> ${d.emailA}</div>
-                        <div><strong>Parentesco:</strong> ${d.parentesco_acudiente_1}</div>
+                        <div><strong>Name:</strong> ${d.acudiente}</div>
+                        <div><strong>Document:</strong> ${d.docA}</div>
+                        <div><strong>Address:</strong> ${d.direccion}</div>
+                        <div><strong>Cellular:</strong> ${d.telA}</div>
+                        <div><strong>Mail:</strong> ${d.emailA}</div>
+                        <div><strong>Relationship:</strong> ${d.parentesco_acudiente_1}</div>
                     `;
                     contenedor.appendChild(cont);
 
@@ -3904,10 +3920,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.wordWrap = "break-word";
                     //msg1.className += "bot-msg";
                     if (grado == "" || grado == "Ninguno") {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Necesitas actualizar los datos registrados y seleccionar un grado.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
-                        msg1.innerHTML = "<strong>Unibot:</strong> ¿Desea actualizarlos?";
+                        msg1.innerHTML = "<strong>Tivy:</strong> ¿Do you want to update them??";
                     }                    
                     contenedor.appendChild(msg1);
                     
@@ -3921,11 +3937,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                            if (destino) agregarMensaje("Unibot", destino);
+                            if (destino) agregarMensaje("Tivy", destino);
                         };
 
                         if ((grado == "" || grado == "Ninguno") && index == 1) {
@@ -3941,7 +3957,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.error("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -3957,7 +3973,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -3971,7 +3987,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -3983,7 +3999,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -4001,7 +4017,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.error("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -4019,7 +4035,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -4056,7 +4072,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //contenedor.removeChild(contenedorCarga);
 
                     if (data.status !== "success" || !data.botones) {
-                        agregarMensaje("Unibot", "❌ No se pudieron cargar los horarios.");
+                        agregarMensaje("Tivy", "❌ The schedules could not be loaded.");
                         return;
                     }
 
@@ -4072,16 +4088,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
                             boton.disabled = true;
                             boton.innerHTML = `
                                 <img src="chatbot/img/subiendo.gif" 
-                                    alt="Cargando" 
+                                    alt="Charging" 
                                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                                Enviando...
+                                Sending...
                             `;
                             boton.style.opacity = "0.7";
                             boton.style.cursor = "not-allowed";
@@ -4098,7 +4114,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -4107,24 +4123,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(resp => {
                                 if (resp.status === "success") {
                                     let correo = resp.mensaje_entrevista.split("_");
-                                    let respuesta = "✅ Entrevista agendada exitosamente. Se envío un correo con toda la información a " + correo[1];
+                                    let respuesta = "✅ Interview successfully scheduled. An email with all the information was sent to " + correo[1];
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_ant_nuevo_cd");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "✅ Entrevista agendada exitosamente.");
                                 } else {
-                                    let respuesta = "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.";
+                                    let respuesta = "❌ The schedule is full for that date and time. Please select another option.";
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "entrevista_ant_nuevo_cd");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.");
                                 }
                             })
                             .catch(err => {
                                 console.log(err);
-                                agregarMensaje("Unibot", "⚠️ Error de conexión con el servidor.");
+                                agregarMensaje("Tivy", "⚠️ Server connection error.");
                             });
                         };
 
@@ -4139,7 +4155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     contenedor.appendChild(estadoDiv);
                 })
                 .catch(() => {
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
 
                 //imagen con pasos resumen
@@ -4166,13 +4182,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
                                 const intencionDestino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
                                 if (intencionDestino) {
-                                    agregarMensaje("Unibot", intencionDestino);
+                                    agregarMensaje("Tivy", intencionDestino);
                                 } 
                             } 
                         };
@@ -4209,16 +4225,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_nuevo_cd") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_nuevo_cd");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_matricula_ant_nuevo_cd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_nuevo_cd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                         }
                     };
                     botonera.appendChild(boton);
@@ -4247,7 +4263,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -4256,7 +4272,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: matricula,
                                     referencia: referencia_pago_m,
-                                    concepto: "Matrícula"
+                                    concepto: "Tuition"
                                 });
                             }
                             else {                                
@@ -4265,7 +4281,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         else if (btn.destino == "comprobante_matricula_ant_nuevo_cd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_nuevo_cd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);                                                    
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);                                                    
                         }
                     };
                     botonera.appendChild(boton);
@@ -4298,7 +4314,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -4314,13 +4330,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -4332,12 +4348,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_nuevo_cd");
-                    if (intencion) agregarMensaje("Unibot", intencion);
+                    if (intencion) agregarMensaje("Tivy", intencion);
                 };
 
                 input.addEventListener("change", function(e) {
@@ -4355,27 +4371,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-2026-pp.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-2026-pp.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -4395,7 +4411,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 3.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -4407,7 +4423,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 3.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -4418,7 +4434,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             paso = data.siguiente_paso;
                                             etiqueta_intencion = data.etiqueta_intencion;
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -4435,12 +4451,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -4456,7 +4472,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago matrícula");
+                const estadoDiv = estadoValidacion("tuition payment receipt");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -4476,34 +4492,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                        LISTADO DE DOCUMENTOS
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                        LIST OF DOCUMENTS
                     </div>
-                    <div style="color: red;"><strong>Nota: Todos los documentos deben ser en pdf. Tener en cuenta que si todos los documentos no están debidamente cargados, serán rechazados y su proceso se demorará varios días más. La revisión podría tardar hasta 8 días hábiles.</strong></div><br>
-                    <div>1. Contrato de matrícula, Pagaré y consentimiento informado <span style="font-weight: bold;">firmados</span>. <mark class="mi-resaltado">El pagaré debe estar autenticado en notaría.</mark> (El contrato y el pagaré se enviaron al correo del acudiente cuando se validó el comprobante de matrícula).</div><br>
-                    <div>2. Documento de identidad del estudiante (registro civil para menores de 7 años; tarjeta de identidad entre 7 y 17 años y cédula de ciudadanía para mayores de 18 años). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>3. Documento de identidad del acudiente, (misma persona que firma el contrato). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>4. Paz y salvo año lectivo anterior.</div><br>
-                    <div>5. Fotografía reciente del estudiante.</div><br>
+                    <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
+                    <div>1. Matriculation Contract, Promissory Note, and Informed Consent <span style="font-weight: bold;">signed</span>. <mark class="mi-resaltado">The promissory note must be authenticated at a notary's office.</mark> (The contract and promissory note were sent to the guardian's email address once the registration receipt was validated).</div><br>
+                    <div>2. Student identity document (Civil registration for children under 7 years old; identity card for those between 7 and 17 years old and citizenship card for those over 18 years old). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>3. Guardian's identity document, (same person who signs the contract). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>4. Clearance certificate for the previous academic year.</div><br>
+                    <div>5. Recent photograph of the student.</div><br>
                     <div>6. Certificado de afiliación a E.P.S del estudiante.</div><br>
-                    <div>7. Certificado de actividad extracurricular. <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>8. <mark class="mi-resaltado">Para estudiantes nuevos:</mark> <span style="color: white; background: orange;">Primaria:</span> Certificado final de calificaciones año anterior. <span style="color: white; background: purple;">Bachillerato:</span> Todos los certificados finales de calificaciones desde quinto de primaria hasta el último año cursado.</div><br>
-                    <div>9. Carnet de vacunación al día, con esquema completo incluyendo refuerzos. Tener en cuenta la siguiente tabla:
+                    <div>7. Certificate of extracurricular activity. <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>8. <mark class="mi-resaltado">For new students:</mark> <span style="color: white; background: orange;">Primary:</span> Final grade certificate from the previous year. <span style="color: white; background: purple;">Baccalaureate:</span> All final grade certificates from fifth grade through the last year completed.</div><br>
+                    <div>9. Up-to-date vaccination record, with complete schedule including boosters. Please refer to the following table:
                         <table>
                             <thead>
                                 <tr>
-                                    <th>EDAD</th><th>VACUNA</th>
+                                    <th>AGE</th><th>VACCINE</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>9 a 17 AÑOS</td><td>VPH</td>
+                                    <td>9 to 17 YEARS</td><td>VPH</td>
                                 </tr>
                                 <tr>
-                                    <td>6 a 15 AÑOS</td><td>SARAMPIÓN, RUBEOLA</td>
+                                    <td>6 to 15 YEARS</td><td>MEASLES, RUBELLA</td>
                                 </tr>
                                 <tr>
-                                    <td>9 MESES a 19 AÑOS</td><td>FIEBRE AMARILLA</td>
+                                    <td>9 MONTHS to 19 YEARS</td><td>YELLOW FEVER</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -4541,11 +4557,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                        if (destino) agregarMensaje("Unibot", destino);
+                        if (destino) agregarMensaje("Tivy", destino);
                     };
 
                     botonera.appendChild(boton);
@@ -4568,7 +4584,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -4582,7 +4598,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -4594,7 +4610,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -4607,7 +4623,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -4616,7 +4632,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("documentos matrícula");
+                const estadoDiv = estadoValidacion("registration documents");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -4626,7 +4642,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Imagen final
                 const imgFinal = document.createElement("img");
                 imgFinal.src = contenido.imagen;
-                imgFinal.alt = "Proceso de admisión completado";
+                imgFinal.alt = "Admission process completed";
                 //imgFinal.style.width = "80%";
                 /*imgFinal.style.maxWidth = "600px";*/
                 imgFinal.classList.add("imgFinal");
@@ -4685,7 +4701,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }                    
                     contenedor.removeChild(contenedorCarga);
@@ -4715,33 +4731,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     //<div><strong>Grado:</strong> ${d.grados?.[0]?.gra || ""}</div>
 
                     cont.innerHTML = `
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS COMPLEMENTARIOS DEL ESTUDIANTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            ADDITIONAL STUDENT INFORMATION
                         </div>
-                        <div><strong>Apellidos:</strong> ${d.apellidos}</div>
-                        <div><strong>Nombres:</strong> ${d.nombres}</div>
-                        <div><strong>Grado:</strong> ${grado}</div>
-                        <div><strong>Tipo de documento:</strong> ${d.tdoc}</div>
-                        <div><strong>Teléfono:</strong> ${d.tel}</div>
-                        <div><strong>Correo:</strong> ${d.email}</div>
-                        <div><strong>Factor RH:</strong> ${rh}</div>
-                        <div><strong>Medio de llegada:</strong> ${d.medio}</div>
-                        <div><strong>Actividad extra:</strong> ${d.actividad_extra}</div>
-                        <div><strong>Género:</strong> ${d.genero}</div>
+                        <div><strong>Surnames:</strong> ${d.apellidos}</div>
+                        <div><strong>Names:</strong> ${d.nombres}</div>
+                        <div><strong>Degree:</strong> ${grado}</div>
+                        <div><strong>Document type:</strong> ${d.tdoc}</div>
+                        <div><strong>Phone:</strong> ${d.tel}</div>
+                        <div><strong>Mail:</strong> ${d.email}</div>
+                        <div><strong>RH factor:</strong> ${rh}</div>
+                        <div><strong>Means of arrival:</strong> ${d.medio}</div>
+                        <div><strong>Extra activity:</strong> ${d.actividad_extra}</div>
+                        <div><strong>Gender:</strong> ${d.genero}</div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            CONDICIÓN SOCIO-ECONÓMICA: ${d.situacion_se}
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            SOCIO-ECONOMIC CONDITION: ${d.situacion_se}
                         </div>
                         <br>
-                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                            DATOS DEL ACUDIENTE
+                        <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                            GUARDIAN'S INFORMATION
                         </div>
-                        <div><strong>Nombre:</strong> ${d.acudiente}</div>
-                        <div><strong>Documento:</strong> ${d.docA}</div>
-                        <div><strong>Dirección:</strong> ${d.direccion}</div>
-                        <div><strong>Celular:</strong> ${d.telA}</div>
-                        <div><strong>Correo:</strong> ${d.emailA}</div>
-                        <div><strong>Parentesco:</strong> ${d.parentesco_acudiente_1}</div>
+                        <div><strong>Name:</strong> ${d.acudiente}</div>
+                        <div><strong>Document:</strong> ${d.docA}</div>
+                        <div><strong>Address:</strong> ${d.direccion}</div>
+                        <div><strong>Cellular:</strong> ${d.telA}</div>
+                        <div><strong>Mail:</strong> ${d.emailA}</div>
+                        <div><strong>Relationship:</strong> ${d.parentesco_acudiente_1}</div>
                     `;
                     contenedor.appendChild(cont);
 
@@ -4758,10 +4774,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.wordWrap = "break-word";
                     msg1.className += "bot-msg";
                     if (grado == "" || grado == "Ninguno") {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Necesitas actualizar los datos registrados y seleccionar un grado.";
+                        msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
-                        msg1.innerHTML = "<strong>Unibot:</strong> Revisa y actualiza los datos registrados";
+                        msg1.innerHTML = "<strong>Tivy:</strong> Review and update the recorded data";
                     }                    
                     contenedor.appendChild(msg1);
                     
@@ -4775,11 +4791,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach((btn, index) => {
-                        const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                        const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                            if (destino) agregarMensaje("Unibot", destino);
+                            if (destino) agregarMensaje("Tivy", destino);
                         };
 
                         if ((grado == "" || grado == "Ninguno") && index == 1) {
@@ -4795,7 +4811,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -4811,7 +4827,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -4825,7 +4841,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -4837,7 +4853,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -4855,7 +4871,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -4873,7 +4889,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -4911,7 +4927,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //contenedor.removeChild(contenedorCarga);
 
                     if (data.status !== "success" || !data.botones) {
-                        agregarMensaje("Unibot", "❌ No se pudieron cargar los horarios.");
+                        agregarMensaje("Tivy", "❌ The schedules could not be loaded..");
                         return;
                     }
 
@@ -4927,16 +4943,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
                             boton.disabled = true;
                             boton.innerHTML = `
                                 <img src="chatbot/img/subiendo.gif" 
-                                    alt="Cargando" 
+                                    alt="Charging" 
                                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                                Enviando...
+                                Sending...
                             `;
                             boton.style.opacity = "0.7";
                             boton.style.cursor = "not-allowed";
@@ -4953,7 +4969,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -4962,24 +4978,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(resp => {
                                 if (resp.status === "success") {
                                     let correo = resp.mensaje_entrevista.split("_");
-                                    let respuesta = "✅ Entrevista agendada exitosamente. Se envío un correo con toda la información a " + correo[1];
+                                    let respuesta = "✅ Interview successfully scheduled. An email with all the information was sent to " + correo[1];
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_ant_nuevo_sd");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "✅ Entrevista agendada exitosamente.");
                                 } else {
-                                    let respuesta = "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.";
+                                    let respuesta = "❌ The schedule is full for that date and time. Please select another option.";
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "entrevista_ant_nuevo_sd");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.");
                                 }
                             })
                             .catch(err => {
                                 console.log(err);
-                                agregarMensaje("Unibot", "⚠️ Error de conexión con el servidor.");
+                                agregarMensaje("Tivy", "⚠️ Server connection error.");
                             });
                         };
 
@@ -4994,7 +5010,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     contenedor.appendChild(estadoDiv);
                 })
                 .catch(() => {
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
 
                 //imagen con pasos resumen
@@ -5021,13 +5037,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
                                 const intencionDestino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
                                 if (intencionDestino) {
-                                    agregarMensaje("Unibot", intencionDestino);
+                                    agregarMensaje("Tivy", intencionDestino);
                                 } 
                             } 
                         };
@@ -5064,16 +5080,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_antiguo_nuevo_sd") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_nuevo_sd");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_matricula_ant_nuevo_sd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_nuevo_sd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                         }
                     };
                     botonera.appendChild(boton);
@@ -5102,7 +5118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -5111,7 +5127,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: matricula,
                                     referencia: referencia_pago_m,
-                                    concepto: "Matrícula"
+                                    concepto: "Tuition"
                                 });
                             }
                             else {                                
@@ -5120,7 +5136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         else if (btn.destino == "comprobante_matricula_ant_nuevo_sd") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_ant_nuevo_sd");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);                                                    
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);                                                    
                         }
                     };
                     botonera.appendChild(boton);
@@ -5153,7 +5169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -5169,13 +5185,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Select receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -5187,12 +5203,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_antiguo_nuevo_sd");
-                    if (intencion) agregarMensaje("Unibot", intencion);
+                    if (intencion) agregarMensaje("Tivy", intencion);
                 };
 
                 input.addEventListener("change", function(e) {
@@ -5210,27 +5226,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-2026-pp.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-2026-pp.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -5250,7 +5266,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 4.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5262,7 +5278,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 4.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5273,7 +5289,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             paso = data.siguiente_paso;
                                             etiqueta_intencion = data.etiqueta_intencion;
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -5290,12 +5306,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -5311,7 +5327,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago matrícula");
+                const estadoDiv = estadoValidacion("tuition payment receipt");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -5330,34 +5346,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                        LISTADO DE DOCUMENTOS
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                        LIST OF DOCUMENTS
                     </div>
-                    <div style="color: red;"><strong>Nota: Todos los documentos deben ser en pdf. Tener en cuenta que si todos los documentos no están debidamente cargados, serán rechazados y su proceso se demorará varios días más. La revisión podría tardar hasta 8 días hábiles.</strong></div><br>
-                    <div>1. Contrato de matrícula, Pagaré y consentimiento informado <span style="font-weight: bold;">firmados</span>. <mark class="mi-resaltado">El pagaré debe estar autenticado en notaría.</mark> (El contrato y el pagaré se enviaron al correo del acudiente cuando se validó el comprobante de matrícula).</div><br>
-                    <div>2. Documento de identidad del estudiante (registro civil para menores de 7 años; tarjeta de identidad entre 7 y 17 años y cédula de ciudadanía para mayores de 18 años). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>3. Documento de identidad del acudiente, (misma persona que firma el contrato). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>4. Paz y salvo año lectivo anterior.</div><br>
-                    <div>5. Fotografía reciente del estudiante.</div><br>
+                    <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
+                    <div>1. Matriculation Contract, Promissory Note, and Informed Consent <span style="font-weight: bold;">signed</span>. <mark class="mi-resaltado">The promissory note must be authenticated at a notary's office.</mark> (The contract and promissory note were sent to the guardian's email address once the registration receipt was validated).</div><br>
+                    <div>2. Student identity document (Civil registration for children under 7 years old; identity card for those between 7 and 17 years old and citizenship card for those over 18 years old). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>3. Guardian's identity document, (same person who signs the contract). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>4. Clearance certificate for the previous academic year.</div><br>
+                    <div>5. Recent photograph of the student.</div><br>
                     <div>6. Certificado de afiliación a E.P.S del estudiante.</div><br>
-                    <div>7. Certificado de actividad extracurricular. <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>8. <mark class="mi-resaltado">Para estudiantes nuevos:</mark> <span style="color: white; background: orange;">Primaria:</span> Certificado final de calificaciones año anterior. <span style="color: white; background: purple;">Bachillerato:</span> Todos los certificados finales de calificaciones desde quinto de primaria hasta el último año cursado.</div><br>
-                    <div>9. Carnet de vacunación al día, con esquema completo incluyendo refuerzos. Tener en cuenta la siguiente tabla:
+                    <div>7. Certificate of extracurricular activity. <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>8. <mark class="mi-resaltado">For new students:</mark> <span style="color: white; background: orange;">Primary:</span> Final grade certificate from the previous year. <span style="color: white; background: purple;">Baccalaureate:</span> All final grade certificates from fifth grade through the last year completed.</div><br>
+                    <div>9. Up-to-date vaccination record, with complete schedule including boosters. Please refer to the following table:
                         <table>
                             <thead>
                                 <tr>
-                                    <th>EDAD</th><th>VACUNA</th>
+                                    <th>AGE</th><th>VACCINE</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>9 a 17 AÑOS</td><td>VPH</td>
+                                    <td>9 to 17 YEARS</td><td>VPH</td>
                                 </tr>
                                 <tr>
-                                    <td>6 a 15 AÑOS</td><td>SARAMPIÓN, RUBEOLA</td>
+                                    <td>6 to 15 YEARS</td><td>MEASLES, RUBELLA</td>
                                 </tr>
                                 <tr>
-                                    <td>9 MESES a 19 AÑOS</td><td>FIEBRE AMARILLA</td>
+                                    <td>9 MONTHS to 19 YEARS</td><td>YELLOW FEVER</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -5376,11 +5392,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                        if (destino) agregarMensaje("Unibot", destino);
+                        if (destino) agregarMensaje("Tivy", destino);
                     };
 
                     botonera.appendChild(boton);
@@ -5403,7 +5419,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -5417,7 +5433,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -5429,7 +5445,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -5442,7 +5458,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -5451,7 +5467,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("documentos matrícula");
+                const estadoDiv = estadoValidacion("registration documents");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -5461,7 +5477,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Imagen final
                 const imgFinal = document.createElement("img");
                 imgFinal.src = contenido.imagen;
-                imgFinal.alt = "Proceso de admisión completado";
+                imgFinal.alt = "Admission process completed";
                 //imgFinal.style.width = "80%";
                 /*imgFinal.style.maxWidth = "600px";*/
                 imgFinal.classList.add("imgFinal");
@@ -5513,7 +5529,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
                 let seleccioneGrado = false;
@@ -5527,7 +5543,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }                    
                     //contenedor.removeChild(contenedorCarga);
@@ -5547,7 +5563,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.error("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });                
             }
 
@@ -5565,7 +5581,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         window.open(btn.url, '_blank');
@@ -5603,7 +5619,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //contenedor.removeChild(contenedorCarga);
 
                     if (data.status !== "success" || !data.botones) {
-                        agregarMensaje("Unibot", "❌ No se pudieron cargar los horarios.");
+                        agregarMensaje("Tivy", "❌ The schedules could not be loaded.");
                         return;
                     }
 
@@ -5619,16 +5635,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "100%";
 
                     data.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#28A745", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
 
                         boton.onclick = () => {
                             // Desactivar el botón y mostrar carga
                             boton.disabled = true;
                             boton.innerHTML = `
                                 <img src="chatbot/img/subiendo.gif" 
-                                    alt="Cargando" 
+                                    alt="Charging" 
                                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                                Enviando...
+                                Sending...
                             `;
                             boton.style.opacity = "0.7";
                             boton.style.cursor = "not-allowed";
@@ -5645,7 +5661,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 hora_ent: valor[1]
                             };
 
-                            fetch("https://unicab.org/avadmisiones/av_programar_entrevista.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_programar_entrevista.php", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(datos)
@@ -5654,24 +5670,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             .then(resp => {
                                 if (resp.status === "success") {
                                     let correo = resp.mensaje_entrevista.split("_");
-                                    let respuesta = "✅ Entrevista agendada exitosamente. Se envío un correo con toda la información a " + correo[1];
+                                    let respuesta = "✅ Interview successfully scheduled. An email with all the information was sent to " + correo[1];
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "reprogramar_entrevista_nuevo");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "✅ Entrevista agendada exitosamente.");
                                 } else {
-                                    let respuesta = "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.";
+                                    let respuesta = "❌ The schedule is full for that date and time. Please select another option.";
 
                                     let intencion = BASE_INTENCIONES.find(i => i.etiqueta === "entrevista_nuevo");
                                     intencion.respuesta = respuesta;
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                     //agregarMensaje("Unibot", "❌ Agenda ocupada para esa fecha y hora. Selecciona otra opción.");
                                 }
                             })
                             .catch(err => {
                                 console.log(err);
-                                agregarMensaje("Unibot", "⚠️ Error de conexión con el servidor.");
+                                agregarMensaje("Tivy", "⚠️ Server connection error.");
                             });
                         };
 
@@ -5686,7 +5702,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     contenedor.appendChild(estadoDiv);
                 })
                 .catch(() => {
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
 
                 //imagen con pasos resumen
@@ -5713,13 +5729,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     botonera.style.maxWidth = "80%";
 
                     contenido.botones.forEach(btn => {
-                        const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                        const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                         boton.onclick = () => {
                             if (btn.tipo === "intencion" && btn.destino) {
                                 const intencionDestino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
                                 if (intencionDestino) {
-                                    agregarMensaje("Unibot", intencionDestino);
+                                    agregarMensaje("Tivy", intencionDestino);
                                 } 
                             } 
                         };
@@ -5756,16 +5772,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.destino == "opciones_pago_matricula_nuevo") {
                             const intencionOpcionesPago = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_nuevo");
-                            if (intencionOpcionesPago) agregarMensaje("Unibot", intencionOpcionesPago);                        
+                            if (intencionOpcionesPago) agregarMensaje("Tivy", intencionOpcionesPago);                        
                         }
                         else if (btn.destino == "comprobante_matricula_nuevo") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_nuevo");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);
                         }
                     };
                     botonera.appendChild(boton);
@@ -5794,7 +5810,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach(btn => {
-                    const boton = crearBoton(btn.tipo, "#0B77B3", btn.texto);
+                    const boton = crearBoton(btn.tipo, "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         if (btn.tipo == "servicio") {
@@ -5803,7 +5819,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     documento: cc,
                                     valor: matricula,
                                     referencia: referencia_pago_m,
-                                    concepto: "Matrícula"
+                                    concepto: "Tuition"
                                 });
                             }
                             else {                                
@@ -5812,7 +5828,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                         else if (btn.destino == "comprobante_matricula_nuevo") {
                             const intencionComprobante = BASE_INTENCIONES.find(i => i.etiqueta === "comprobante_matricula_nuevo");
-                            if (intencionComprobante) agregarMensaje("Unibot", intencionComprobante);                                                    
+                            if (intencionComprobante) agregarMensaje("Tivy", intencionComprobante);                                                    
                         }
                     };
                     botonera.appendChild(boton);
@@ -5845,7 +5861,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.htmlFor = input.id;
                 label.style.padding = "12px 16px";
                 //label.style.backgroundColor = "#C75EA3";
-                label.style.backgroundColor = "#FF9805";
+                label.style.backgroundColor = "#222A75";
                 label.style.color = "white";
                 label.style.borderRadius = "8px 0px 0px 0px";
                 label.style.cursor = "pointer";
@@ -5861,13 +5877,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconoInput.style.height = "30px";
                 iconoInput.style.borderRadius = "4px";
                 iconoInput.src = "chatbot/img/subir_pdf1.png";
-                iconoInput.alt = "Subir";
+                iconoInput.alt = "Upload";
 
                 label.appendChild(iconoInput);
 
                 // Texto input
                 const textoInput = document.createElement("span");
-                textoInput.textContent = " Seleccionar comprobante";
+                textoInput.textContent = " Sselect receipt";
                 textoInput.style.fontWeight = "600";
                 textoInput.style.flexGrow = "1";
                 textoInput.style.color = "white";
@@ -5879,12 +5895,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 archivoTexto.style.fontSize = "13px";
                 archivoTexto.style.color = "#555";
 
-                const botonCambiarPago = crearBoton("proceso", "#0B77B3", contenido.botones[0].texto);
+                const botonCambiarPago = crearBoton("proceso", "#FC0D8C", contenido.botones[0].texto);
 
                 // Acción del botón → abre la intención "opciones_pago_deuda"
                 botonCambiarPago.onclick = () => {
                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === "opciones_pago_matricula_nuevo");
-                    if (intencion) agregarMensaje("Unibot", intencion);
+                    if (intencion) agregarMensaje("Tivy", intencion);
                 };
 
                 input.addEventListener("change", function(e) {
@@ -5902,27 +5918,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     const doc = file.name.split("-").shift();
                     console.log(doc);
                     if (doc != cc) {
-                        alert("El documento que aparece en el nombre del comprobante no corresponde con el número de documento del estudiante. Ejemplo de nombre de comprobante: 9999999-2026-pp.pdf");
+                        alert("The document number shown in the receipt name does not match the student's document number. Example of a receipt name: 9999999-2026-pp.pdf");
                         return;
                     }
 
                     // Validar tamaño (máx 5MB)
                     if (file.size > 5 * 1024 * 1024) {
-                        alert("El archivo es muy grande. Máximo 5 MB.");
+                        alert("The file is very large. Maximum 5 MB.");
                         return;
                     }
 
                     archivoTexto.textContent = file.name;
 
                     // Mostrar mensaje de espera
-                    agregarMensaje("Unibot", mensajeEspera);
+                    agregarMensaje("Tivy", mensajeEspera);
 
                     // Enviar archivo
                     const formData = new FormData();
                     formData.append("comprobante_matricula", file);
                     formData.append("valor", matricula);
 
-                    fetch('https://unicab.org/avadmisiones/subir_comprobante_matricula.php', {
+                    fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_comprobante_matricula.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -5942,7 +5958,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (data.status == "success") {
                             let msgControl = "paso 5.5 terminado";
                             //Se consume web service de cambio de paso
-                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5954,7 +5970,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     etiqueta_intencion = data.etiqueta_intencion;
                                     let msgControl = "paso 5.5.1 terminado";
                                     //Se consume web service de cambio de paso
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -5965,7 +5981,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                             paso = data.siguiente_paso;
                                             etiqueta_intencion = data.etiqueta_intencion;
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
 
                                             //imagen con pasos resumen
                                             const divPasos = document.getElementById("div-pasos");
@@ -5982,12 +5998,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             
                         }
                         else {
-                            agregarMensaje("Unibot", mensajeError + " " + data.mensaje);
+                            agregarMensaje("Tivy", mensajeError + " " + data.mensaje);
                         }
                     })
                     .catch(err => {
                         console.log("❌ Error general:", err);
-                        agregarMensaje("Unibot", mensajeError);
+                        agregarMensaje("Tivy", mensajeError);
                     });
                 });
 
@@ -6003,7 +6019,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("comprobante pago matrícula");
+                const estadoDiv = estadoValidacion("tuition payment receipt");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -6023,34 +6039,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 cont.style.lineHeight = "1.4";
                 
                 cont.innerHTML = `
-                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #ff9805;border-bottom:3px solid #ff9805">
-                        LISTADO DE DOCUMENTOS
+                    <div style="font-weight:700;padding:6px 10px;margin-bottom:8px;border-top:3px solid #222A75;border-bottom:3px solid #222A75">
+                        LIST OF DOCUMENTS
                     </div>
-                    <div style="color: red;"><strong>Nota: Todos los documentos deben ser en pdf. Tener en cuenta que si todos los documentos no están debidamente cargados, serán rechazados y su proceso se demorará varios días más. La revisión podría tardar hasta 8 días hábiles.</strong></div><br>
-                    <div>1. Contrato de matrícula, Pagaré y consentimiento informado <span style="font-weight: bold;">firmados</span>. <mark class="mi-resaltado">El pagaré debe estar autenticado en notaría.</mark> (El contrato y el pagaré se enviaron al correo del acudiente cuando se validó el comprobante de matrícula).</div><br>
-                    <div>2. Documento de identidad del estudiante (registro civil para menores de 7 años; tarjeta de identidad entre 7 y 17 años y cédula de ciudadanía para mayores de 18 años). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>3. Documento de identidad del acudiente, (misma persona que firma el contrato). <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>4. Paz y salvo año lectivo anterior.</div><br>
-                    <div>5. Fotografía reciente del estudiante.</div><br>
+                    <div style="color: red;"><strong>Note: All documents must be in PDF format. Please note that if all documents are not uploaded correctly, they will be rejected and your process will be delayed by several days. The review may take up to 8 business days.</strong></div><br>
+                    <div>1. Matriculation Contract, Promissory Note, and Informed Consent <span style="font-weight: bold;">signed</span>. <mark class="mi-resaltado">The promissory note must be authenticated at a notary's office.</mark> (The contract and promissory note were sent to the guardian's email address once the registration receipt was validated).</div><br>
+                    <div>2. Student identity document (Civil registration for children under 7 years old; identity card for those between 7 and 17 years old and citizenship card for those over 18 years old). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>3.  Guardian's identity document, (same person who signs the contract). <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>4. Clearance certificate for the previous academic year.</div><br>
+                    <div>5. Recent photograph of the student.</div><br>
                     <div>6. Certificado de afiliación a E.P.S del estudiante.</div><br>
-                    <div>7. Certificado de actividad extracurricular. <span style="color: red;">Solo si cambió.</span></div><br>
-                    <div>8. <mark class="mi-resaltado">Para estudiantes nuevos:</mark> <span style="color: white; background: orange;">Primaria:</span> Certificado final de calificaciones año anterior. <span style="color: white; background: purple;">Bachillerato:</span> Todos los certificados finales de calificaciones desde quinto de primaria hasta el último año cursado.</div><br>
-                    <div>9. Carnet de vacunación al día, con esquema completo incluyendo refuerzos. Tener en cuenta la siguiente tabla:
+                    <div>7. Certificate of extracurricular activity. <span style="color: red;">Only if it changed.</span></div><br>
+                    <div>8. <mark class="mi-resaltado">For new students:</mark> <span style="color: white; background: orange;">Primary:</span> Final grade certificate from the previous year. <span style="color: white; background: purple;">Baccalaureate:</span> All final grade certificates from fifth grade through the last year completed.</div><br>
+                    <div>9. Up-to-date vaccination record, with complete schedule including boosters. Please refer to the following table:
                         <table>
                             <thead>
                                 <tr>
-                                    <th>EDAD</th><th>VACUNA</th>
+                                    <th>AGE</th><th>VACCINE</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>9 a 17 AÑOS</td><td>VPH</td>
+                                    <td>9 to 17 YEARS</td><td>VPH</td>
                                 </tr>
                                 <tr>
-                                    <td>6 a 15 AÑOS</td><td>SARAMPIÓN, RUBEOLA</td>
+                                    <td>6 to 15 YEARS</td><td>MEASLES, RUBELLA</td>
                                 </tr>
                                 <tr>
-                                    <td>9 MESES a 19 AÑOS</td><td>FIEBRE AMARILLA</td>
+                                    <td>9 MONTHS to 19 YEARS</td><td>YELLOW FEVER</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -6069,11 +6085,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 botonera.style.maxWidth = "80%";
 
                 contenido.botones.forEach((btn, index) => {
-                    const boton = crearBoton("intencion", "#0B77B3", btn.texto);
+                    const boton = crearBoton("intencion", "#FC0D8C", btn.texto);
 
                     boton.onclick = () => {
                         const destino = BASE_INTENCIONES.find(i => i.etiqueta === btn.destino);
-                        if (destino) agregarMensaje("Unibot", destino);
+                        if (destino) agregarMensaje("Tivy", destino);
                     };
 
                     botonera.appendChild(boton);
@@ -6096,7 +6112,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -6110,7 +6126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -6122,7 +6138,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -6135,7 +6151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -6144,7 +6160,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.innerHTML = "";
                 
                 // Crear tarjeta amarilla de estado
-                const estadoDiv = estadoValidacion("documentos matrícula");
+                const estadoDiv = estadoValidacion("registration documents");
                 contenedor.appendChild(estadoDiv);
             }
 
@@ -6154,7 +6170,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Imagen final
                 const imgFinal = document.createElement("img");
                 imgFinal.src = contenido.imagen;
-                imgFinal.alt = "Proceso de admisión completado";
+                imgFinal.alt = "Admission process completed";
                 //imgFinal.style.width = "80%";
                 /*imgFinal.style.maxWidth = "600px";*/
                 imgFinal.classList.add("imgFinal");
@@ -6203,7 +6219,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorCarga.style.textAlign = "center";
 
                 const mensajeCarga = document.createElement("p");
-                mensajeCarga.textContent = "Cargando información...";
+                mensajeCarga.textContent = "Loading information...";
                 mensajeCarga.style.fontStyle = "italic";
                 mensajeCarga.style.color = "#555";
                 contenedorCarga.appendChild(mensajeCarga);
@@ -6217,7 +6233,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 chatMensajes.scrollTop = chatMensajes.scrollHeight;
 
                 if (!cc) {
-                    alert("Ingresa el número de documento del estudiante a matricular.");
+                    alert("Enter the document number of the student starting the registration process.");
                     return;
                 }
 
@@ -6229,7 +6245,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(r => r.json())
                 .then(datos => {
                     if (datos.status !== "success") {
-                        agregarMensaje("Unibot", "❌ No se pudo cargar la información del estudiante.");
+                        agregarMensaje("Tivy", "❌ The student information could not be loaded.");
                         return;
                     }
 
@@ -6242,7 +6258,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .catch(err => {
                     console.log("Error al cargar datos:", err);
-                    agregarMensaje("Unibot", "❌ No fue posible conectar con el sistema.");
+                    agregarMensaje("Tivy", "❌ It was not possible to connect to the system.");
                 });
             }
 
@@ -6310,7 +6326,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const submitBtn = document.createElement("button");
                 submitBtn.type = "submit";
-                submitBtn.textContent = contenido.boton_enviar || "Enviar";
+                submitBtn.textContent = contenido.boton_enviar || "Send";
                 submitBtn.style.padding = "10px 16px";
                 submitBtn.style.backgroundColor = "#007bff";
                 submitBtn.style.color = "white";
@@ -6339,7 +6355,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
 
                     if (!completo) {
-                        agregarMensaje("Unibot", contenido.mensaje_error);
+                        agregarMensaje("Tivy", contenido.mensaje_error);
                         return;
                     }
 
@@ -6352,14 +6368,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     .then(r => r.json())
                     .then(data => {
                         if (data.ok) {
-                            agregarMensaje("Unibot", contenido.mensaje_exito);
+                            agregarMensaje("Tivy", contenido.mensaje_exito);
                         } else {
-                            agregarMensaje("Unibot", contenido.mensaje_error + " (" + data.error + ")");
+                            agregarMensaje("Tivy", contenido.mensaje_error + " (" + data.error + ")");
                         }
                     })
                     .catch(err => {
                         console.error(err);
-                        agregarMensaje("Unibot", contenido.mensaje_error);
+                        agregarMensaje("Tivy", contenido.mensaje_error);
                     });
 
                     // Opcional: limpiar formulario
@@ -6386,14 +6402,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorDescarga.appendChild(icono);
 
                 const texto = document.createElement("p");
-                texto.textContent = contenido.nombre_archivo || "Calendario de Matrículas";
+                texto.textContent = contenido.nombre_archivo || "Registration Calendar";
                 texto.style.fontWeight = "600";
                 texto.style.margin = "0 0 8px 0";
                 texto.style.color = "#007bff";
                 contenedorDescarga.appendChild(texto);
 
                 const boton = document.createElement("button");
-                boton.textContent = "📥 Ver PDF";
+                boton.textContent = "📥 View PDF";
                 boton.style.padding = "10px 16px";
                 boton.style.backgroundColor = "#007bff";
                 boton.style.color = "white";
@@ -6423,7 +6439,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 contenedorDocs.style.backgroundColor = "#f8f9fa";
 
                 const titulo = document.createElement("p");
-                titulo.textContent = "Documentos disponibles:";
+                titulo.textContent = "Available documents:";
                 titulo.style.fontWeight = "600";
                 titulo.style.marginBottom = "10px";
                 titulo.style.color = "#333";
@@ -6548,7 +6564,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const submitBtn = document.createElement("button");
                 submitBtn.type = "submit";
-                submitBtn.textContent = contenido.boton_enviar || "Enviar";
+                submitBtn.textContent = contenido.boton_enviar || "Send";
                 submitBtn.style.padding = "10px 16px";
                 submitBtn.style.backgroundColor = "#007bff";
                 submitBtn.style.color = "white";
@@ -6579,7 +6595,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
 
                     if (!completo) {
-                        agregarMensaje("Unibot", contenido.mensaje_error);
+                        agregarMensaje("Tivy", contenido.mensaje_error);
                         return;
                     }
 
@@ -6592,14 +6608,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     .then(r => r.json())
                     .then(data => {
                         if (data.ok) {
-                            agregarMensaje("Unibot", contenido.mensaje_exito);
+                            agregarMensaje("Tivy", contenido.mensaje_exito);
                         } else {
-                            agregarMensaje("Unibot", contenido.mensaje_error + " (" + data.error + ")");
+                            agregarMensaje("Tivy", contenido.mensaje_error + " (" + data.error + ")");
                         }
                     })
                     .catch(err => {
                         console.error(err);
-                        agregarMensaje("Unibot", contenido.mensaje_error);
+                        agregarMensaje("Tivy", contenido.mensaje_error);
                     });
 
                     // Opcional: limpiar formulario
@@ -6625,11 +6641,11 @@ document.addEventListener("DOMContentLoaded", () => {
             tipos: [],
             campos: [],
             documentos: [],
-            boton_enviar: "Enviar",
+            boton_enviar: "Send",
             //boton_pagar_deuda: "Pagar deuda",
-            mensaje_espera: "Subiendo...",
-            mensaje_exito: "Archivo subido correctamente.",
-            mensaje_error: "Error al subir el archivo."
+            mensaje_espera: "Going up...",
+            mensaje_exito: "File uploaded successfully.",
+            mensaje_error: "Error uploading file."
         };
         
         BASE_INTENCIONES.forEach(intencion => {
@@ -6650,11 +6666,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     tipos: intencion.tipos || [],
                     campos: intencion.campos || [],
                     documentos: intencion.documentos || [],
-                    boton_enviar: intencion.boton_enviar || "Enviar",
+                    boton_enviar: intencion.boton_enviar || "Send",
                     //boton_pagar_deuda: intencion.boton_pagar_deuda || "Pagar deuda",
-                    mensaje_espera: intencion.mensaje_espera || "Subiendo...",
-                    mensaje_exito: intencion.mensaje_exito || "Archivo subido correctamente.",
-                    mensaje_error: intencion.mensaje_error || "Error al subir el archivo."
+                    mensaje_espera: intencion.mensaje_espera || "Going up...",
+                    mensaje_exito: intencion.mensaje_exito || "File uploaded successfully.",
+                    mensaje_error: intencion.mensaje_error || "Error uploading file."
                 };
             }
         });
@@ -6685,20 +6701,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         switch (valor) {
             case "pago_unico":
-                respuesta = "✅ Has seleccionado: Pago único de $200. ¿Deseas proceder con el pago ahora?";
+                respuesta = "✅ You have selected: One-time payment of $200. Do you wish to proceed with the payment now?";
                 break;
             case "pago_3_cuotas":
-                respuesta = "✅ Has seleccionado: 3 cuotas de $70 cada una. Total: $210. ¿Confirmas esta opción?";
+                respuesta = "✅ You have selected: 3 installments of $70 each. Total: $210. Do you confirm this option?";
                 break;
             case "pago_6_cuotas":
-                respuesta = "✅ Has seleccionado: 6 cuotas de $37 cada una. Total: $222. ¿Te parece bien?";
+                respuesta = "✅ You have selected: 6 installments of $37 each. Total: $222. Does that sound good?";
                 break;
             default:
-                respuesta = "Gracias por tu selección.";
+                respuesta = "Thank you for your selection.";
         }
 
         // Mostrar confirmación
-        agregarMensaje("Unibot", { respuesta: respuesta });
+        agregarMensaje("Tivy", { respuesta: respuesta });
     }
 
     // Generar formulario dinámico
@@ -6724,21 +6740,21 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
-        titulo1.textContent = "Paso 1 - DATOS COMPLEMENTARIOS DEL ESTUDIANTE";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
+        titulo1.textContent = "Step 1 - ADDITIONAL STUDENT INFORMATION";
         form.appendChild(titulo1);
 
         // Campos del estudiante
-        crearCampo(form, "Apellidos", "apellidos", datos.apellidos);
-        crearCampo(form, "Nombres", "nombres", datos.nombres);
+        crearCampo(form, "Surnames", "apellidos", datos.apellidos);
+        crearCampo(form, "Names", "nombres", datos.nombres);
         
         // Extraer opciones de grados desde el JSON del servicio
         const opcionesGrados = datos.grados.map(grado => ({
             valor: grado.id_gra,
             texto: grado.gra
         }));
-        const gradoSelect = crearSelect(form, "Selecciona el grado a que ingresas", "grado", opcionesGrados);
+        const gradoSelect = crearSelect(form, "Select the grade you are entering", "grado", opcionesGrados);
         if (seleccioneGrado) {
             gradoSelect.value = datos.grados[0]?.id_gra || "0";            
         }
@@ -6754,35 +6770,35 @@ document.addEventListener("DOMContentLoaded", () => {
             valor: documento.id_td,
             texto: documento.td
         }));
-        const tdSelect = crearSelect(form, "Selecciona el tipo de documento", "td", opcionesTiposDocumentos);
+        const tdSelect = crearSelect(form, "Select the document type", "td", opcionesTiposDocumentos);
         tdSelect.value = datos.id_tdoc ?? "0";
 
-        crearCampo(form, "Número telefónico", "telefono", datos.tel);
-        crearCampo(form, "Correo electrónico", "correo", datos.email);
-        crearCampo(form, "Confirmar correo electrónico", "confirmar_correo", datos.email);
+        crearCampo(form, "Telephone number", "telefono", datos.tel);
+        crearCampo(form, "Email", "correo", datos.email);
+        crearCampo(form, "Confirm Email", "confirmar_correo", datos.email);
 
         let rh = datos.rh.replace("mas", "+");
         rh = rh.replace("menos", "-");
         rh = rh.replace("negativo", "-");
         rh = rh.replace("positivo", "+");
-        crearCampo(form, "Factor RH", "factor_rh", rh);
+        crearCampo(form, "RH factor", "factor_rh", rh);
                 
         // Extraer medios de llegada desde el JSON del servicio
         const opcionesMedios = datos.medios.map(medio => ({
             valor: medio.id_medio,
             texto: medio.medio
         }));
-        const mediosSelect = crearSelect(form, "Selecciona el medio de llegada", "medio_llegada", opcionesMedios);
+        const mediosSelect = crearSelect(form, "Select your means of arrival", "medio_llegada", opcionesMedios);
         mediosSelect.value = datos.id_medio ?? "0";
 
-        crearCampo(form, "Actividad extra", "actividad_extra", datos.actividad_extra);
+        crearCampo(form, "Extra activity", "actividad_extra", datos.actividad_extra);
 
         // Extraer géneros desde el JSON del servicio
         const opcionesGeneros = datos.generos.map(genero => ({
             valor: genero.genero,
             texto: genero.genero
         }));
-        const generoSelect = crearSelect(form, "Selecciona el género", "genero", opcionesGeneros);
+        const generoSelect = crearSelect(form, "Select the gender", "genero", opcionesGeneros);
         generoSelect.value = datos.genero ?? "0";
 
         // Separador
@@ -6799,15 +6815,13 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
-        titulo2.innerHTML = `Paso 2 - CONDICIÓN SOCIO-ECONÓMICA<br>
-        <pp><strong>La condición socioeconómica especial</strong> se refiere a situaciones que impiden a estudiantes 
-        de diversas edades asistir presencialmente, como: deportistas, artistas, emprendedores, familias itinerantes, 
-        personas con problemas de salud, amantes de la tecnología. Se debe presentar una certificación que demuestre la condición.</pp>`;
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
+        titulo2.innerHTML = `Step 2 - SOCIO-ECONOMIC CONDITION<br>
+        <pp><strong>The special socioeconomic condition</strong> This refers to situations that prevent students of various ages from attending in person, such as: athletes, artists, entrepreneurs, itinerant families, people with health problems, and technology enthusiasts. A certificate demonstrating the condition must be presented.</pp>`;
         form.appendChild(titulo2);
 
-        crearTextarea(form, "Condición socio-económica", "situacion_se", datos.situacion_se);
+        crearTextarea(form, "Socio-economic condition", "situacion_se", datos.situacion_se);
 
         // Separador
         const separador2 = document.createElement("hr");
@@ -6823,28 +6837,28 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo3.style.marginBottom = "15px";
         titulo3.style.fontWeight = "600";
         titulo3.style.fontSize = "16px";
-        titulo3.style.borderTop = "3px solid #ff9805";
-        titulo3.style.borderBottom = "3px solid #ff9805";
-        titulo3.textContent = "Paso 3 - DATOS COMPLEMENTARIOS DEL ACUDIENTE";
+        titulo3.style.borderTop = "3px solid #222A75";
+        titulo3.style.borderBottom = "3px solid #222A75";
+        titulo3.textContent = "Step 3 - ADDITIONAL INFORMATION ABOUT THE GUARDIAN";
         form.appendChild(titulo3);
 
-        crearCampo(form, "Nombre", "nombre_acudiente", datos.acudiente);
-        crearCampo(form, "Documento", "documento_acudiente", datos.docA);
-        crearCampo(form, "Dirección", "direccion_acudiente", datos.direccion);
-        crearCampo(form, "Celular", "celular_acudiente", datos.telA);
-        crearCampo(form, "Correo electrónico acudiente", "correo_acudiente", datos.emailA);
-        crearCampo(form, "Confirmar correo electrónico acudiente", "confirmar_correo_acudiente", datos.emailA);
+        crearCampo(form, "Name", "nombre_acudiente", datos.acudiente);
+        crearCampo(form, "Document", "documento_acudiente", datos.docA);
+        crearCampo(form, "Address", "direccion_acudiente", datos.direccion);
+        crearCampo(form, "Cellular", "celular_acudiente", datos.telA);
+        crearCampo(form, "Guardian email address", "correo_acudiente", datos.emailA);
+        crearCampo(form, "Confirm guardian email address", "confirmar_correo_acudiente", datos.emailA);
 
         // Extraer parentescos desde el JSON del servicio
         const opcionesParentescos = datos.parentescos.map(parentesco => ({
             valor: parentesco.parentesco,
             texto: parentesco.parentesco
         }));
-        const parentescoSelect = crearSelect(form, "Selecciona el parentesco", "parentesco", opcionesParentescos);
+        const parentescoSelect = crearSelect(form, "Select the relationship", "parentesco", opcionesParentescos);
         parentescoSelect.value = datos.parentesco_acudiente_1 ?? "0";
 
         // Botón enviar
-        const submitBtn = crearBoton("intencion", "#28A745", "Enviar datos");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -6875,9 +6889,9 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
                 <img src="chatbot/img/subiendo.gif" 
-                    alt="Cargando" 
+                    alt="Charging" 
                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                Enviando, por favor espera...
+                Sending, please wait...
             `;
             submitBtn.style.opacity = "0.7";
             submitBtn.style.cursor = "not-allowed";
@@ -6908,7 +6922,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Si el valor es NA → no es un email válido
                     if (value.toUpperCase() === "NA") {
                         completo = false;
-                        mostrarError(`No es un patrón de correo válido para ${input.getAttribute("data-desc")}`, input.id);
+                        mostrarError(`It is not a valid email pattern for ${input.getAttribute("data-desc")}`, input.id);
                         //console.warn(`Email inválido (NA no permitido): ${key}`);
                     }
 
@@ -6917,7 +6931,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (!regexEmail.test(value)) {
                         completo = false;
-                        mostrarError(`No es un patrón de correo válido para ${input.getAttribute("data-desc")}`, input.id);
+                        mostrarError(`It is not a valid email pattern for ${input.getAttribute("data-desc")}`, input.id);
                         //console.warn(`Email con formato inválido: ${key}`);
                     }
                 }
@@ -6935,7 +6949,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     sel.classList.add("is-invalid");
 
                     // Muestra mensaje nativo de validación
-                    sel.setCustomValidity("Por favor selecciona una opción válida.");
+                    sel.setCustomValidity("Please select a valid option.");
                     sel.reportValidity();
                 } else {
                     sel.classList.remove("is-invalid");
@@ -6946,15 +6960,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!completo || !selectsValidos) {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
-                agregarMensaje("Unibot", "❌ Por favor completa todos los campos.");
+                agregarMensaje("Tivy", "❌ Please complete all fields.");
                 return;
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/av_pre_admisiones1_nuevos.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/av_pre_admisiones1_nuevos.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datosForm)
@@ -6964,11 +6978,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data.status == "success") {
                     console.log(data);
                     grado = data.grado;
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                     //Se consume web service de cambio de paso
                     if (paso == "1.2") {
                         let msgControl = "paso 1.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -6981,7 +6995,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 1.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -6991,10 +7005,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (data1.status == "success") {
                                         paso = data1.siguiente_paso;
                                         etiqueta_intencion = data1.etiqueta_intencion;
-                                        let respuesta = "Los costos de matrícula para el grado " + grado + " son: Matrícula <span style='color: blue;'>" + formatoCadenaNumero(data.matricula) + "</span>, Otros Cobros Periódicos <span style='color: blue;'>" + formatoCadenaNumero(data.ocp) + "</span> y Pensión <span style='color: blue;'>" + formatoCadenaNumero(data.pension) + "</span>; para un total de <span style='color: blue;'>" + formatoCadenaNumero(data.pp) + "</span>.";
+                                        let respuesta = "Tuition costs for the degree " + grado + " are: Tuition <span style='color: blue;'>" + formatoCadenaNumero(data.matricula) + "</span>, Other periodic collections <span style='color: blue;'>" + formatoCadenaNumero(data.ocp) + "</span> and Pension <span style='color: blue;'>" + formatoCadenaNumero(data.pension) + "</span>; for a total of <span style='color: blue;'>" + formatoCadenaNumero(data.pp) + "</span>.";
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                         intencion.respuesta = respuesta;
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
                                     }
                                 });
                             }
@@ -7002,7 +7016,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.2") {
                         let msgControl = "paso 2.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7015,7 +7029,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 2.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7025,10 +7039,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (data1.status == "success") {
                                         paso = data1.siguiente_paso;
                                         etiqueta_intencion = data1.etiqueta_intencion;
-                                        let respuesta = "Los costos de matrícula para el grado " + grado + " son: Matrícula <span style='color: blue;'>" + formatoCadenaNumero(data.matricula) + "</span>, Otros Cobros Periódicos <span style='color: blue;'>" + formatoCadenaNumero(data.ocp) + "</span> y Pensión <span style='color: blue;'>" + formatoCadenaNumero(data.pension) + "</span>; para un total de <span style='color: blue;'>" + formatoCadenaNumero(data.pp) + "</span>.";
+                                        let respuesta = "Tuition costs for the degree " + grado + " are: Tuition <span style='color: blue;'>" + formatoCadenaNumero(data.matricula) + "</span>, Other periodic collections <span style='color: blue;'>" + formatoCadenaNumero(data.ocp) + "</span> and Pension <span style='color: blue;'>" + formatoCadenaNumero(data.pension) + "</span>; for a total of <span style='color: blue;'>" + formatoCadenaNumero(data.pp) + "</span>.";
                                         const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
                                         intencion.respuesta = respuesta;
-                                        if (intencion) agregarMensaje("Unibot", intencion);
+                                        if (intencion) agregarMensaje("Tivy", intencion);
                                     }
                                 });
                             }
@@ -7036,7 +7050,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.2") {
                         let msgControl = "paso 3.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7049,7 +7063,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 3.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7063,7 +7077,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         //Se valida que no sea ciclos o primero
                                         if (data.id_grado == 2 || data.id_grado > 12) {
                                             let msgControl = "paso 3.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7075,13 +7089,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     etiqueta_intencion = data3.etiqueta_intencion;
 
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                         }
                                         else {                                    
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                     }
                                 });
@@ -7090,7 +7104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.2") {
                         let msgControl = "paso 4.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7103,7 +7117,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 
                                 //Se consume web service de cambio de paso
                                 let msgControl = "paso 4.2.1 terminado";
-                                fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7117,7 +7131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         //Se valida que no sea ciclos o primero
                                         if (data.id_grado == 2 || data.id_grado > 12) {
                                             let msgControl = "paso 4.3 terminado";
-                                            fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                            fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json' },
                                                 body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7129,13 +7143,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                                     etiqueta_intencion = data3.etiqueta_intencion;
 
                                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                                    if (intencion) agregarMensaje("Tivy", intencion);
                                                 }
                                             });
                                         }
                                         else {                                    
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                     }
                                 });
@@ -7144,7 +7158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.2") {
                         let msgControl = "paso 5.2 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7158,7 +7172,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 //Se valida que no sea ciclos o primero
                                 if (data.id_grado == 2 || data.id_grado > 12) {
                                     let msgControl = "paso 5.3 terminado";
-                                    fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                                    fetch("http://localhost:90/avmeeuu/avmeeuu/api//av_update_paso.php", {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7170,13 +7184,13 @@ document.addEventListener("DOMContentLoaded", () => {
                                             etiqueta_intencion = data2.etiqueta_intencion;
 
                                             const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                            if (intencion) agregarMensaje("Unibot", intencion);
+                                            if (intencion) agregarMensaje("Tivy", intencion);
                                         }
                                     });
                                 }
                                 else {                                    
                                     const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                    if (intencion) agregarMensaje("Unibot", intencion);
+                                    if (intencion) agregarMensaje("Tivy", intencion);
                                 }                                
                             }
                         });
@@ -7185,20 +7199,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     // Restaurar el botón tras finalizar la petición
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Enviar datos y documentos";
+                    submitBtn.textContent = "Send data and documents";
                     submitBtn.style.opacity = "1";
                     submitBtn.style.cursor = "pointer";
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                 }
             })
             .catch((err) => {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
                 console.log(err);
-                agregarMensaje("Unibot", "❌ No fue posible conectar con el servidor.");
+                agregarMensaje("Tivy", "❌ It was not possible to connect to the server.");
             });
 
             //form.reset();
@@ -7228,24 +7242,24 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
-        titulo1.textContent = "Paso 1 - DATOS FINALES DEL ESTUDIANTE";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
+        titulo1.textContent = "Step 1 - FINAL STUDENT DATA";
         form.appendChild(titulo1);
 
         // Campos del estudiante
-        crearCampoReadOnly(form, "Apellidos", "apellidos", datos.apellidos);
-        crearCampoReadOnly(form, "Nombres", "nombres", datos.nombres);
-        crearCampoReadOnly(form, "Grado al que ingresas", "grado", datos.grado_matricular);
+        crearCampoReadOnly(form, "Surnames", "apellidos", datos.apellidos);
+        crearCampoReadOnly(form, "Names", "nombres", datos.nombres);
+        crearCampoReadOnly(form, "Grade you are entering", "grado", datos.grado_matricular);
         crearCampoHidden(form, "idGrado", datos.id_grado_matricular);
 
-        crearCampoReadOnly(form, "Tipo documento de identidad", "tipo_documento", datos.id_tdoc);
-        crearCampoReadOnly(form, "Correo electrónico", "email", datos.email);
-        crearCampoReadOnly(form, "Número telefónico", "telefono", datos.tel);
-        crearCampo(form, "Lugar expedición documento", "expedicion", datos.expedicion);
-        crearCampo(form, "Fecha de nacimiento (yyyy-mm-dd)", "fecha_nacimiento", datos.fecha_nacimiento);
-        crearCampo(form, "Dirección de residencia", "direccion", datos.direccion_estudiante);
-        crearCampo(form, "Ciudad de Residencia", "ciudad", datos.ciudad);
+        crearCampoReadOnly(form, "Identity document type", "tipo_documento", datos.id_tdoc);
+        crearCampoReadOnly(form, "Email", "email", datos.email);
+        crearCampoReadOnly(form, "Telephone number", "telefono", datos.tel);
+        crearCampo(form, "Document issuance location", "expedicion", datos.expedicion);
+        crearCampo(form, "Birthdate (yyyy-mm-dd)", "fecha_nacimiento", datos.fecha_nacimiento);
+        crearCampo(form, "Residence address", "direccion", datos.direccion_estudiante);
+        crearCampo(form, "City of residence", "ciudad", datos.ciudad);
 
         // --- Paso 2: INFORMACIÓN DEL ACUDIENTE ---
         const titulo2 = document.createElement("div");
@@ -7255,16 +7269,16 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
-        titulo2.textContent = "Paso 2 - INFORMACIÓN DEL ACUDIENTE";
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
+        titulo2.textContent = "Step 2 - GUARDIAN INFORMATION";
         form.appendChild(titulo2);
 
-        crearCampoReadOnly(form, "Nombres", "nombreA", datos.acudiente);
-        crearCampoReadOnly(form, "Documento", "documentoA", datos.documento_responsable);
-        crearCampo(form, "Dirección de residencia", "direccionA", datos.direccion);
-        crearCampoReadOnly(form, "Celular", "celularA", datos.telA);
-        crearCampoReadOnly(form, "Correo electrónico", "correoA", datos.emailA);
+        crearCampoReadOnly(form, "Names", "nombreA", datos.acudiente);
+        crearCampoReadOnly(form, "Document", "documentoA", datos.documento_responsable);
+        crearCampo(form, "Residence address", "direccionA", datos.direccion);
+        crearCampoReadOnly(form, "Cellular", "celularA", datos.telA);
+        crearCampoReadOnly(form, "Email", "correoA", datos.emailA);
         
         // --- Paso 3: SUBE EL CONTRATO DE MATRÍCULA Y PAGARÉ ---
         const titulo3 = document.createElement("div");
@@ -7274,13 +7288,13 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo3.style.marginBottom = "15px";
         titulo3.style.fontWeight = "600";
         titulo3.style.fontSize = "16px";
-        titulo3.style.borderTop = "3px solid #ff9805";
-        titulo3.style.borderBottom = "3px solid #ff9805";
-        titulo3.textContent = "Paso 3 - SUBE EL CONTRATO DE MATRÍCULA Y PAGARÉ";
+        titulo3.style.borderTop = "3px solid #222A75";
+        titulo3.style.borderBottom = "3px solid ##222A75";
+        titulo3.textContent = "Step 3 - UPGRADE THE REGISTRATION CONTRACT AND PROMISSORY NOTE";
         form.appendChild(titulo3);
 
-        crearCampoArchivo(form, "Adjunta el contrato diligenciado y firmado", "contrato", true);
-        crearCampoArchivo(form, "Adjunta el pagaré diligenciado, firmado y autenticado en notaría", "pagare", true);
+        crearCampoArchivo(form, "Attach the completed and signed contract", "contrato", true);
+        crearCampoArchivo(form, "Attach the completed, signed and notarized promissory note", "pagare", true);
 
         // --- Paso 4: SUBE LOS SIGUIENTES DOCUMENTOS DEL ESTUDIANTE ---
         const titulo4 = document.createElement("div");
@@ -7290,22 +7304,22 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo4.style.marginBottom = "15px";
         titulo4.style.fontWeight = "600";
         titulo4.style.fontSize = "16px";
-        titulo4.style.borderTop = "3px solid #ff9805";
-        titulo4.style.borderBottom = "3px solid #ff9805";
-        titulo4.textContent = "Paso 4 - SUBE LOS SIGUIENTES DOCUMENTOS DEL ESTUDIANTE";
+        titulo4.style.borderTop = "3px solid #222A75";
+        titulo4.style.borderBottom = "3px solid #222A75";
+        titulo4.textContent = "Step 4 - UPLOAD THE FOLLOWING STUDENT DOCUMENTS";
         form.appendChild(titulo4);
 
         if (datos.estado == "nuevo") {
-            crearCampoArchivo(form, "Adjunta el documento de identidad del estudiante <span style='background: yellow; color: red;'>(solo si cambió)</span>", "documento_estudiante", true);
-            crearCampoArchivo(form, "Adjunta el certificado de actividad extracurricular <span style='background: yellow; color: red;'>(solo si cambió)</span>", "actividad_extra", true);
+            crearCampoArchivo(form, "Attach the student's identity document <span style='background: yellow; color: red;'>(only if it changed)</span>", "documento_estudiante", true);
+            crearCampoArchivo(form, "Attach the certificate of extracurricular activity <span style='background: yellow; color: red;'>(only if it changed)</span>", "actividad_extra", true);
         }
         else {
-            crearCampoArchivo(form, "Adjunta el documento de identidad del estudiante <span style='background: yellow; color: red;'>(solo si cambió)</span>", "documento_estudiante", false);
-            crearCampoArchivo(form, "Adjunta el certificado de actividad extracurricular <span style='background: yellow; color: red;'>(solo si cambió)</span>", "actividad_extra", false);        
+            crearCampoArchivo(form, "Attach the student's identity document <span style='background: yellow; color: red;'>(only if it changed)</span>", "documento_estudiante", false);
+            crearCampoArchivo(form, "Attach the certificate of extracurricular activity <span style='background: yellow; color: red;'>(only if it changed)</span>", "actividad_extra", false);        
         }
-        crearCampoArchivo(form, "Adjunta una fotografía reciente del estudiante", "foto", true);
+        crearCampoArchivo(form, "Please attach a recent photograph of the student", "foto", true);
         crearCampoArchivo(form, "Adjunta el certificado de la EPS", "eps", true);
-        crearCampoArchivo(form, "Adjunta carnet de vacunación al día, con esquema completo incluyendo refuerzos", "vacunas", true);
+        crearCampoArchivo(form, "Please attach your up-to-date vaccination card, with the complete schedule including boosters.", "vacunas", true);
 
         // --- Paso 5: SUBE LOS SIGUIENTES DOCUMENTOS ACADÉMICOS DEL ESTUDIANTE ---
         const titulo5 = document.createElement("div");
@@ -7315,47 +7329,57 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo5.style.marginBottom = "15px";
         titulo5.style.fontWeight = "600";
         titulo5.style.fontSize = "16px";
-        titulo5.style.borderTop = "3px solid #ff9805";
-        titulo5.style.borderBottom = "3px solid #ff9805";
-        titulo5.textContent = "Paso 5 - SUBE LOS SIGUIENTES DOCUMENTOS ACADÉMICOS DEL ESTUDIANTE";
+        titulo5.style.borderTop = "3px solid #222A75";
+        titulo5.style.borderBottom = "3px solid #222A75";
+        titulo5.textContent = "Step 5 - UPLOAD THE FOLLOWING STUDENT ACADEMIC DOCUMENTS";
         form.appendChild(titulo5);
 
-        crearCampoArchivo(form, "Adjunta el paz y salvo del año lectivo anterior", "paz_salvo", true);
+        crearCampoArchivo(form, "Please attach the clearance certificate from the previous academic year.", "paz_salvo", true);
 
-        const _grados = ["ninguno", "Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto", "Séptimo", "Octavo", "Noveno", "Décimo", "UnDécimo"];
+        const _grados = ["none", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh"];
         if(datos.estado == "nuevo" || datos.control_antiguos == 2) {
             //Esto faltaba... para nuevos
             crearCampoArchivo(form, "Adjunta el retiro del SIMAT", "retiro_SIMAT", true);
-            crearCampoArchivo(form, "Adjunta el certificado de buena conducta u boservador", "buena_conducta", true);
+            crearCampoArchivo(form, "Attach the certificate of good conduct or observer", "buena_conducta", true);
 
             if(datos.id_grado_matricular > 2 && datos.id_grado_matricular < 7) {//Esto faltaba... certificados del año anterior para primaria
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado " + _grados[datos.id_grado_matricular - 2], "calificaciones" + (datos.id_grado_matricular - 2), true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for the degree " + _grados[datos.id_grado_matricular - 2], "calificaciones" + (datos.id_grado_matricular - 2), true);
             }
             else if(datos.id_grado_matricular >= 7 && datos.id_grado_matricular < 13) {
                 for (let i = 5; i < datos.id_grado_matricular - 1; i++) {
-                    crearCampoArchivo(form, "Adjunta certificado final calificaciones grado " + _grados[i], "calificaciones" + i, true);
+                    crearCampoArchivo(form, "Attached is the final certificate of grades for the degree " + _grados[i], "calificaciones" + i, true);
                 }
             }
             else if(datos.id_grado_matricular == 14) {
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado Tercero", "calificaciones3", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for Third grade", "calificaciones3", true);
             }
             else if(datos.id_grado_matricular == 15) {
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado Quinto", "calificaciones5", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for Fifth grade", "calificaciones5", true);
             }
             else if(datos.id_grado_matricular == 16) {
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado Séptimo", "calificaciones7", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for Seventh grade", "calificaciones7", true);
             }
             else if(datos.id_grado_matricular == 17) {
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado Noveno", "calificaciones9", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for Ninth grade.", "calificaciones9", true);
             }
             else if(datos.id_grado_matricular == 18) {
-                crearCampoArchivo(form, "Adjunta certificado final calificaciones grado Décimo", "calificaciones10", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for Tenth grade", "calificaciones10", true);
             }
             else {
                 if(datos.id_grado_matricular >= 3) {
-                    crearCampoArchivo(form, "Adjunta certificado final calificaciones grado " + _grados[datos.id_grado_matricular - 2], "calificaciones" + (datos.id_grado_matricular - 2), true);
+                    crearCampoArchivo(form, "Attached is the final certificate of grades for the degree " + _grados[datos.id_grado_matricular - 2], "calificaciones" + (datos.id_grado_matricular - 2), true);
                 }
             }
+
+            // ########################## se agregan los certificados de notas de periodos anteriores ######################################
+            if(fecha2 > cierre2P) {
+                crearCampoArchivo(form, "Attached is a certificate of grades for the first period ", "calificaciones_1P", true);
+                crearCampoArchivo(form, "Attached is a certificate of grades for the second period ", "calificaciones_2P", true);
+            }
+            else if(fecha2 > cierre1P) {
+                crearCampoArchivo(form, "Attached is a certificate of grades for the first period ", "calificaciones_1P", true);
+            }
+            // #############################################################################################################################
         }       
 
         // --- Paso 6: SUBE LOS SIGUIENTES DOCUMENTOS DEL ACUDIENTE---
@@ -7366,16 +7390,16 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo6.style.marginBottom = "15px";
         titulo6.style.fontWeight = "600";
         titulo6.style.fontSize = "16px";
-        titulo6.style.borderTop = "3px solid #ff9805";
-        titulo6.style.borderBottom = "3px solid #ff9805";
-        titulo6.textContent = "Paso 6 - SUBE LOS SIGUIENTES DOCUMENTOS DEL ACUDIENTE";
+        titulo6.style.borderTop = "3px solid #222A75";
+        titulo6.style.borderBottom = "3px solid #222A75";
+        titulo6.textContent = "Step 6 - UPLOAD THE FOLLOWING DOCUMENTS FROM THE GUARDIAN";
         form.appendChild(titulo6);
 
         if (datos.estado == "nuevo") {
-            crearCampoArchivo(form, "Adjunta el documento de identidad del acudiente <span style='background: yellow; color: red;'>(solo si cambió)</span>", "documento_acudiente", true);
+            crearCampoArchivo(form, "Attach the guardian's identity document <span style='background: yellow; color: red;'>(only if it changed)</span>", "documento_acudiente", true);
         }
         else {
-            crearCampoArchivo(form, "Adjunta el documento de identidad del acudiente <span style='background: yellow; color: red;'>(solo si cambió)</span>", "documento_acudiente", false);
+            crearCampoArchivo(form, "Attach the guardian's identity document <span style='background: yellow; color: red;'>(only if it changed)</span>", "documento_acudiente", false);
         }
 
         // Botón enviar
@@ -7390,7 +7414,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.style.cursor = "pointer";
         submitBtn.style.fontSize = "14px";
         submitBtn.style.width = "100%";*/
-        const submitBtn = crearBoton("intencion", "#28A745", "Enviar datos y documentos");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data and documents");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -7421,9 +7445,9 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
                 <img src="chatbot/img/subiendo.gif" 
-                    alt="Cargando" 
+                    alt="Charging" 
                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                Enviando, por favor espera...
+                Sending, please wait...
             `;
             submitBtn.style.opacity = "0.7";
             submitBtn.style.cursor = "not-allowed";
@@ -7469,15 +7493,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!completo) {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
-                agregarMensaje("Unibot", "❌ Por favor completa todos los campos y documentos obligatorios antes de continuar. Los documentos obligatorios son aquellos que NO TIENEN el texo <span style='background: yellow; color: red;'>(solo si cambió)</span>. <strong>PARA ESTUDIANTES NUEVOS TODOS LOS ARCHIVOS SON OBLIGAGORIOS.</strong>");
+                agregarMensaje("Tivy", "❌ Please complete all required fields and documents before continuing. Required documents are those that DO NOT CONTAIN the text. <span style='background: yellow; color: red;'>(Only if it changed)</span>. <strong>FOR NEW STUDENTS ALL FILES ARE MANDATORY.</strong>");
                 return;
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/subir_documentos_finales.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales.php', {
                 method: 'POST',
                 body: formData
             })
@@ -7485,11 +7509,11 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 console.log(data);
                 if (data.status == "success") {                    
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                     //Se consume web service de cambio de paso
                     if (paso == "1.4") {
                         let msgControl = "paso 1.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7500,7 +7524,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7515,7 +7539,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.4") {
                         let msgControl = "paso 2.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7526,7 +7550,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7541,7 +7565,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.6") {
                         let msgControl = "paso 3.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7552,7 +7576,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7567,7 +7591,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.6") {
                         let msgControl = "paso 4.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7578,7 +7602,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7593,7 +7617,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.6") {
                         let msgControl = "paso 5.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7604,7 +7628,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7620,20 +7644,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     // Restaurar el botón tras finalizar la petición
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Enviar datos y documentos";
+                    submitBtn.textContent = "Send data and documents";
                     submitBtn.style.opacity = "1";
                     submitBtn.style.cursor = "pointer";
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                 }
             })
             .catch((err) => {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
                 console.log(err);
-                agregarMensaje("Unibot", "❌ No fue posible conectar con el servidor.");
+                agregarMensaje("Tivy", "❌ It was not possible to connect to the server.");
             });
 
             //form.reset();
@@ -7663,15 +7687,15 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo1.style.marginBottom = "15px";
         titulo1.style.fontWeight = "600";
         titulo1.style.fontSize = "16px";
-        titulo1.style.borderTop = "3px solid #ff9805";
-        titulo1.style.borderBottom = "3px solid #ff9805";
-        titulo1.textContent = "Paso 1 - DATOS FINALES DEL ESTUDIANTE";
+        titulo1.style.borderTop = "3px solid #222A75";
+        titulo1.style.borderBottom = "3px solid #222A75";
+        titulo1.textContent = "Step 1 - FINAL STUDENT DATA";
         form.appendChild(titulo1);
 
         // Campos del estudiante
-        crearCampoReadOnly(form, "Apellidos", "apellidos", datos.apellidos);
-        crearCampoReadOnly(form, "Nombres", "nombres", datos.nombres);
-        crearCampoReadOnly(form, "Grado al que ingresas", "grado", datos.grado_matricular);
+        crearCampoReadOnly(form, "Surnames", "apellidos", datos.apellidos);
+        crearCampoReadOnly(form, "Names", "nombres", datos.nombres);
+        crearCampoReadOnly(form, "Grade you are entering", "grado", datos.grado_matricular);
         crearCampoHidden(form, "idGrado", datos.id_grado_matricular);
         crearCampoHidden(form, "Correo electrónico", "correoA", datos.emailA);
 
@@ -7683,9 +7707,9 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo2.style.marginBottom = "15px";
         titulo2.style.fontWeight = "600";
         titulo2.style.fontSize = "16px";
-        titulo2.style.borderTop = "3px solid #ff9805";
-        titulo2.style.borderBottom = "3px solid #ff9805";
-        titulo2.textContent = "Paso 2 - SUBE LOS SIGUIENTES DOCUMENTOS";
+        titulo2.style.borderTop = "3px solid #222A75";
+        titulo2.style.borderBottom = "3px solid #222A75";
+        titulo2.textContent = "Step 2 - UPLOAD THE FOLLOWING DOCUMENTS";
         form.appendChild(titulo2);
 
         if(datos.control_documentos_invalidos == "1" && datos.tipos.length > 0) {
@@ -7706,7 +7730,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.style.cursor = "pointer";
         submitBtn.style.fontSize = "14px";
         submitBtn.style.width = "100%";*/
-        const submitBtn = crearBoton("intencion", "#28A745", "Enviar datos y documentos");
+        const submitBtn = crearBoton("intencion", "#0B77B3", "Send data and documents");
         submitBtn.type = "submit";
         form.appendChild(submitBtn);
 
@@ -7737,9 +7761,9 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
                 <img src="chatbot/img/subiendo.gif" 
-                    alt="Cargando" 
+                    alt="Charging" 
                     style="width: 20%; vertical-align: middle; margin-right: 8px;">
-                Enviando, por favor espera...
+                Sending, please wait...
             `;
             submitBtn.style.opacity = "0.7";
             submitBtn.style.cursor = "not-allowed";
@@ -7785,15 +7809,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!completo) {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
-                agregarMensaje("Unibot", "❌ Por favor completa todos los campos y documentos obligatorios antes de continuar. Los documentos obligatorios son aquellos que NO TIENEN el texo <span style='background: yellow; color: red;'>(solo si cambió)</span>");
+                agregarMensaje("Tivy", "❌ Please complete all required fields and documents before continuing. Required documents are those that DO NOT CONTAIN the text. <span style='background: yellow; color: red;'>(Only if it changed)</span>");
                 return;
             }
 
             //fetch('chatbot/guardar-formulario-inicial.php', {
-            fetch('https://unicab.org/avadmisiones/subir_documentos_finales_invalidos.php', {
+            fetch('http://localhost:90/avmeeuu/avmeeuu/api/subir_documentos_finales_invalidos.php', {
                 method: 'POST',
                 body: formData
             })
@@ -7801,11 +7825,11 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 console.log(data);
                 if (data.status == "success") {                    
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                     //Se consume web service de cambio de paso
                     if (paso == "1.4") {
                         let msgControl = "paso 1.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7816,7 +7840,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7831,7 +7855,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "2.4") {
                         let msgControl = "paso 2.4 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7842,7 +7866,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7857,7 +7881,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "3.6") {
                         let msgControl = "paso 3.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7868,7 +7892,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7883,7 +7907,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "4.6") {
                         let msgControl = "paso 4.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7894,7 +7918,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7909,7 +7933,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     else if (paso == "5.6") {
                         let msgControl = "paso 5.6 terminado";
-                        fetch("https://unicab.org/avadmisiones/av_update_paso.php", {
+                        fetch("http://localhost:90/avmeeuu/avmeeuu/api/av_update_paso.php", {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ documento: cc, a: a, paso: paso, msgControl: msgControl })
@@ -7920,7 +7944,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 paso = data.siguiente_paso;
                                 etiqueta_intencion = data.etiqueta_intencion;
                                 const intencion = BASE_INTENCIONES.find(i => i.etiqueta === etiqueta_intencion);
-                                if (intencion) agregarMensaje("Unibot", intencion);
+                                if (intencion) agregarMensaje("Tivy", intencion);
 
                                 //imagen con pasos resumen
                                 const divPasos = document.getElementById("div-pasos");
@@ -7936,20 +7960,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     // Restaurar el botón tras finalizar la petición
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Enviar datos y documentos";
+                    submitBtn.textContent = "Send data and documents";
                     submitBtn.style.opacity = "1";
                     submitBtn.style.cursor = "pointer";
-                    agregarMensaje("Unibot", data.mensaje);
+                    agregarMensaje("Tivy", data.mensaje);
                 }
             })
             .catch((err) => {
                 // Restaurar el botón tras finalizar la petición
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Enviar datos y documentos";
+                submitBtn.textContent = "Send data and documents";
                 submitBtn.style.opacity = "1";
                 submitBtn.style.cursor = "pointer";
                 console.log(err);
-                agregarMensaje("Unibot", "❌ No fue posible conectar con el servidor.");
+                agregarMensaje("Tivy", "❌ It was not possible to connect to the server.");
             });
 
             //form.reset();
@@ -7977,7 +8001,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (["telefono", "telA", "celular_acudiente", "documento_acudiente", "docA"].includes(nombre)) {
             input = document.createElement("input");
             input.type = "number";
-            input.setAttribute("data-validar", "numero");
+            input.setAttribute("data-validar", "number");
         } else {
             input = document.createElement("input");
             input.type = "text";
@@ -8038,7 +8062,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (["telefono", "telA", "celular_acudiente", "documento_acudiente", "docA"].includes(nombre)) {
             input = document.createElement("input");
             input.type = "number";
-            input.setAttribute("data-validar", "numero");
+            input.setAttribute("data-validar", "number");
         } else {
             input = document.createElement("input");
             input.type = "text";
@@ -8090,11 +8114,10 @@ document.addEventListener("DOMContentLoaded", () => {
         fieldGroup.style.marginBottom = "12px";
 
         const label = document.createElement("label");
-        if (etiqueta == "Selecciona el grado a que ingresas") {
+        if (etiqueta == "Select the grade you are entering") {
             label.innerHTML = etiqueta + ` (<span style='background: yellow; color: red;'>
-            Si selecciona algún Ciclo, que corresponde a educación para jóvenes 
-            en extra edad y adultos, por favor tener en cuenta el 
-            <a href="https://unicab.org/assets/descargas/Decreto_3011_de_1997.pdf" target="_blank">Decreto 3011 de 1997</a> que reglamenta esta educación.</span>)`;
+            If you select any Cycle, which corresponds to education for over-age youth and adults, please keep in mind the 
+            <a href="https://unicab.org/assets/descargas/Decreto_3011_de_1997.pdf" target="_blank">Decreto 3011 de 1997</a> that regulates this education.</span>)`;
         }
         else {
             label.textContent = etiqueta;
@@ -8120,7 +8143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const opcionDefault = document.createElement("option");
         opcionDefault.value = "0";
-        opcionDefault.textContent = "Seleccione...";
+        opcionDefault.textContent = "Select...";
         select.appendChild(opcionDefault);
 
         opciones.forEach(opcion => {
@@ -8198,7 +8221,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //label.textContent = etiqueta;
         label.style.padding = "12px 16px";
         //label.style.backgroundColor = "#C75EA3";
-        label.style.backgroundColor = "#FF9805";
+        label.style.backgroundColor = "#222A75";
         label.style.color = "white";
         label.style.borderRadius = "8px 0px 0px 0px";
         label.style.cursor = "pointer";
@@ -8214,7 +8237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         iconoInput.style.height = "30px";
         iconoInput.style.borderRadius = "4px";
         iconoInput.src = "chatbot/img/subir_pdf1.png";
-        iconoInput.alt = "Subir";
+        iconoInput.alt = "Upload";
 
         label.appendChild(iconoInput);
 
@@ -8240,13 +8263,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const ext = file.name.split(".").pop().toLowerCase();
             if (ext !== "pdf") {
-                alert("❌ Tipo de archivo no permitido. Solo se admite formato PDF.");
+                alert("❌ File type not allowed. Only PDF format is supported..");
                 input.value = ""; // Limpia el campo
                 return;
             }
 
             if (file.size > 10 * 1024 * 1024) {
-                alert("❌ El archivo supera el tamaño máximo de 10 MB.");
+                alert("❌ The file exceeds the maximum size of 10 MB.");
                 input.value = "";
             }
 
@@ -8278,7 +8301,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(val == null) {
             if ($(id_obj).val().trim() == "") {
                 input.setCustomValidity("El campo se debe llenar");
-                mostrarError(`El campo ${desc} se debe llenar`, id);
+                mostrarError(`The field ${desc} must be filled in`, id);
                 return false;
             } else {
                 input.setCustomValidity("");
@@ -8288,7 +8311,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
             input.setCustomValidity("Ha ingresado caracteres inválidos");
-            let texto = "Ha ingresado alguno de los siguientes caracteres no válidos para " + desc + ": ";
+            let texto = "You have entered one of the following invalid characters for " + desc + ": ";
             texto += "- _ \' \" < > ~ ^ * $ ! ¡ # % & ¿ ? /= + , ; : ( ) { } [ ] \\";
             mostrarError(texto, id);
             return false;
@@ -8310,7 +8333,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(val == null) {
             if ($(id_obj).val().trim() == "") {
                 input.setCustomValidity("El campo se debe llenar");
-                mostrarError(`El campo ${desc} se debe llenar`, id);
+                mostrarError(`The field ${desc} must be filled in`, id);
                 return false;
             } else {
                 input.setCustomValidity("");
@@ -8320,7 +8343,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
             input.setCustomValidity("Ha ingresado caracteres inválidos");
-            let texto = "Ha ingresado alguno de los siguientes caracteres no válidos para " + desc + ": ";
+            let texto = "You have entered one of the following invalid characters for " + desc + ": ";
             texto += " _ \' \" < > ~ ^ * $ ! ¡ # % & ¿ ? /= + , ; : ( ) { } [ ] \\";
             mostrarError(texto, id);
             return false;
@@ -8338,7 +8361,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(val == null) {
             if ($(id_obj).val().trim() == "") {
                 input.setCustomValidity("El campo se debe llenar");
-                mostrarError(`El campo ${desc} se debe llenar`, id);
+                mostrarError(`The field ${desc} must be filled in`, id);
                 return false;
             } else {
                 input.setCustomValidity("");
@@ -8348,7 +8371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
             input.setCustomValidity("Ha ingresado caracteres inválidos");
-            let texto = "Ha ingresado alguno de los siguientes caracteres no válidos para " + desc + ": ";
+            let texto = "You have entered one of the following invalid characters for " + desc + ": ";
             texto += "- _ \' \" < > ~ ^ * $ ! ¡ # % & ¿ ? /= + , ; : ( ) { } [ ] \\";
             mostrarError(texto, id);
             return false;
@@ -8372,11 +8395,11 @@ document.addEventListener("DOMContentLoaded", () => {
         else {            
             if ($(id_obj).val().trim() == "") {
                 input.setCustomValidity("El campo se debe llenar");
-                mostrarError(`El campo ${desc} se debe llenar`, id);
+                mostrarError(`The field ${desc} must be filled in`, id);
                 return false;
             } else {
                 input.setCustomValidity("Ha ingresado caracteres inválidos");
-                let texto = "Ingrese sólamente números para " + desc;
+                let texto = "Enter only numbers for " + desc;
                 mostrarError(texto, id);
                 return false;
             }            
@@ -8392,13 +8415,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!valor) {
             input.setCustomValidity("El campo se debe llenar");
-            mostrarError(`El campo ${desc} se debe llenar`, id);
+            mostrarError(`The field ${desc} must be filled in`, id);
             return false;
         }
 
         if (!patron.test(valor)) {
             input.setCustomValidity("Ha ingresado caracteres inválidos");
-            mostrarError(`No es un patrón de correo válido para ${desc}`, id);
+            mostrarError(`It is not a valid email pattern for ${desc}`, id);
             return false;
         }
 
@@ -8408,7 +8431,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const inputCorreo = document.getElementById("correo");
             const confirmar = document.getElementById("confirmar_correo").value;
             if (correo !== confirmar) {
-                mostrarError("El email y la confirmación del email del estudiante deben ser iguales", id);
+                mostrarError("The student's email and email confirmation must be the same.", id);
                 return false;
             }
             else {
@@ -8423,7 +8446,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const inputCorreoAcudiente = document.getElementById("correo_acudiente");
             const confirmar = document.getElementById("confirmar_correo_acudiente").value;
             if (correo !== confirmar) {
-                mostrarError("El email y la confirmación del email del acudiente deben ser iguales", id);
+                mostrarError("The email address and the guardian's email confirmation must be the same.", id);
                 return false;
             }
             else {
@@ -8458,27 +8481,27 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if(a < 1850 || a > 3050) {
                 input.setCustomValidity("Año inválido");
-                mostrarError(`Año inválido para ${desc}`, id);
+                mostrarError(`Invalid year for ${desc}`, id);
                 return false;
             } else if(m < 1 || m > 12) {
                 input.setCustomValidity("Mes inválido");
-                mostrarError(`Mes inválido para ${desc}`, id);
+                mostrarError(`Invalid month for ${desc}`, id);
                 return false;
             } else if(m == 2) {
                 if(d < 1 || d > 29) {
                     input.setCustomValidity("Día inválido");
-                    mostrarError(`Día inválido para ${desc}`, id);
+                    mostrarError(`Invalid day for ${desc}`, id);
                     return false;
                 } 
             } else if(m == 4 || m == 6 || m == 9 || m == 11) {
                 if(d < 1 || d > 30) {
                     input.setCustomValidity("Día inválido");
-                    mostrarError(`Día inválido para ${desc}`, id);
+                    mostrarError(`Invalid day for ${desc}`, id);
                     return false;
                 } 
             } else if(d < 1 || d > 31) {
                 input.setCustomValidity("Día inválido");
-                mostrarError(`Día inválido para ${desc}`, id);
+                mostrarError(`Invalid day for ${desc}`, id);
                 return false;
             } else {
                 input.setCustomValidity("");
@@ -8488,7 +8511,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
             input.setCustomValidity("No es una fecha de nacimiento válida");
-            var texto = "No es un patrón válido para " + desc;
+            var texto = "It is not a valid pattern for " + desc;
             mostrarError(texto, id);
         }
     }
@@ -8608,8 +8631,8 @@ document.addEventListener("DOMContentLoaded", () => {
         estadoDiv.style.justifyContent = "center";
         estadoDiv.style.gap = "12px";
         estadoDiv.style.padding = "16px 20px";
-        estadoDiv.style.borderTop = "3px solid #ff9805";
-        estadoDiv.style.borderBottom = "3px solid #ff9805";
+        estadoDiv.style.borderTop = "3px solid #222A75";
+        estadoDiv.style.borderBottom = "3px solid #222A75";
         estadoDiv.style.backgroundColor = "#fff";
         estadoDiv.style.color = "#000";
         estadoDiv.style.fontFamily = "Arial, sans-serif";
@@ -8624,7 +8647,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Icono de advertencia
         const icono = document.createElement("img");
         icono.src = "chatbot/img/warning.png";
-        icono.alt = "Advertencia";
+        icono.alt = "Warning";
         icono.style.width = "40px";
         icono.style.height = "40px";
         icono.style.flexShrink = "0";
@@ -8640,9 +8663,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else {
                 texto.innerHTML = `
-                    Validación ` + tipo + ` en estado <br>
-                    <strong style="font-size: 22px;">Pendiente.</strong><br>
-                    La verificación se realiza por orden de llegada y el proceso tiene un plazo de cinco días para dar respuesta.
+                    Validation ` + tipo + ` in state <br>
+                    <strong style="font-size: 22px;">Pending.</strong><br>
+                    Verification is done in order of arrival and the process has a five-day deadline to provide a response.
                 <span style="color: red;">` + nota_receso + `</span>`;
             }            
         }
@@ -8655,9 +8678,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else {
                 texto.innerHTML = `
-                    Validación ` + tipo + ` en estado <br>
-                    <strong style="font-size: 22px;">Pendiente.</strong><br>
-                    La verificación se realiza por orden de llegada y el proceso tiene un plazo de cinco días para dar respuesta.
+                    Validation ` + tipo + ` in state <br>
+                    <strong style="font-size: 22px;">Pending.</strong><br>
+                    Verification is done in order of arrival and the process has a five-day deadline to provide a response.
                 `;
             }
             
@@ -8677,8 +8700,8 @@ document.addEventListener("DOMContentLoaded", () => {
         estadoDiv.style.justifyContent = "center";
         estadoDiv.style.gap = "12px";
         estadoDiv.style.padding = "16px 20px";
-        estadoDiv.style.borderTop = "3px solid #ff9805";
-        estadoDiv.style.borderBottom = "3px solid #ff9805";
+        estadoDiv.style.borderTop = "3px solid #222A75";
+        estadoDiv.style.borderBottom = "3px solid #222A75";
         estadoDiv.style.backgroundColor = "#fff";
         estadoDiv.style.color = "#000";
         estadoDiv.style.fontFamily = "Arial, sans-serif";
@@ -8693,7 +8716,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Icono de advertencia
         const icono = document.createElement("img");
         icono.src = "chatbot/img/warning.png";
-        icono.alt = "Advertencia";
+        icono.alt = "Warning";
         icono.style.width = "40px";
         icono.style.height = "40px";
         icono.style.flexShrink = "0";
@@ -8702,12 +8725,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const texto = document.createElement("div");
         if (entrevista == "SI" && admitido == 0) {
             texto.innerHTML = `
-                <strong style="font-size: 22px;">Estudiante no admitido en entrevista.</strong>`;
+                <strong style="font-size: 22px;">Student not admitted to interview.</strong>`;
         }
         else if (entrevista == "NO") {
             texto.innerHTML = `
-                Entrevista en estado <br>
-                <strong style="font-size: 22px;">Pendiente.</strong>`;
+                Interview in state <br>
+                <strong style="font-size: 22px;">Pending.</strong>`;
         }        
 
         estadoDiv.appendChild(icono);

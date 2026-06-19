@@ -1,6 +1,6 @@
 <?php
 	//Genera el select de los grados
-	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
@@ -36,14 +36,14 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!isset($documento)) {
 			$datos->status = "error";
-			$datos->mensaje = "Faltan campos requeridos";
+			$datos->mensaje = "Required fields are missing";
 			echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 			exit;
 		}
 	} 
 	else {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido";
+		$datos->mensaje = "Disallowed method";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}

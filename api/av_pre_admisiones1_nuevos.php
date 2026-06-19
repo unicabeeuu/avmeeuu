@@ -1,6 +1,7 @@
 <?php
-	include "../admin-unicab/php/conexion.php";
-    require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	//include "../admin-unicab/php/conexion.php";
+    //require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	header("Cache-Control: no-cache, must-revalidate");
 	header("Expires: Sat, 1 Jul 2000 05:00:00 GMT");
 	//header("Refresh: 30; URL='pen_gra_upddat.php'");
@@ -18,7 +19,7 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$datos->status = "error";
-		$datos->mensaje = "Método no permitido.";
+		$datos->mensaje = "Disallowed method.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}
@@ -28,12 +29,12 @@
 	
 	/*if (json_last_error() !== JSON_ERROR_NONE) {
 		$datos->status = "error";
-		$datos->mensaje = "Datos inválidos.";
+		$datos->mensaje = "Invalid data.";
 		echo json_encode($datos, JSON_UNESCAPED_UNICODE);
 		exit;
 	}*/
 	
-    require '../PhpSpreadsheet/vendor/autoload.php';
+    require '../chatbot/librerias/PhpSpreadsheet/vendor/autoload.php';
     
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -69,16 +70,16 @@
     $emailA = $data['correo_acudiente'];
 	$parentesco1 = strtoupper($data['parentesco']);
     
-    if(is_null($fn)) {
+    /*if(is_null($fn)) {
 		//No hace nada
 	}
 	else {
 		$partesfn = explode("-", $fn);
-	}
+	}*/
 	
 	//Se busca el grado
 	$grado = "";
-	$sql_grado = "SELECT grado FROM grados WHERE id = $idgra";
+	$sql_grado = "SELECT grado FROM tbl_grados WHERE id = $idgra";
 	$res_grado = $mysqli1->query($sql_grado);
 	while($row_grado = $res_grado->fetch_assoc()){
 		$grado = $row_grado['grado'];
@@ -182,7 +183,7 @@
         ($documento, $fanio, '$codigo', '$email')";
         //echo $sql_insert0;
         $res_insert0=$mysqli1->query($sql_insert0);
-    }    
+    } 
     
     //**************************************************************************************************************
     //Se actualizan las tablas de estudiantes con los pagos y matrículas
@@ -214,15 +215,15 @@
     $descuento = 0;
     $ct_pagos = 0;
         
-	$sql_beca = "SELECT * FROM tbl_becas WHERE identificacion = $documento AND periodo_lectivo = 2026";
+	/*$sql_beca = "SELECT * FROM tbl_becas WHERE identificacion = $documento AND periodo_lectivo = 2026";
 	$res_beca=$mysqli1->query($sql_beca);
     while($row_beca = $res_beca->fetch_assoc()){
         $beca = $row_beca['beca'];
         $descuento = $row_beca['descuento'];
         $ct_pagos = $row_beca['ct_pagos'];
-    }
+    }*/
     
-    $sql_costos = "SELECT * FROM tbl_costos_unicab WHERE a = $fanio AND id_grado = $idgra";
+    $sql_costos = "SELECT * FROM tbl_costos WHERE a = $fanio AND id_grado = $idgra";
     //echo $sql_costos;
 	$res_costos=$mysqli1->query($sql_costos);
     while($row_costos = $res_costos->fetch_assoc()){
@@ -287,40 +288,30 @@
     
 	$estnuevo = "SI";
     if($estnuevo == "NO") {
-        $sql_updins_est = "UPDATE estudiantes SET periodo_ing = $per, descuento = $descuento, beca = $beca, acuerdo_ct_pagos = $ct_pagos, pension_de = $pension, 
-        pension_a = 0, pagos_anuales_de = $pagos_anuales_de, pagos_anuales_a = 0, pagos_anuales_f = $pagos_anuales_de, tot_anual_de = $total_anual_de, 
-        descuento1 = $descuento1, tot_anual_sd = $total_anual_sd, beca1 = $beca1, tot_anual_sb = $total_anual_sb, pension_final = $pension_final, 
+        $sql_updins_est = "UPDATE tbl_estudiantes SET  
         telefono_estudiante = $cel, tipo_documento = $tdoc, 
         email_acudiente_1 = '$emailA', acudiente_1 = '$nombreA', telefono_acudiente_1 = '$celA', documento_responsable = '$documentoA', 
-        estado = '$rh', parentesco_acudiente_1 = '$parentesco1' 
+        rh = '$rh', parentesco_acudiente_1 = '$parentesco1' 
         WHERE n_documento = '$documento'";
     }
     else if($estnuevo == "SI") {
 		if($estado == "nuevo") {
-			$sql_updins_est = "INSERT INTO estudiantes (apellidos, nombres, genero, tipo_documento, n_documento, telefono_estudiante, actividad_extra, situacion_se, estado, 
+			$sql_updins_est = "INSERT INTO tbl_estudiantes (apellidos, nombres, genero, tipo_documento, n_documento, telefono_estudiante, actividad_extra, situacion_se, rh, 
 			email_acudiente_1, acudiente_1, telefono_acudiente_1, parentesco_acudiente_1, fecha_datos, documento_responsable, a_matricula, 
-			direccion, direccion_estudiante, email_institucional, 
-			descuento, beca, acuerdo_ct_pagos, pension_de, pension_a, pagos_anuales_de, pagos_anuales_a, pagos_anuales_f, tot_anual_de, 
-			descuento1, tot_anual_sd, beca1, tot_anual_sb, pension_final) 
+			direccion, direccion_estudiante) 
 			VALUES ('$apellidos', '$nombres', '$genero', $tdoc, '$documento', $cel, '$extra', '$situacion', '$rh',  
 			'$emailA', '$nombreA', '$celA', '$parentesco1', $fecha2, '$documentoA', $fanio, 
-			'$dirA', '$dirA', '$email', 
-			$descuento, $beca, $ct_pagos, $pension, 0, $pagos_anuales_de, 0, $pagos_anuales_de, $total_anual_de, 
-			$descuento1, $total_anual_sd, $beca1, $total_anual_sb, $pension_final) 
-			ON DUPLICATE KEY UPDATE descuento = values(descuento), beca = values(beca), acuerdo_ct_pagos = values(acuerdo_ct_pagos), pension_de = values(pension_de), 
-			pension_a = values(pension_a), pagos_anuales_de = values(pagos_anuales_de), pagos_anuales_a = values(pagos_anuales_a), pagos_anuales_f = values(pagos_anuales_f), tot_anual_de = values(tot_anual_de), 
-			descuento1 = values(descuento1), tot_anual_sd = values(tot_anual_sd), beca1 = values(beca1), tot_anual_sb = values(tot_anual_sb), pension_final = values(pension_final), 
+			'$dirA', '$dirA', '$email') 
+			ON DUPLICATE KEY UPDATE 
 			apellidos = values(apellidos), nombres = values(nombres), genero = values(genero), tipo_documento = values(tipo_documento), telefono_estudiante = values(telefono_estudiante), actividad_extra = values(actividad_extra), 
 			direccion = values(direccion), email_acudiente_1 = values(email_acudiente_1), acudiente_1 = values(acudiente_1), telefono_acudiente_1 = values(telefono_acudiente_1), parentesco_acudiente_1 = values(parentesco_acudiente_1), 
 			documento_responsable = values(documento_responsable), estado = values(estado), situacion_se = values(situacion_se), email_institucional = values(email_institucional), direccion_estudiante = values(direccion_estudiante)";
 		}
 		else {
-			$sql_updins_est = "UPDATE estudiantes SET periodo_ing = $per, descuento = $descuento, beca = $beca, acuerdo_ct_pagos = $ct_pagos, pension_de = $pension, 
-			pension_a = 0, pagos_anuales_de = $pagos_anuales_de, pagos_anuales_a = 0, pagos_anuales_f = $pagos_anuales_de, tot_anual_de = $total_anual_de, 
-			descuento1 = $descuento1, tot_anual_sd = $total_anual_sd, beca1 = $beca1, tot_anual_sb = $total_anual_sb, pension_final = $pension_final, 
+			$sql_updins_est = "UPDATE tbl_estudiantes SET 
 			apellidos = '$apellidos', nombres = '$nombres', genero = '$genero', tipo_documento = $tdoc, telefono_estudiante = $cel, actividad_extra = '$extra', 
 			direccion = '$dirA', email_acudiente_1 = '$emailA', acudiente_1 = '$nombreA', telefono_acudiente_1 = '$celA', parentesco_acudiente_1 = '$parentesco1', 
-			documento_responsable = '$documentoA', estado = '$rh', situacion_se = '$situacion', email_institucional = '$email' 
+			documento_responsable = '$documentoA', rh = '$rh', situacion_se = '$situacion', email_institucional = '$email' 
 			WHERE n_documento = '$documento'";
 		}
 		//Se hace el insert en la tabla tbl_pre_matricula
@@ -329,21 +320,30 @@
     $res_updinst_est = $mysqli1->query($sql_updins_est);
     
     //se arma el n_matricula
-    $sql_maxa = "SELECT MAX(DATE_FORMAT(fecha_ingreso, '%Y')) a FROM matricula";
-    $exe_maxa = mysqli_query($conexion,$sql_maxa);
+    $sql_maxa = "SELECT MAX(DATE_FORMAT(fecha_ingreso, '%Y')) a FROM tbl_matriculas";
+    /*$exe_maxa = mysqli_query($conexion,$sql_maxa);
     while ($rowa = mysqli_fetch_array($exe_maxa)) {
+        $maxa = $rowa['a'];
+    }*/
+	$exe_maxa=$mysqli1->query($sql_maxa);
+    while($rowa = $exe_maxa->fetch_assoc()){
         $maxa = $rowa['a'];
     }
     //echo "<br/>".$a;
     //echo $fanio."<br/>".$maxa;
     if($fanio == $maxa) {
-        $sql_mat = "SELECT MAX(idMatricula) maxid FROM matricula WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01'";
+        $sql_mat = "SELECT MAX(id) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01'";
         //echo "<br/>".$sql_mat;
-        $exe_mat = mysqli_query($conexion,$sql_mat);
+        /*$exe_mat = mysqli_query($conexion,$sql_mat);
         while ($rowm = mysqli_fetch_array($exe_mat)) {
             $consecutivo = $rowm['maxid'];
             $consecutivo1 = $consecutivo + 1;
-        }
+        }*/
+		$exe_mat=$mysqli1->query($sql_mat);
+        while($rowm = $exe_mat->fetch_assoc()){
+			$consecutivo = $rowm['maxid'];
+            $consecutivo1 = $consecutivo + 1;
+		}
     }
     else {
         $consecutivo = 1;
@@ -354,8 +354,8 @@
 	if($fanio == $maxa) {
 		//Se captura el n_matricula del maxid
 		//$sql_n_matric = "SELECT n_matricula FROM matricula WHERE idMatricula = $consecutivo";
-		$sql_n_matric = "SELECT n_matricula FROM matricula 
-		WHERE idMatricula = (SELECT MAX(idMatricula) maxid FROM matricula WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01')";
+		$sql_n_matric = "SELECT n_matricula FROM tbl_matriculas 
+		WHERE id = (SELECT MAX(id) maxid FROM tbl_matriculas WHERE date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01')";
 		$exe_n_matric = $mysqli1->query($sql_n_matric);
 		while($row_n_matric = $exe_n_matric->fetch_assoc()) {
 			$n_matric = $row_n_matric['n_matricula'];
@@ -375,63 +375,72 @@
     //echo "<br>".$n_matricula1;
     
     //Se captura el id del estudiante
-	$sqlid = "SELECT id FROM estudiantes WHERE n_documento = '$documento'";
-	$exe_id = mysqli_query($conexion,$sqlid);
+	$sqlid = "SELECT id FROM tbl_estudiantes WHERE n_documento = '$documento'";
+	/*$exe_id = mysqli_query($conexion,$sqlid);
     while ($rowid = mysqli_fetch_array($exe_id)) {
         $idest = $rowid['id'];
-    }
+    }*/
+	$exe_id=$mysqli1->query($sqlid);
+	while($rowid = $exe_id->fetch_assoc()){
+		$idest = $rowid['id'];
+	}
 	//echo $idest;
 	
 	//Se hace el insert en la tabla de matrículas
 	if($idest != 0) {
 	    //Se valida si ya existe un registro en estado pre_solicitud
 	    $ct_matric = 0;
-	    $sql_valm = "SELECT COUNT(1) ct FROM matricula 
+	    $sql_valm = "SELECT COUNT(1) ct FROM tbl_matriculas 
 		WHERE id_estudiante = $idest AND estado IN ('pre_solicitud', 'nuevo_pre_solicitud', 'antiguo_pre_solicitud') AND (date_format(fecha_ingreso, '%Y') = $fanio OR fecha_ingreso >= '2025-10-01')";
 	    $msg_estudiante = "EstudianteOK";
-	    $exe_valm = mysqli_query($conexion,$sql_valm);
+	    /*$exe_valm = mysqli_query($conexion,$sql_valm);
         while ($row_valm = mysqli_fetch_array($exe_valm)) {
             $ct_matric = $row_valm['ct'];
-        }
+        }*/
+		$exe_valm=$mysqli1->query($sql_valm);
+		while($row_valm = $exe_valm->fetch_assoc()){
+			$ct_matric = $row_valm['ct'];
+		}
         //echo $ct_matric;
         if($ct_matric == 0) {
             if($mes >= 10) {
 				if($control_antiguos == 1) {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha3', 'antiguo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'antiguo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else if($estado == "nuevo") {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha3', 'nuevo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'nuevo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha3', 'pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha3', 'pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
         	}
         	else {
 				if($control_antiguos == 1) {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha2', 'antiguo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'antiguo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else if($estado == "nuevo") {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha2', 'nuevo_pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'nuevo_pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
 				else {
-					$sql_insert1 = "INSERT INTO matricula (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, EstadoGrado) 
-					VALUES ('$n_matricula', '$fecha2', 'pre_solicitud', $idest, $idgra, 'NA')";
+					$sql_insert1 = "INSERT INTO tbl_matriculas (n_matricula, fecha_ingreso, estado, id_estudiante, id_grado, estado_grado, grupo) 
+					VALUES ('$n_matricula', '$fecha2', 'pre_solicitud', $idest, $idgra, 'NA', 'A')";
 				}
         	}
             
             //echo "<br/>".$sql_insert1;
-            $exe_insert1 = mysqli_query($conexion,$sql_insert1);
+            //$exe_insert1 = mysqli_query($conexion,$sql_insert1);
+			$exe_insert1 = $mysqli1->query($sql_insert1);
         }
 	}
 	
     //************FIN ACTUALIZACION TABLAS ESTUDIANTES Y MATRICULA **************************************************************
     
-    $sql_insert2 = str_replace(" ", "_", $sql_insert1);
+    //$sql_insert2 = str_replace(" ", "_", $sql_insert1);
     //echo "<br/>".$sql_insert2;
 	
 	//**************************************************************************************************************
@@ -440,7 +449,7 @@
 	
 	//Se hace un insert en tbl_pre_matricula si no existe
 	$ct_premat = 0;
-	$sql_premat = "SELECT COUNT(1) ct FROM tbl_pre_matricula WHERE documento_est = '$documento' AND año = $fanio";
+	$sql_premat = "SELECT COUNT(1) ct FROM tbl_pre_matriculas WHERE documento_est = '$documento' AND año = $fanio";
 	//echo "<br>".$sql_premat;
 	$res_premat = $mysqli1->query($sql_premat);	
 	while($row_premat = $res_premat->fetch_assoc()){
@@ -449,25 +458,26 @@
 	//echo "<br>ct_premat: ".$ct_premat;
 	
 	if ($ct_premat > 0) {
-		$sql_insupd_prem = "UPDATE tbl_pre_matricula 
+		$sql_insupd_prem = "UPDATE tbl_pre_matriculas 
 		SET id_grado = $idgra, nombres_est = '$nombres', apellidos_est = '$apellidos', fecha = '$fecha2', actividad_extra = '$extra', 
 		nombre_a = '$nombreA', celular_a = '$celA', email_a = '$emailA', ciudad_a = '', id_medio = $medio, entrevista = 'NO' 
 		WHERE documento_est = '$documento' AND año = $fanio";
 		
 	}
 	else {
-		$sql_insupd_prem = "INSERT INTO tbl_pre_matricula (id_empleado, id_grado, documento_est, nombres_est, apellidos_est, fecha, actividad_extra, 
+		$sql_insupd_prem = "INSERT INTO tbl_pre_matriculas (id_grado, documento_est, nombres_est, apellidos_est, fecha, actividad_extra, 
 		nombre_a, celular_a, email_a, ciudad_a, entrevista, eval, id_medio, año) 
-		VALUES (18, $idgra, '$documento', '$nombres', '$apellidos', '$fecha2', '$extra', 
+		VALUES ($idgra, '$documento', '$nombres', '$apellidos', '$fecha2', '$extra', 
 		'$nombreA', '$celA', '$emailA', '', 'NO', 0, $medio, $fanio)";
 	}
 	//echo "<br>".$sql_insupd_prem;
-	$exe_insupd_prem = mysqli_query($conexion,$sql_insupd_prem);
+	//$exe_insupd_prem = mysqli_query($conexion,$sql_insupd_prem);
+	$exe_insupd_prem = $mysqli1->query($sql_insupd_prem);
 	
     
     // ###################### INICIO CONTRATO ###################
 	try {
-		$inputFileName = '../registro/adminunicab/php/contratos/formato_contrato.xlsx';
+		$inputFileName = '../chatbot/documentos/formato_contrato.xlsx';
 		$spreadsheet = IOFactory::load($inputFileName);
 		$spreadsheet->setActiveSheetIndex(0); //opcional
 		$sheet = $spreadsheet->getActiveSheet();
@@ -508,14 +518,14 @@
 			$sheet->setCellValue('E22', "X");
 		}
 		$sheet->setCellValue('F22', $documento);
-		if(is_null($fn)) {
+		/*if(is_null($fn)) {
 			//No hace nada
 		}
 		else {
 			$sheet->setCellValue('O22', $partesfn[2]);
 			$sheet->setCellValue('P22', $partesfn[1]);
 			$sheet->setCellValue('R22', $partesfn[0]);
-		}
+		}*/
 		if($genero == "MASCULINO") {
 			$sheet->setCellValue('T22', "M");
 		}
@@ -524,9 +534,13 @@
 		}
 		
 		//Se consulta el último grado aprobado
-		$sql_ultgrado = "SELECT grado FROM grados WHERE id = ($idgra - 1)";
-		$exe_ultgrado = mysqli_query($conexion,$sql_ultgrado);
+		$sql_ultgrado = "SELECT grado FROM tbl_grados WHERE id = ($idgra - 1)";
+		/*$exe_ultgrado = mysqli_query($conexion,$sql_ultgrado);
 		while ($row_ultgrado = mysqli_fetch_array($exe_ultgrado)) {
+			$ultgrado = $row_ultgrado['grado'];
+		}*/
+		$exe_ultgrado = $mysqli1->query($sql_ultgrado);	
+		while($row_ultgrado = $exe_ultgrado->fetch_assoc()){
 			$ultgrado = $row_ultgrado['grado'];
 		}
 		//echo "<br/>".$sql_ultgrado;
@@ -535,18 +549,18 @@
 		//Se calcula la edad
 		//echo "<br/>fn ".$fn;
 		//echo "<br/>a ".$partesfn[0]." m ".$partesfn[1]." d ".$partesfn[2];
-		$difa = $fanio1 - $partesfn[0];
+		/*$difa = $fanio1 - $partesfn[0];
 		$difm = $mes - $partesfn[1];
-		$difd = $dia - $partesfn[2];
+		$difd = $dia - $partesfn[2];*/
 		//echo "<br/>difa ".$difa." difm ".$difm." difd ".$difd;
-		if($difm <= 0 && $difd < 0) {
+		/*if($difm <= 0 && $difd < 0) {
 			$difa--;
-		}
+		}*/
 		//$sheet->setCellValue('K26', $difa);
 		
 		$sheet->setCellValue('C27', $cel);
 		$sheet->setCellValue('M27', $email);
-		$sheet->setCellValue('C28', $aextra);
+		//$sheet->setCellValue('C28', $aextra);
 		
 		//Inicio Datos Acudiente
 		$sheet->setCellValue('C34', $nombreA);
@@ -564,13 +578,13 @@
 			$sheet->setCellValue('C46', $celA);
 			$sheet->setCellValue('K46', $emailA);
 		}
-		else if($parentesco2 == "PADRE") {
+		/*else if($parentesco2 == "PADRE") {
 			$sheet->setCellValue('C41', $nombre2);
 			//$sheet->setCellValue('C43', $documentoA);
 			//$sheet->setCellValue('I44', $dirA);
 			$sheet->setCellValue('C46', $tel2);
 			$sheet->setCellValue('K46', $email2);
-		}
+		}*/
 		//Fin Datos Padre
 		
 		//Inicio Datos Madre
@@ -581,18 +595,18 @@
 			$sheet->setCellValue('C53', $celA);
 			$sheet->setCellValue('K53', $emailA);
 		}
-		else if($parentesco2 == "MADRE") {
+		/*else if($parentesco2 == "MADRE") {
 			$sheet->setCellValue('C48', $nombre2);
 			//$sheet->setCellValue('C50', $documentoA);
 			//$sheet->setCellValue('I51', $dirA);
 			$sheet->setCellValue('C53', $tel2);
 			$sheet->setCellValue('K53', $email2);
-		}
+		}*/
 		//Fin Datos Madre
 		
 		$sheet->setCellValue('H75', $nombre_completo);
 		$sheet->setCellValue('F76', $nombreA);
-		$sheet->setCellValue('L76', $nombre2);
+		//$sheet->setCellValue('L76', $nombre2);
 		
 		$partescomienzocontrato = explode("/", $comienzocontrato);
 		$partesfincontrato = explode("/", $fincontrato);
@@ -632,23 +646,28 @@
 		$sheet->setCellValue('C236', $documentoA);
 		
 		//Se crea la carpeta del contrato
-		$path = '../registro/adminunicab/php/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
+		$path = '../chatbot/documentos/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
 		//echo "<br/>path=".$path;
 		if (!file_exists($path)) {
 			mkdir($path, 0755, true);
 		}	
 		
-		$folder0 = '/registro/adminunicab/php/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
-		$folder_correo = '../registro/adminunicab/php/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
+		$folder0 = '/chatbot/documentos/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
+		$folder_correo = '../chatbot/documentos/contratos/'.$fanio.'/'.str_replace(" ","_",$grado).'/';
 		$folder = __DIR__.$folder0;
 		$nombre_excel = "contrato_".$documento."_".$n_matricula.".xlsx";
-		$ruta = "https://unicab.org".$folder0.$nombre_excel;
+		//$ruta = "https://unicab.org".$folder0.$nombre_excel;
+		$ruta = "../".$folder0.$nombre_excel;
 		//echo "<br/>ruta=".$ruta;
 		
 		//Se guarda el contrato en la tabla
 		$sql_contrato = "SELECT COUNT(1) ct FROM tbl_contratos WHERE n_documento = '$documento' AND año = $fanio";
-		$exe_contrato = mysqli_query($conexion,$sql_contrato);
+		/*$exe_contrato = mysqli_query($conexion,$sql_contrato);
 		while ($row_contrato = mysqli_fetch_array($exe_contrato)) {
+			$ct_contrato = $row_contrato['ct'];
+		}*/
+		$exe_contrato = $mysqli1->query($sql_contrato);	
+		while($row_contrato = $exe_contrato->fetch_assoc()){
 			$ct_contrato = $row_contrato['ct'];
 		}
 		if($ct_contrato == 0) {
@@ -664,7 +683,8 @@
 				$sql_insertc = "INSERT INTO tbl_contratos (n_documento, n_contrato, ruta, año, fecha_modificacion) 
 				VALUES ('$documento', '$n_matricula', '$ruta', $fanio, '$fecha2')";
 			}
-			$exe_insertc = mysqli_query($conexion,$sql_insertc);	
+			//$exe_insertc = mysqli_query($conexion,$sql_insertc);
+			$exe_insertc = $mysqli1->query($sql_insertc);	
 			//echo "<br/>".$sql_insertc;
 		}
 		else {
@@ -679,10 +699,11 @@
 	
 	//Se debe actualizar el grado en tbl_asistente_virtual
 	$sql_upd_grado_av = "UPDATE tbl_asistente_virtual SET id_grado = $idgra WHERE documento_estudiante = '$documento' AND a = $fanio";
-	$exe_upd_grado_av = mysqli_query($conexion, $sql_upd_grado_av);
+	//$exe_upd_grado_av = mysqli_query($conexion, $sql_upd_grado_av);
+	$exe_upd_grado_av = $mysqli1->query($sql_upd_grado_av);	
 	
 	//Se debe programar la evaluación admisión
-	$url_eval_admisiones = "https://unicab.org/avadmisiones/av_programar_eval_admision.php";
+	$url_eval_admisiones = "http://localhost:90/avmeeuu/avmeeuu/api/av_programar_eval_admision.php";
 	$params = [
 		'nombree' => $nombres,
 		'apellidoe' => $apellidos,
@@ -710,17 +731,18 @@
 	}
 	
 	//Se envía correo de aviso de inico de proceso
-	$url_solutions = "https://unicab.solutions/avadmisiones_inicio_proceso_correo.php";
+	//$url_mail = "https://unicab.solutions/avmeeuu_inicio_proceso_correo.php";
+	$url_mail = "http://localhost:90/avmeeuu/avmeeuu/api/avmeeuu_inicio_proceso_correo.php";
 	$data_original_json = json_encode($data);
 	$params = [
 		'data_original_json' => $data_original_json
 	];
 	//var_dump($params); 
 	// Construir la URL completa con parámetros --- Esto no funciona cuando se envía archivos
-	//$url_con_params = $url_solutions . '?' . http_build_query($params);
+	//$url_con_params = $url_mail . '?' . http_build_query($params);
 
 	// Usar cURL para hacer la llamada interna
-	$ch = curl_init($url_solutions);
+	$ch = curl_init($url_mail);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // (solo si estás en entorno local de prueba)
 	curl_setopt($ch, CURLOPT_POST, 1);
@@ -738,7 +760,7 @@
 	}	
 	
 	$datos->status = "success";
-	$datos->mensaje = "Datos guardados con éxito.";
+	$datos->mensaje = "Data saved successfully.";
 	$datos->grado = $grado;
 	$datos->id_grado = $idgra;
 	$datos->contrato = $ruta;

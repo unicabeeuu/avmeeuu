@@ -1,5 +1,6 @@
  <?php 
- 	require("../registro/docenteunicab/updreg/1cc3s4db.php");
+ 	//require("../registro/docenteunicab/updreg/1cc3s4db.php");
+	require("../bd/1cc2s4db.php");
 	// Habilitar CORS solo para tu entorno local durante desarrollo
 	header("Access-Control-Allow-Origin: http://localhost:90");
 	header("Access-Control-Allow-Methods: GET, POST"); //, OPTIONS
@@ -46,13 +47,13 @@
 					FROM tbl_agendamientos a, tbl_tipos_agenda ta WHERE a.id_tipo_agenda = ta.id AND a.id_empleado = 42 AND a.fecha = ? AND a.hora = ?";*/
 				$sql_agenda_entrevistas = "SELECT DISTINCT e.nombre_est, e.documento_est, e.fecha, e.hora, 
 					pm.acudiente_1 nombre_a, pm.telefono_acudiente_1 celular_a, pm. email_acudiente_1 email_a, 'entrevista' fuente 
-					FROM tbl_entrevistas e LEFT JOIN estudiantes pm ON e.documento_est = pm.n_documento WHERE e.id_psicologo = 42 AND e.fecha = ? AND e.hora = ?
+					FROM tbl_entrevistas e LEFT JOIN tbl_estudiantes pm ON e.documento_est = pm.n_documento WHERE e.id_psicologo = 42 AND e.fecha = ? AND e.hora = ?
 					UNION ALL 
 					SELECT CONCAT(e.nombres, ' ', e.apellidos) nombre_est, s.documento_est, s.fecha, s.hora, e.acudiente_1, e.telefono_acudiente_1, e.email_acudiente_1, 'seguimiento' fuente
-					FROM tbl_seguimientos s, estudiantes e WHERE s.documento_est = e.n_documento AND s.id_psicologo = 42 AND s.fecha = ? AND s.hora = ? 
+					FROM tbl_seguimientos s, tbl_estudiantes e WHERE s.documento_est = e.n_documento AND s.id_psicologo = 42 AND s.fecha = ? AND s.hora = ? 
 					UNION ALL 
 					SELECT CONCAT(e.nombres, ' ', e.apellidos) nombre_est, e.n_documento, s.fecha, s.hora, e.acudiente_1, e.telefono_acudiente_1, e.email_acudiente_1, 'seguimiento' fuente
-					FROM tbl_seg_psi s, tbl_seg_psi_val v, estudiantes e WHERE s.id_valoracion = v.id AND v.n_documento = e.n_documento AND s.id_psicologo = 42 AND s.fecha = ? AND s.hora = ? 
+					FROM tbl_seg_psi s, tbl_seg_psi_val v, tbl_estudiantes e WHERE s.id_valoracion = v.id AND v.n_documento = e.n_documento AND s.id_psicologo = 42 AND s.fecha = ? AND s.hora = ? 
 					UNION ALL 
 					SELECT a.descripcion nombre_est, '--' documento, a.fecha, a.hora, '--' nombre_a, '--' cel_a, '--' email_a, ta.tipo_agenda fuente 
 					FROM tbl_agendamientos a, tbl_tipos_agenda ta WHERE a.id_tipo_agenda = ta.id AND a.id_empleado = 42 AND a.fecha = ? AND a.hora = ? 
