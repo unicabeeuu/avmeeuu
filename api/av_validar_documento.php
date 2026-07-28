@@ -106,7 +106,7 @@
 	if($maxid == 0) {
 	    $datos->estado = "nuevo";
 	    //Se cargan los grados
-	    $query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
+	    $query_g = "SELECT * FROM tbl_grados WHERE id = 0 OR id > 8";
 	    $resultadog = $mysqli1->query($query_g);
     	while($rowg = $resultadog->fetch_assoc()) {
     	    $valores = [$rowg['id'],$rowg['grado']];
@@ -199,7 +199,7 @@
 		else {
 			$datos->estado = "nuevo";
 			//Se cargan los grados
-			$query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
+			$query_g = "SELECT * FROM tbl_grados WHERE id = 0 OR id > 8";
 			$resultadog = $mysqli1->query($query_g);
 			while($rowg = $resultadog->fetch_assoc()) {
 				$valores = [$rowg['id'],$rowg['grado']];
@@ -298,7 +298,7 @@
 				else if ($control_antiguos == 2 || $control_antiguos == 0) {
 					//echo "control antiguos 2";
 					//Se cargan los grados
-					$query_g = "SELECT * FROM tbl_grados WHERE id > 1 AND id < 19";
+					$query_g = "SELECT * FROM tbl_grados WHERE id = 0 OR id > 8";
 					$resultadog = $mysqli1->query($query_g);
 					while($rowg = $resultadog->fetch_assoc()) {
 						$valores = [$rowg['id'],$rowg['grado']];

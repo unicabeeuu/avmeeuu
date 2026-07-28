@@ -2354,25 +2354,25 @@ CREATE TABLE tbl_grados (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 INSERT INTO tbl_grados (grado) VALUES
-('No degree'),
-('First'),
-('Second'),
-('Third'),
-('Fourth'),
-('Fifth'),
-('Sixth'),
-('Seventh'),
-('Eighth'),
-('Ninth'),
-('Tenth'),
-('Eleventh'),
-('Cycle I'),
-('Cycle II'),
-('Cycle III'),
-('Cycle IV'),
-('Cycle V'),
-('Cycle VI')
-;
+('No Grade');
+
+UPDATE tbl_grados SET id = 0 WHERE grado = 'No Grade';
+
+ALTER TABLE tbl_grados AUTO_INCREMENT = 1;
+
+INSERT INTO tbl_grados (grado) VALUES
+('1st Grade'),
+('2nd Grade'),
+('3td Grade'),
+('4th Grade'),
+('5th Grade'),
+('6th Grade'),
+('7th Grade'),
+('8th Grade'),
+('9th Grade'),
+('10th Grade'),
+('11th Grade'),
+('12th Grade');
 
 /*######################################################################################################*/
 

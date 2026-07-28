@@ -2020,7 +2020,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.lineHeight = "1.5";
                     //msg1.style.wordWrap = "break-word";
                     msg1.className += "bot-msg";
-                    if (grado == "" || grado == "Ninguno") {
+                    if (grado == "" || grado == "No Grade") {
                         msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
@@ -2045,7 +2045,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (destino) agregarMensaje("Tivy", destino);
                         };
 
-                        if ((grado == "" || grado == "Ninguno") && index == 1) {
+                        if ((grado == "" || grado == "No Grade") && index == 1) {
                             //No se agrega el botón No
                         }
                         else {
@@ -2972,7 +2972,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.lineHeight = "1.5";
                     //msg1.style.wordWrap = "break-word";
                     msg1.className += "bot-msg";
-                    if (grado == "" || grado == "Ninguno") {
+                    if (grado == "" || grado == "No Grade") {
                         msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
@@ -2997,7 +2997,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (destino) agregarMensaje("Tivy", destino);
                         };
 
-                        if ((grado == "" || grado == "Ninguno") && index == 1) {
+                        if ((grado == "" || grado == "No Grade") && index == 1) {
                             //No se agrega el botón No
                         }
                         else {
@@ -3855,7 +3855,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const d = datos;
                     let grado = "";
                     if (d.grados.length > 0) {
-                        grado = "Ninguno";
+                        grado = "No Grade";
                     }
                     else {
                         grado = d.grados[0].gra;
@@ -3919,7 +3919,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //msg1.style.lineHeight = "1.5";
                     //msg1.style.wordWrap = "break-word";
                     //msg1.className += "bot-msg";
-                    if (grado == "" || grado == "Ninguno") {
+                    if (grado == "" || grado == "No Grade") {
                         msg1.innerHTML = "<strong>Tivy:</strong> You need to update the registered data and select a grade.";
                     }
                     else {
@@ -3944,7 +3944,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (destino) agregarMensaje("Tivy", destino);
                         };
 
-                        if ((grado == "" || grado == "Ninguno") && index == 1) {
+                        if ((grado == "" || grado == "No Grade") && index == 1) {
                             //No se agrega el botón No
                         }
                         else {
@@ -4709,7 +4709,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const d = datos;
                     let grado = "";
                     if (d.grados.length > 0) {
-                        grado = "Ninguno";
+                        grado = "No Grade";
                     }
                     else {
                         grado = d.grados[0].gra;
@@ -4798,7 +4798,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (destino) agregarMensaje("Tivy", destino);
                         };
 
-                        if ((grado == "" || grado == "Ninguno") && index == 1) {
+                        if ((grado == "" || grado == "No Grade") && index == 1) {
                             //No se agrega el botón No
                         }
                         else {
@@ -5551,7 +5551,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const d = datos;
                     let grado = "";
                     if (d.grados.length > 0) {
-                        grado = "Ninguno";
+                        grado = "No Grade";
                     }
                     else {
                         grado = d.grados[0].gra;
@@ -7336,7 +7336,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         crearCampoArchivo(form, "Please attach the clearance certificate from the previous academic year.", "paz_salvo", true);
 
-        const _grados = ["none", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh"];
+        const _grados = ["No Grade", "1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "6th Grade", "7th Grade", "8th Grade", "9th Grade", "10th Grade", "11th Grade", "12th Grade"];
         if(datos.estado == "nuevo" || datos.control_antiguos == 2) {
             //Esto faltaba... para nuevos
             crearCampoArchivo(form, "Adjunta el retiro del SIMAT", "retiro_SIMAT", true);
@@ -7351,19 +7351,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             else if(datos.id_grado_matricular == 14) {
-                crearCampoArchivo(form, "Attached is the final certificate of grades for Third grade", "calificaciones3", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for 3rd Grade", "calificaciones3", true);
             }
             else if(datos.id_grado_matricular == 15) {
-                crearCampoArchivo(form, "Attached is the final certificate of grades for Fifth grade", "calificaciones5", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for 5th Grade", "calificaciones5", true);
             }
             else if(datos.id_grado_matricular == 16) {
-                crearCampoArchivo(form, "Attached is the final certificate of grades for Seventh grade", "calificaciones7", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for 7th Grade", "calificaciones7", true);
             }
             else if(datos.id_grado_matricular == 17) {
-                crearCampoArchivo(form, "Attached is the final certificate of grades for Ninth grade.", "calificaciones9", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for 9th Grade.", "calificaciones9", true);
             }
             else if(datos.id_grado_matricular == 18) {
-                crearCampoArchivo(form, "Attached is the final certificate of grades for Tenth grade", "calificaciones10", true);
+                crearCampoArchivo(form, "Attached is the final certificate of grades for 10th Grade", "calificaciones10", true);
             }
             else {
                 if(datos.id_grado_matricular >= 3) {
